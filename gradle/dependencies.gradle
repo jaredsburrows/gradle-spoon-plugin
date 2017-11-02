@@ -1,0 +1,15 @@
+// Variables for entire project
+ext {
+  javaVersion = "1.8"
+  agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.0"
+}
+
+// Dependencies
+ext.deps = [
+        // implementation
+        "gradle"     : "com.android.tools.build:gradle:$agpVersion",
+        "spoonRunner": "com.squareup.spoon:spoon-runner:2.0.0-SNAPSHOT",
+
+        // testImplementation
+        "spockCore"  : "org.spockframework:spock-core:1.1-groovy-2.4"
+]
