@@ -41,7 +41,7 @@ final class SpoonPlugin implements Plugin<Project> {
         // Create tasks based on variant
         final SpoonTask task = project.tasks.create("$taskName", SpoonTask)
         // task properties
-        task.description = "Run instrumentation tests for '${variantName}' variant."
+        task.description = "Run instrumentation tests for '${variant.name}' variant."
         task.group = "Verification"
         task.outputs.upToDateWhen { false }
         task.dependsOn variant.testedVariant.assemble, variant.assemble
@@ -51,10 +51,7 @@ final class SpoonPlugin implements Plugin<Project> {
         task.testVariant = variant
 
         // extension properties developers can modify
-        File outputBase = new File(extension.output)
-        if (!outputBase) {
-          outputBase = new File(project.buildDir, extension.output)
-        }
+        File outputBase = new File(project.buildDir, extension.output)
         extension.output = new File(outputBase, variant.testedVariant.name).path
         task.extension = extension
 
