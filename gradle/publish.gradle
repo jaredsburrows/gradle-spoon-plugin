@@ -39,6 +39,13 @@ task mainJar(type: Jar, dependsOn: jar) {
   from sourceSets.main.output
 }
 
+task testsJar(type: Jar) {
+  group = "Publications"
+  description = "Create jar of all tests."
+  classifier = "tests"
+  from sourceSets.test.output
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
   group = "Publications"
   description = "Create jar of the sources."
@@ -60,13 +67,6 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
   from groovydoc.destinationDir
 }
 
-task testsJar(type: Jar) {
-  group = "Publications"
-  description = "Create jar of all tests."
-  classifier = "tests"
-  from sourceSets.test.output
-}
-
 task reportsZip(type: Zip, dependsOn: check) {
   group = "Publications"
   description = "Create a zip of all reports."
@@ -82,27 +82,27 @@ publishing {
 
   publications {
     maven(MavenPublication) {
+      from components.java
+
       artifact mainJar // same as "artifact jar"
+      artifact testsJar
       artifact sourcesJar
       artifact javadocJar
       artifact groovydocJar
-      artifact testsJar
       artifact reportsZip
 
       groupId GROUP
       artifactId POM_ARTIFACT_ID
       version VERSION_NAME
 
-      pom {
-        withXml {
-          // All dependencies should use the default scope "compile" not "runtime"
-          asNode().dependencies.dependency.each { dep ->
-            if (dep.scope.text() == "runtime") dep.remove(dep.scope)
-          }
-
-          // Add parent POM information
-          asNode().children().last() + pomConfig
+      pom.withXml {
+        // All dependencies should use the default scope "compile" not "runtime"
+        asNode().dependencies.dependency.each { dep ->
+          if (dep.scope.text() == "runtime") dep.remove(dep.scope)
         }
+
+        // Add parent POM information
+        asNode().children().first() + pomConfig
       }
     }
   }
