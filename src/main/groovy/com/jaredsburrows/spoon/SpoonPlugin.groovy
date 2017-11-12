@@ -62,8 +62,6 @@ final class SpoonPlugin implements Plugin<Project> {
             task.applicationApk = task.instrumentationApk
           }
         }
-
-
       }
     }
   }

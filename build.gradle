@@ -14,7 +14,7 @@ plugins {
 repositories {
   jcenter()
   google()
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // for spoon snapshot
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // Spoon snapshot
 }
 
 apply from: file("gradle/dependencies.gradle")

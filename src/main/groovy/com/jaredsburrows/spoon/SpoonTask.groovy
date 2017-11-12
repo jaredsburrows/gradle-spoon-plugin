@@ -4,9 +4,6 @@ import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.logging.LogLevel
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
@@ -16,20 +13,19 @@ import java.time.Duration
  */
 class SpoonTask extends DefaultTask {
   /** Title of the generated HTML website. */
-  @Input String title
+  String title
 
   /** Use our Spoon extension. */
   SpoonExtension extension
 
   /** Application APK (eg. app-debug.apk). */
-  @InputFile File applicationApk
+  File applicationApk
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  @InputFile File instrumentationApk
+  File instrumentationApk
 
   /** TESTING ONLY */
-  @Internal boolean testing
-  @Internal SpoonRunner runner
+  boolean testing
 
   @SuppressWarnings("GroovyUnusedDeclaration") @TaskAction spoonTask() {
     if (!extension.className && extension.methodName) {
@@ -92,8 +88,8 @@ class SpoonTask extends DefaultTask {
     logger.log(LogLevel.INFO, "numShards: $extension.numShards")
     logger.log(LogLevel.INFO, "shardIndex: $extension.shardIndex")
 
-    runner = builder.build()
-    boolean success = testing ? true : runner.run()
+    final SpoonRunner runner = builder.build()
+    final boolean success = testing ? true : runner.run()
 
     if (!success) {
       throw new GradleException("Tests failed! See ${extension.output}/index.html")
