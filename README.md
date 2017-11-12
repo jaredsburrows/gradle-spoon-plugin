@@ -14,10 +14,11 @@ Gradle plugin for [Spoon](https://github.com/square/spoon).
 buildscript {
   repositories {
     jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:x.x.x"
+    classpath "com.jaredsburrows:gradle-spoon-plugin:1.0.0"
   }
 }
 
@@ -31,10 +32,11 @@ Release versions are available in the JFrog Bintray repository: https://bintray.
 buildscript {
   repositories {
     maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:0.1.6-SNAPSHOT"
+    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.0-SNAPSHOT"
   }
 }
 
