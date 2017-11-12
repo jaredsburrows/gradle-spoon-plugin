@@ -5,33 +5,60 @@ import spock.lang.Unroll
 /**
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
-final class SpoonPluginSpec extends BaseSpec {
-  def "unsupported project project"() {
-    when:
-    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
-
-    then:
-    def e = thrown(IllegalStateException)
-    e.message == "Spoon plugin can only be applied to android application or library projects."
-  }
-
-  @Unroll "android - #projectPlugin project"() {
+final class SpoonTaskSpec extends BaseSpec {
+  @Unroll "android - #taskName - no spoon extension - run task"() {
     given:
-    project.apply plugin: projectPlugin
-
-    when:
+    project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
-    project.spoon {
+    project.android {
+      compileSdkVersion COMPILE_SDK_VERSION
+      buildToolsVersion BUILD_TOOLS_VERSION
+
+      defaultConfig {
+        applicationId APPLICATION_ID
+      }
+
+      buildTypes {
+        debug {}
+        release {}
+      }
     }
 
+    when:
+    project.evaluate()
+
+    SpoonTask task = project.tasks.getByName(taskName)
+    task.testing = true
+    task.applicationApk = appApk
+    task.instrumentationApk = testApk
+    task.execute()
+
     then:
-    noExceptionThrown()
+    // Supported directly by Spoon's SpoonRunner
+    task.extension.output.contains("/build/spoon-output/debug")
+    !task.extension.debug
+    !task.extension.noAnimations
+    task.extension.adbTimeout == 600000
+    task.extension.devices.empty
+    task.extension.skipDevices.empty
+    task.extension.instrumentationArgs.empty
+    task.extension.className.empty
+    !task.extension.sequential
+    !task.extension.grantAll
+    task.extension.methodName.empty
+    !task.extension.codeCoverage
+    !task.extension.failIfNoDeviceConnected
+
+    // Passed in via -e, extra arguments
+    !task.extension.shard
+    task.extension.numShards == 0
+    task.extension.shardIndex == 0
 
     where:
-    projectPlugin << SpoonPlugin.ANDROID_PLUGINS
+    taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - spoon extension"() {
+  @Unroll "android - #taskName - full spoon extension - run task"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
@@ -74,18 +101,20 @@ final class SpoonPluginSpec extends BaseSpec {
     project.evaluate()
 
     SpoonTask task = project.tasks.getByName(taskName)
+    task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
+    task.execute()
 
     then:
     // Supported directly by Spoon's SpoonRunner
-    task.extension.output.contains("spoonTests/debug")
+    task.extension.output.contains("/build/spoonTests/debug")
     task.extension.debug
     task.extension.noAnimations
     task.extension.adbTimeout == 5000
     task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
     task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"] as List<String>
+    task.extension.instrumentationArgs as List<String> == ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader", "numShards=1", "shardIndex=1"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
     task.extension.sequential
     task.extension.grantAll

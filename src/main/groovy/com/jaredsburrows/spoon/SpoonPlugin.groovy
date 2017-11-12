@@ -15,7 +15,7 @@ final class SpoonPlugin implements Plugin<Project> {
       configureAndroidProject(project)
     } else {
       throw new IllegalStateException(
-        "Spoon report plugin can only be applied to android application or library projects.")
+        "Spoon plugin can only be applied to android application or library projects.")
     }
   }
 
@@ -28,15 +28,11 @@ final class SpoonPlugin implements Plugin<Project> {
 
     // Use "variants" from "buildTypes" to get all types for "testVariants"
     // Configure tasks for all variants
-    //    getAndroidVariants(project).all { variant ->
-    project.android.testVariants.all { variant ->
+    project.android.testVariants.all { variant -> //    project.android.testVariants.all { variant ->
       variant.outputs.all { ->
-
-        //    project.android.testVariants.all { variant ->
         final variantName = variant.name.capitalize()
         final taskName = "spoon${variantName}"
-
-        def instrumentationPackage = variant.outputs[0].outputFile
+        final instrumentationPackage = variant.outputs[0].outputFile
 
         // Create tasks based on variant
         final SpoonTask task = project.tasks.create("$taskName", SpoonTask)
@@ -48,16 +44,15 @@ final class SpoonPlugin implements Plugin<Project> {
 
         // extra task properties
         task.title = "$project.name $variant.name"
-        task.testVariant = variant
 
         // extension properties developers can modify
-        File outputBase = new File(project.buildDir, extension.output)
+        final File outputBase = new File(project.buildDir, extension.output)
         extension.output = new File(outputBase, variant.testedVariant.name).path
         task.extension = extension
 
         task.instrumentationApk = instrumentationPackage
         task.doFirst {
-          def testedOutput = variant.testedVariant.outputs[0]
+          final testedOutput = variant.testedVariant.outputs[0]
 
           if (testedOutput instanceof ApkVariantOutput) {
             task.applicationApk = testedOutput.outputFile

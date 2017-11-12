@@ -1,11 +1,11 @@
 package com.jaredsburrows.spoon
 
-import com.android.build.gradle.api.TestVariant
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
@@ -18,30 +18,22 @@ class SpoonTask extends DefaultTask {
   /** Title of the generated HTML website. */
   @Input String title
 
-  /** Variant of test being run. */
-  @Input TestVariant testVariant
-
   /** Use our Spoon extension. */
-  @Input SpoonExtension extension
+  SpoonExtension extension
 
   /** Application APK (eg. app-debug.apk). */
-  @Input File applicationApk
+  @InputFile File applicationApk
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  @Input File instrumentationApk
+  @InputFile File instrumentationApk
 
-  /** TEST ONLY */
-  @Internal boolean isTesting
-  @Internal SpoonRunner spoonRunner
+  /** TESTING ONLY */
+  @Internal boolean testing
+  @Internal SpoonRunner runner
 
   @SuppressWarnings("GroovyUnusedDeclaration") @TaskAction spoonTask() {
     if (!extension.className && extension.methodName) {
       throw new IllegalStateException("$extension.methodName must have a fully qualified class name.")
-    }
-
-    if (extension.numShards > 0) {
-      extension.instrumentationArgs.add("numShards=${extension.numShards}".toString())
-      extension.instrumentationArgs.add("shardIndex=${extension.shardIndex}".toString())
     }
 
     final SpoonRunner.Builder builder = new SpoonRunner.Builder()
@@ -64,24 +56,30 @@ class SpoonTask extends DefaultTask {
       .setAllowNoDevices(!extension.failIfNoDeviceConnected)
       .setShard(extension.shard)
 
+    // Add shard information to instrumentation args if there are any
+    if (extension.numShards > 0) {
+      extension.instrumentationArgs.add("numShards=${extension.numShards}".toString())
+      extension.instrumentationArgs.add("shardIndex=${extension.shardIndex}".toString())
+    }
+
+    // If we have args apply them else let them be null
     if (!extension.instrumentationArgs.empty) {
       builder.setInstrumentationArgs(extension.instrumentationArgs)
     }
 
+    // Add all skipped devices
     extension.skipDevices.each {
       builder.skipDevice(it)
     }
 
-    if (!extension.devices.empty) {
-      extension.devices.each {
-        builder.addDevice(it)
-      }
+    // Add all devices
+    extension.devices.each {
+      builder.addDevice(it)
     }
 
     logger.log(LogLevel.INFO,"Run instrumentation tests $instrumentationApk for app $applicationApk")
-//    logger.log(LogLevel.INFO, "Title: $extension.title")
     logger.log(LogLevel.INFO, "Output: $extension.output")
-//    logger.log(LogLevel.INFO, "Ignore failures: $extension.ignoreFailures")
+    logger.log(LogLevel.INFO, "Ignore failures: $extension.ignoreFailures")
     logger.log(LogLevel.INFO, "Fail if no device connected: $extension.failIfNoDeviceConnected")
     logger.log(LogLevel.INFO, "Debug mode: $extension.debug")
     if (extension.className) {
@@ -91,13 +89,11 @@ class SpoonTask extends DefaultTask {
       }
     }
     logger.log(LogLevel.INFO, "No animations: $extension.noAnimations")
-//    logger.log(LogLevel.INFO, "Test size: $extension.testSize")
     logger.log(LogLevel.INFO, "numShards: $extension.numShards")
     logger.log(LogLevel.INFO, "shardIndex: $extension.shardIndex")
 
-
-    spoonRunner = builder.build()
-    boolean success = isTesting ? true : spoonRunner.run()
+    runner = builder.build()
+    boolean success = testing ? true : runner.run()
 
     if (!success) {
       throw new GradleException("Tests failed! See ${extension.output}/index.html")
