@@ -28,7 +28,7 @@ final class SpoonPluginSpec extends BaseSpec {
     noExceptionThrown()
 
     where:
-    projectPlugin << SpoonPlugin.ANDROID_PLUGINS
+    projectPlugin << ["com.android.application", "com.android.library"]
   }
 
   @Unroll "android - #taskName - spoon extension"() {
