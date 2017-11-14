@@ -7,7 +7,6 @@ plugins {
   id "com.gradle.plugin-publish" version "0.9.9"
   id "org.jetbrains.kotlin.jvm" version "1.1.60"
   id "java-gradle-plugin"
-  id "groovy"
   id "maven-publish"
   id "jacoco"
 }
@@ -28,12 +27,11 @@ sourceCompatibility = ext.javaVersion
 targetCompatibility = ext.javaVersion
 
 dependencies {
-  implementation localGroovy()
   implementation deps.gradle
   implementation deps.spoonRunner
   implementation deps.kotlinStdlib
 
-  testImplementation deps.gradle
+  testImplementation localGroovy()
   testImplementation deps.spockCore, { exclude module: "groovy-all" } // Use localGroovy()
 }
 
@@ -49,12 +47,4 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   kotlinOptions {
     jvmTarget = rootProject.ext.javaVersion
   }
-}
-
-// Compile Kotlin then Groovy
-afterEvaluate {
-  compileKotlin.dependsOn = compileKotlin.taskDependencies.values - "compileJava"
-  compileGroovy.dependsOn compileKotlin
-  compileGroovy.classpath += files(compileKotlin.destinationDir)
-  classes.dependsOn compileGroovy
 }
