@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jaredsburrows/gradle-spoon-plugin/badge.svg?branch=master)](https://coveralls.io/github/jaredsburrows/gradle-spoon-plugin?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
-Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and Android Gradle Plugin 3+.
+Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin.html) 3+.
 
 ## Download
 

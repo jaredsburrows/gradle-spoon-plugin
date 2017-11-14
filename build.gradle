@@ -5,6 +5,7 @@ plugins {
   id "com.jfrog.bintray" version "1.8.0"
   id "com.github.ben-manes.versions" version "0.17.0"
   id "com.gradle.plugin-publish" version "0.9.9"
+  id "org.jetbrains.kotlin.jvm" version "1.1.60"
   id "java-gradle-plugin"
   id "groovy"
   id "maven-publish"
@@ -30,6 +31,7 @@ dependencies {
   implementation localGroovy()
   implementation deps.gradle
   implementation deps.spoonRunner
+  implementation deps.kotlinStdlib
 
   testImplementation deps.gradle
   testImplementation deps.spockCore, { exclude module: "groovy-all" } // Use localGroovy()
@@ -42,3 +44,17 @@ apply from: file("gradle/plugin.gradle")
 apply from: file("gradle/publish.gradle")
 apply from: file("gradle/quality.gradle")
 apply from: file("gradle/wrapper.gradle")
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+  kotlinOptions {
+    jvmTarget = rootProject.ext.javaVersion
+  }
+}
+
+// Compile Kotlin then Groovy
+afterEvaluate {
+  compileKotlin.dependsOn = compileKotlin.taskDependencies.values - "compileJava"
+  compileGroovy.dependsOn compileKotlin
+  compileGroovy.classpath += files(compileKotlin.destinationDir)
+  classes.dependsOn compileGroovy
+}
