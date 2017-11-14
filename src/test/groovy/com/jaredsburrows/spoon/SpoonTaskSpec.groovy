@@ -48,6 +48,7 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.methodName.empty
     !task.extension.codeCoverage
     !task.extension.failIfNoDeviceConnected
+    !task.extension.ignoreFailures
 
     // Passed in via -e, extra arguments
     !task.extension.shard
@@ -95,6 +96,7 @@ final class SpoonTaskSpec extends BaseSpec {
       shard = true
       numShards = 1
       shardIndex = 1
+      ignoreFailures = true
     }
 
     when:
@@ -121,6 +123,7 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.methodName == "testMethodName"
     task.extension.codeCoverage
     task.extension.failIfNoDeviceConnected
+    task.extension.ignoreFailures
 
     // Passed in via -e, extra arguments
     task.extension.shard

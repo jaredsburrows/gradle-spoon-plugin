@@ -11,7 +11,7 @@ final class SpoonPluginSpec extends BaseSpec {
     new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
 
     then:
-    def e = thrown(IllegalStateException)
+    final e = thrown(IllegalStateException)
     e.message == "Spoon plugin can only be applied to android application or library projects."
   }
 
@@ -63,6 +63,7 @@ final class SpoonPluginSpec extends BaseSpec {
       methodName = "testMethodName"
       codeCoverage = true
       failIfNoDeviceConnected = true
+      ignoreFailures = true
 
       // Passed in via -e, extra arguments
       shard = true
@@ -92,6 +93,7 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.methodName == "testMethodName"
     task.extension.codeCoverage
     task.extension.failIfNoDeviceConnected
+    task.extension.ignoreFailures
 
     // Passed in via -e, extra arguments
     task.extension.shard

@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jaredsburrows/gradle-spoon-plugin/badge.svg?branch=master)](https://coveralls.io/github/jaredsburrows/gradle-spoon-plugin?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
-Gradle plugin for [Spoon](https://github.com/square/spoon).
+Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and Android Gradle Plugin 3+.
 
 ## Download
 
@@ -36,7 +36,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.0-SNAPSHOT"
+    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.1-SNAPSHOT"
   }
 }
 
@@ -47,9 +47,66 @@ Snapshot versions are available in the JFrog Artifactory repository: https://oss
 
 ## Tasks
 
-- **`spoon{variant}`**
+- **`gradlew spoon{variant}`**
 
 ## Usage
 
-### How to use it
-TODO
+**Optional extension:**
+```groovy
+spoon {
+  // Path to output directory. ("$buildDir/spoon-output" by default)
+  output = "spoonTests"
+
+  // Whether or not debug logging is enabled. (false by default)
+  debug = true
+
+  // Whether or not animations are enabled. Disable animated gif generation. (false by default)
+  noAnimations = true
+
+  // Set ADB timeout. (minutes) (default is 10 mins)
+  adbTimeout = 5
+
+  // Add device serials for test execution
+  devices = ["emulator-5554", "emulator-5556"]
+
+  // Add device serials for skipping test execution.
+  skipDevices = ["emulator-5555"]
+
+  // Extra arguments to pass to instrumentation.
+  instrumentationArgs = ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"]
+
+  // Test class name to run (fully-qualified).
+  className = "com.android.foo.FooClassName"
+
+  // Execute the tests device by device. (false by default)
+  sequential = true
+
+  // Grant all runtime permissions during installation on Marshmallow and above devices. (false by default)
+  grantAll = true
+
+  // Test method name to run (must also use className)
+  methodName = "testMethodName"
+
+  // Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
+  codeCoverage = true
+
+  // Fail if no device is connected. (false by default)
+  failIfNoDeviceConnected = true
+
+  // Toggle sharding. (false by default)
+  shard = true
+
+  // The number of separate shards to create.
+  numShards = 1
+
+  // The shardIndex option to specify which shard to run.
+  shardIndex = 1
+
+  // Do not fail build if a test fails, let all the tests run and finish. (false by default)
+  ignoreFailures = true
+}
+
+dependencies {
+  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
+}
+```

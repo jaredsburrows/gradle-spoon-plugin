@@ -11,26 +11,27 @@ package com.jaredsburrows.spoon
  */
 class SpoonExtension {
   private static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
-  private static final int DEFAULT_ADB_TIMEOUT_SEC = 10 * 60 // 10 minutes
+  private static final int DEFAULT_ADB_TIMEOUT_SEC = 10 * 60
+  // 10 minutes
 
   ////////////////////////////////////////////////////
   // Supported directly by Spoon's SpoonRunner
   ///////////////////////////////////////////////////
 
-  /** Path to output directory. */
+  /** Path to output directory. ("$buildDir/spoon-output" by default) */
   String output = DEFAULT_OUTPUT_DIRECTORY
 
   void setOutput(String path) {
     if (path != null) output = path
   }
 
-  /** Whether or not debug logging is enabled. */
+  /** Whether or not debug logging is enabled. (false by default) */
   boolean debug
 
-  /** Whether or not animations are enabled. Disable animated gif generation. */
+  /** Whether or not animations are enabled. Disable animated gif generation. (false by default) */
   boolean noAnimations
 
-  /** Set ADB timeout. (minutes) */
+  /** Set ADB timeout. (minutes) (default is 10 minutes) */
   int adbTimeout = DEFAULT_ADB_TIMEOUT_SEC * 1000
 
   void setAdbTimeout(int time) {
@@ -51,27 +52,27 @@ class SpoonExtension {
 
   // TODO size
 
-  /** Execute the tests device by device. */
+  /** Execute the tests device by device. (false by default) */
   boolean sequential
 
-  /** Grant all runtime permissions during installation on Marshmallow and above devices. */
+  /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
   boolean grantAll
 
   /** Test method name to run (must also use className) */
   String methodName = ""
 
-  /** Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission.
+  /** Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
    (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.) */
   boolean codeCoverage
 
-  /** Fail if no device is connected. */
+  /** Fail if no device is connected. (false by default) */
   boolean failIfNoDeviceConnected
 
   ////////////////////////////////////////////////////
   // Passed in via -e, extra arguments
   ///////////////////////////////////////////////////
 
-  /** Toggle sharding. */
+  /** Toggle sharding. (false by default) */
   boolean shard
 
   /** The number of separate shards to create. */
@@ -87,6 +88,9 @@ class SpoonExtension {
   void setShardIndex(int index) {
     if (index > 0) shardIndex = index
   }
+
+  /** Do not fail build if a test fails, let all the tests run and finish. (false by default) */
+  boolean ignoreFailures
 
   ////////////////////////////////////////////////////
   // Deprecated/Renamed
@@ -107,10 +111,4 @@ class SpoonExtension {
     grantAll = grant
     grantAllPermissions = grant
   }
-
-  ////////////////////////////////////////////////////
-  // Do not want to support?
-  ///////////////////////////////////////////////////
-
-  @Deprecated boolean ignoreFailures
 }

@@ -91,7 +91,7 @@ class SpoonTask extends DefaultTask {
     final SpoonRunner runner = builder.build()
     final boolean success = testing ? true : runner.run()
 
-    if (!success) {
+    if (!success && !extension.ignoreFailures) {
       throw new GradleException("Tests failed! See ${extension.output}/index.html")
     }
   }

@@ -10,7 +10,7 @@ import spock.lang.Specification
 /**
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
-class BaseSpec extends Specification {
+abstract class BaseSpec extends Specification {
   @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
   static def COMPILE_SDK_VERSION = 26
   static def BUILD_TOOLS_VERSION = "26.0.2"
