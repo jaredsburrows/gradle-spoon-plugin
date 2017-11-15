@@ -50,8 +50,7 @@ class SpoonPlugin : Plugin<Project> {
                 task.title = "$project.name $variant.name"
 
                 // extension properties developers can modify
-                val outputBase = File(project.buildDir, extension.output)
-                extension.output = File(outputBase, variant.testedVariant.name).path
+                extension.output = File(extension.output, variant.testedVariant.name).path
                 task.extension = extension
 
                 task.instrumentationApk = instrumentationPackage

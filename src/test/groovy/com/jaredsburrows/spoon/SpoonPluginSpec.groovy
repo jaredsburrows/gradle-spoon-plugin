@@ -80,7 +80,7 @@ final class SpoonPluginSpec extends BaseSpec {
 
     then:
     // Supported directly by Spoon's SpoonRunner
-    task.extension.output.contains("spoonTests/debug")
+    task.extension.output == "spoonTests/debug"
     task.extension.debug
     task.extension.noAnimations
     task.extension.adbTimeout == 5000

@@ -36,7 +36,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     // Supported directly by Spoon's SpoonRunner
-    task.extension.output.contains("/build/spoon-output/debug")
+    task.extension.output == "spoon-output/debug"
     !task.extension.debug
     !task.extension.noAnimations
     task.extension.adbTimeout == 600000
@@ -111,7 +111,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     // Supported directly by Spoon's SpoonRunner
-    task.extension.output.contains("/build/spoonTests/debug")
+    task.extension.output == "spoonTests/debug"
     task.extension.debug
     task.extension.noAnimations
     task.extension.adbTimeout == 5000
