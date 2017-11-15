@@ -11,7 +11,7 @@ final class SpoonPluginSpec extends BaseSpec {
     new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
 
     then:
-    final e = thrown(IllegalStateException)
+    def e = thrown(IllegalStateException)
     e.message == "Spoon plugin can only be applied to android application or library projects."
   }
 

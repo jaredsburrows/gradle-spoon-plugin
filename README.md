@@ -36,7 +36,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.2-SNAPSHOT"
+    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.3-SNAPSHOT"
   }
 }
 

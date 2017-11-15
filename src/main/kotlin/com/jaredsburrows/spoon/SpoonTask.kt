@@ -26,12 +26,13 @@ open class SpoonTask : DefaultTask() {
 
     /** TESTING ONLY */
     var testing: Boolean = false
+    var testValue: Boolean = true
 
     @Suppress("unused")
     @TaskAction
     fun spoonTask() {
-        if (extension.className.isNotEmpty() && extension.methodName.isEmpty()) {
-            throw IllegalStateException("$extension.methodName must have a fully qualified class name.")
+        if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
+            throw IllegalStateException("'${extension.methodName}' must have a fully qualified class name.")
         }
 
         val builder = SpoonRunner.Builder()
@@ -97,7 +98,7 @@ open class SpoonTask : DefaultTask() {
         logger.log(LogLevel.INFO, "shardIndex: $extension.shardIndex")
 
         val runner = builder.build()
-        val success = if (testing) true else runner.run()
+        val success = if (testing) testValue else runner.run()
 
         if (!success && !extension.ignoreFailures) {
             throw GradleException("Tests failed! See ${extension.output}/index.html")

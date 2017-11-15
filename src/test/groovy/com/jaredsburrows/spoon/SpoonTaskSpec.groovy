@@ -1,5 +1,6 @@
 package com.jaredsburrows.spoon
 
+import org.gradle.api.GradleException
 import spock.lang.Unroll
 
 /**
@@ -129,6 +130,85 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.shard
     task.extension.numShards == 1
     task.extension.shardIndex == 1
+
+    where:
+    taskName << ["spoonDebugAndroidTest"]
+  }
+
+  @Unroll "android - #taskName - methodname with not classname"() {
+    given:
+    project.apply plugin: "com.android.application"
+    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    project.android {
+      compileSdkVersion COMPILE_SDK_VERSION
+      buildToolsVersion BUILD_TOOLS_VERSION
+
+      defaultConfig {
+        applicationId APPLICATION_ID
+      }
+
+      buildTypes {
+        debug {}
+        release {}
+      }
+    }
+    project.spoon {
+      methodName = "testMethodName"
+    }
+
+    when:
+    project.evaluate()
+
+    SpoonTask task = project.tasks.getByName(taskName)
+    task.applicationApk = appApk
+    task.instrumentationApk = testApk
+    task.execute()
+
+    then:
+    def e = thrown(GradleException)
+    e.cause instanceof IllegalStateException
+    e.cause.message == "'testMethodName' must have a fully qualified class name."
+
+    where:
+    taskName << ["spoonDebugAndroidTest"]
+  }
+
+  @Unroll "android - #taskName - exception if test failure"() {
+    given:
+    project.apply plugin: "com.android.application"
+    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    project.android {
+      compileSdkVersion COMPILE_SDK_VERSION
+      buildToolsVersion BUILD_TOOLS_VERSION
+
+      defaultConfig {
+        applicationId APPLICATION_ID
+      }
+
+      buildTypes {
+        debug {}
+        release {}
+      }
+    }
+    project.spoon {
+      ignoreFailures = false
+    }
+
+    when:
+    project.evaluate()
+
+    SpoonTask task = project.tasks.getByName(taskName)
+    task.testing = true
+    task.testValue = false
+    task.applicationApk = appApk
+    task.instrumentationApk = testApk
+    task.execute()
+
+    then:
+    def e = thrown(GradleException)
+    e.cause instanceof GradleException
+    e.cause.message.contains("Tests failed! See")
+    e.cause.message.contains("${project.spoon.output}/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
