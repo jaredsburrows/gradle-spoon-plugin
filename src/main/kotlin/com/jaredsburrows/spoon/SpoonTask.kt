@@ -12,9 +12,6 @@ import java.time.Duration
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
 open class SpoonTask : DefaultTask() {
-    /** Title of the generated HTML website. */
-    lateinit var title: String
-
     /** Use our Spoon extension. */
     lateinit var extension: SpoonExtension
 
@@ -38,10 +35,10 @@ open class SpoonTask : DefaultTask() {
         val builder = SpoonRunner.Builder()
             // Not in extension
             .setTerminateAdb(false) // default is true
-            .setTitle(title)
             .addOtherApk(applicationApk)
             .setTestApk(instrumentationApk)
             // In SpoonExtension
+            .setTitle(extension.title)
             .setOutputDirectory(File(extension.output))
             .setDebug(extension.debug)
             .setNoAnimations(extension.noAnimations)
@@ -53,6 +50,7 @@ open class SpoonTask : DefaultTask() {
             .setCodeCoverage(extension.codeCoverage)
             .setAllowNoDevices(!extension.failIfNoDeviceConnected)
             .setShard(extension.shard)
+            .setSingleInstrumentationCall(extension.singleInstrumentationCall)
 
         // File and add the SDK
         val android = project.extensions.findByName("android")

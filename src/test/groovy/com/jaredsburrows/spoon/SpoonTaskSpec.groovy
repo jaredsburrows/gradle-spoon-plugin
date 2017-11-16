@@ -36,6 +36,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     // Supported directly by Spoon's SpoonRunner
+    task.extension.title == "Spoon Execution"
     task.extension.output == "spoon-output/debug"
     !task.extension.debug
     !task.extension.noAnimations
@@ -50,6 +51,7 @@ final class SpoonTaskSpec extends BaseSpec {
     !task.extension.codeCoverage
     !task.extension.failIfNoDeviceConnected
     !task.extension.ignoreFailures
+    !task.extension.singleInstrumentationCall
 
     // Passed in via -e, extra arguments
     !task.extension.shard
@@ -92,6 +94,7 @@ final class SpoonTaskSpec extends BaseSpec {
       methodName = "testMethodName"
       codeCoverage = true
       failIfNoDeviceConnected = true
+      singleInstrumentationCall = true
 
       // Passed in via -e, extra arguments
       shard = true
@@ -111,6 +114,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     // Supported directly by Spoon's SpoonRunner
+    task.extension.title == "Spoon Execution"
     task.extension.output == "spoonTests/debug"
     task.extension.debug
     task.extension.noAnimations
@@ -125,6 +129,7 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.codeCoverage
     task.extension.failIfNoDeviceConnected
     task.extension.ignoreFailures
+    task.extension.singleInstrumentationCall
 
     // Passed in via -e, extra arguments
     task.extension.shard

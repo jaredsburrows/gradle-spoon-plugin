@@ -28,6 +28,10 @@ description = POM_DESCRIPTION
 sourceCompatibility = ext.javaVersion
 targetCompatibility = ext.javaVersion
 
+configurations.all {
+  resolutionStrategy.cacheDynamicVersionsFor 0, "seconds"
+}
+
 dependencies {
   implementation deps.gradle
   implementation deps.spoonRunner

@@ -13,6 +13,11 @@ import java.io.File
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
 class SpoonPlugin : Plugin<Project> {
+    companion object {
+        private const val APPLICATION_PLUGIN = "com.android.application"
+        private const val LIBRARY_PLUGIN = "com.android.library"
+    }
+
     override fun apply(project: Project) {
         configureAndroidProject(project)
     }
@@ -26,11 +31,7 @@ class SpoonPlugin : Plugin<Project> {
 
         // Use "variants" from "buildTypes" to get all types for "testVariants"
         // Configure tasks for all variants
-        val variants: DomainObjectSet<TestVariant>? = when {
-            project.plugins.hasPlugin("com.android.application") -> project.extensions.findByType(AppExtension::class.java)?.testVariants
-            project.plugins.hasPlugin("com.android.library") -> project.extensions.findByType(LibraryExtension::class.java)?.testVariants
-            else -> throw IllegalStateException("Spoon plugin can only be applied to android application or library projects.")
-        }
+        val variants = getTestVariants(project)
 
         variants?.all { variant ->
             variant.outputs.all {
@@ -45,9 +46,6 @@ class SpoonPlugin : Plugin<Project> {
                 task.group = "Verification"
                 task.outputs.upToDateWhen { false }
                 task.dependsOn(variant.testedVariant.assemble, variant.assemble)
-
-                // extra task properties
-                task.title = "$project.name $variant.name"
 
                 // extension properties developers can modify
                 extension.output = File(extension.output, variant.testedVariant.name).path
@@ -66,6 +64,14 @@ class SpoonPlugin : Plugin<Project> {
                     }
                 }
             }
+        }
+    }
+
+    private fun getTestVariants(project: Project): DomainObjectSet<TestVariant>? {
+        return when {
+            project.plugins.hasPlugin(APPLICATION_PLUGIN) -> project.extensions.findByType(AppExtension::class.java)?.testVariants
+            project.plugins.hasPlugin(LIBRARY_PLUGIN) -> project.extensions.findByType(LibraryExtension::class.java)?.testVariants
+            else -> throw IllegalStateException("Spoon plugin can only be applied to android application or library projects.")
         }
     }
 }

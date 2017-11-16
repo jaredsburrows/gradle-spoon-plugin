@@ -13,6 +13,7 @@ import java.io.File
  */
 open class SpoonExtension { // Extensions cannot be final
     companion object {
+        private const val DEFAULT_TITLE = "Spoon Execution"
         private const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
         private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60  // 10 minutes
     }
@@ -21,11 +22,11 @@ open class SpoonExtension { // Extensions cannot be final
     // Supported directly by Spoon's SpoonRunner
     ///////////////////////////////////////////////////
 
+    /** Identifying title for this execution. */
+    var title: String = DEFAULT_TITLE
+
     /** Path to output directory. ("$buildDir/spoon-output" by default) */
     var output: String = DEFAULT_OUTPUT_DIRECTORY
-        set(value) {
-            field = value
-        }
 
     /** Whether or not debug logging is enabled. (false by default) */
     var debug: Boolean = false
@@ -68,6 +69,9 @@ open class SpoonExtension { // Extensions cannot be final
 
     /** Fail if no device is connected. (false by default) */
     var failIfNoDeviceConnected: Boolean = false
+
+    /** Run tests in separate instrumentation calls. */
+    var singleInstrumentationCall: Boolean = false
 
     ////////////////////////////////////////////////////
     // Passed in via -e, extra arguments
