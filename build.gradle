@@ -19,7 +19,7 @@ repositories {
   maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
 }
 
-apply from: file("gradle/dependencies.gradle")
+apply from: "gradle/dependencies.gradle"
 
 group = GROUP
 version = VERSION_NAME
@@ -42,9 +42,9 @@ dependencies {
 }
 
 // Ordering matters
-apply from: file("gradle/scan.gradle")
-apply from: file("gradle/compile.gradle")
-apply from: file("gradle/plugin.gradle")
-apply from: file("gradle/publish.gradle")
-apply from: file("gradle/quality.gradle")
-apply from: file("gradle/wrapper.gradle")
+apply from: "gradle/scan.gradle"
+apply from: "gradle/compile.gradle"
+apply from: "gradle/plugin.gradle"
+apply from: "gradle/publish.gradle"
+apply from: "gradle/quality.gradle"
+apply from: "gradle/wrapper.gradle"

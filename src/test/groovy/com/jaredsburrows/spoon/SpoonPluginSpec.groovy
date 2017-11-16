@@ -95,7 +95,7 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.grantAll
     task.extension.methodName == "testMethodName"
     task.extension.codeCoverage
-    task.extension.failIfNoDeviceConnected
+    task.extension.allowNoDevices
     task.extension.ignoreFailures
     task.extension.singleInstrumentationCall
 

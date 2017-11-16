@@ -36,34 +36,22 @@ class SpoonPlugin : Plugin<Project> {
 
         variants?.all { variant ->
             variant.outputs.all {
-                val variantName = variant.name.capitalize()
-                val taskName = "spoon$variantName"
-                val instrumentationPackage = variant.outputs.first().outputFile
-
                 // Create tasks based on variant
-                val task = project.tasks.create(taskName, SpoonTask::class.java)
-                // task properties
+                val task = project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java)
                 task.description = "Run instrumentation tests for '${variant.name}' variant."
                 task.group = "Verification"
                 task.outputs.upToDateWhen { false }
                 task.dependsOn(variant.testedVariant.assemble, variant.assemble)
-
+                task.instrumentationApk = variant.outputs.first().outputFile
+                task.doFirst {
+                    val testedOutput = variant.testedVariant.outputs.first()
+                    // This is a hack for library projects.
+                    // We supply the same apk as an application and instrumentation to the soon runner.
+                    task.applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else task.instrumentationApk
+                }
                 // extension properties developers can modify
                 extension.output = File(extension.output, variant.testedVariant.name).path
                 task.extension = extension
-
-                task.instrumentationApk = instrumentationPackage
-                task.doFirst {
-                    val testedOutput = variant.testedVariant.outputs.first()
-
-                    if (testedOutput is ApkVariantOutput) {
-                        task.applicationApk = testedOutput.outputFile
-                    } else {
-                        // This is a hack for library projects.
-                        // We supply the same apk as an application and instrumentation to the soon runner.
-                        task.applicationApk = task.instrumentationApk
-                    }
-                }
             }
         }
     }

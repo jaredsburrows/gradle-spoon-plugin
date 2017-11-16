@@ -33,23 +33,21 @@ open class SpoonTask : DefaultTask() {
         }
 
         val builder = SpoonRunner.Builder()
-            // Not in extension
-            .setTerminateAdb(false) // default is true
-            .addOtherApk(applicationApk)
-            .setTestApk(instrumentationApk)
-            // In SpoonExtension
             .setTitle(extension.title)
+            .setTestApk(instrumentationApk)
+            .addOtherApk(applicationApk)
             .setOutputDirectory(File(extension.output))
             .setDebug(extension.debug)
             .setNoAnimations(extension.noAnimations)
             .setAdbTimeout(Duration.ofSeconds(extension.adbTimeout.toLong()))
             .setClassName(extension.className)
+            .setAllowNoDevices(extension.allowNoDevices)
             .setSequential(extension.sequential)
             .setGrantAll(extension.grantAll)
             .setMethodName(extension.methodName)
             .setCodeCoverage(extension.codeCoverage)
-            .setAllowNoDevices(!extension.failIfNoDeviceConnected)
             .setShard(extension.shard)
+            .setTerminateAdb(false)
             .setSingleInstrumentationCall(extension.singleInstrumentationCall)
 
         // File and add the SDK

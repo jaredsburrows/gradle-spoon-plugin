@@ -22,8 +22,14 @@ open class SpoonExtension { // Extensions cannot be final
     // Supported directly by Spoon's SpoonRunner
     ///////////////////////////////////////////////////
 
-    /** Identifying title for this execution. */
+    /** Identifying title for this execution. ("Spoon Execution" by default) */
     var title: String = DEFAULT_TITLE
+
+    // TODO androidSdk
+
+    // TODO testApk
+
+    // TODO otherApks
 
     /** Path to output directory. ("$buildDir/spoon-output" by default) */
     var output: String = DEFAULT_OUTPUT_DIRECTORY
@@ -52,10 +58,15 @@ open class SpoonExtension { // Extensions cannot be final
     /** Test class name to run (fully-qualified). */
     var className: String = ""
 
-    // TODO size
+    // TODO testSize
+
+    /** Allow no devices to be connected. (false by default) */
+    var allowNoDevices: Boolean = false
 
     /** Execute the tests device by device. (false by default) */
     var sequential: Boolean = false
+
+    // TODO initScript
 
     /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
     var grantAll: Boolean = false
@@ -67,8 +78,12 @@ open class SpoonExtension { // Extensions cannot be final
     (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.) */
     var codeCoverage: Boolean = false
 
-    /** Fail if no device is connected. (false by default) */
-    var failIfNoDeviceConnected: Boolean = false
+    /** Toggle sharding. (false by default) */
+    var shard: Boolean = false
+
+    // TODO testRunListener
+
+    // TODO terminateAdb
 
     /** Run tests in separate instrumentation calls. */
     var singleInstrumentationCall: Boolean = false
@@ -76,9 +91,6 @@ open class SpoonExtension { // Extensions cannot be final
     ////////////////////////////////////////////////////
     // Passed in via -e, extra arguments
     ///////////////////////////////////////////////////
-
-    /** Toggle sharding. (false by default) */
-    var shard: Boolean = false
 
     /** The number of separate shards to create. */
     var numShards: Int = 0
@@ -110,6 +122,13 @@ open class SpoonExtension { // Extensions cannot be final
     var grantAllPermissions: Boolean = false
         set(value) {
             grantAll = value
+            field = value
+        }
+
+    @Deprecated("Use 'allowNoDevices'", replaceWith = ReplaceWith("allowNoDevices"))
+    var failIfNoDeviceConnected: Boolean = false
+        set(value) {
+            allowNoDevices = !value
             field = value
         }
 }
