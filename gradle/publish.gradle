@@ -61,12 +61,12 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
   from groovydoc.destinationDir
 }
 
-//task kotlindocJar(type: Jar, dependsOn: kotlindoc) {
-//  group = "Publications"
-//  description = "Create javadoc jar of Groovy documentation."
-//  classifier = "groovydoc"
-//  from kotlindoc.destinationDir
-//}
+task kotlindocJar(type: Jar, dependsOn: dokka) {
+  group = "Publications"
+  description = "Create javadoc jar of Groovy documentation."
+  classifier = "kotlindoc"
+  from dokka.outputDirectory
+}
 
 task reportsZip(type: Zip, dependsOn: check) {
   group = "Publications"
@@ -88,7 +88,7 @@ publishing {
       artifact sourcesJar
       artifact javadocJar
       artifact groovydocJar
-//      artifact kotlindocJar
+      artifact kotlindocJar
       artifact reportsZip
 
       groupId GROUP
@@ -107,7 +107,7 @@ publishing {
     }
   }
 }
-publish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
+publish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
 publish.dependsOn "generatePomFileForMavenPublication"
 
 // Snapshots published to JFrog Artifactory repository
@@ -132,7 +132,7 @@ artifactory {
     }
   }
 }
-artifactoryPublish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
+artifactoryPublish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
 artifactoryPublish.dependsOn "generatePomFileForMavenPublication"
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -168,7 +168,7 @@ bintray {
     }
   }
 }
-bintrayUpload.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
+bintrayUpload.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
 bintrayUpload.dependsOn "generatePomFileForMavenPublication"
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -185,7 +185,7 @@ pluginBundle {
     }
   }
 }
-publishPlugins.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
+publishPlugins.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
 publishPlugins.dependsOn "generatePomFileForMavenPublication"
 
 // Publish to both Bintray and Gradle repositories

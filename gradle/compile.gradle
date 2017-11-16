@@ -79,6 +79,10 @@ groovydoc {
   exclude "**/*Spec.java"
 }
 
+dokka {
+  moduleName = "${project.name} ${project.version}"
+}
+
 // Prevent forked processes from stealing focus (on MacOS at least)
 tasks.withType(JavaForkOptions) {
   // should improve memory on a 64bit JVM
