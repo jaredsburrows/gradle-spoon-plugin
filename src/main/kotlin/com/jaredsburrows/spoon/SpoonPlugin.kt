@@ -14,6 +14,7 @@ import java.io.File
  */
 class SpoonPlugin : Plugin<Project> {
     companion object {
+        private const val EXTENSION_NAME = "spoon"
         private const val APPLICATION_PLUGIN = "com.android.application"
         private const val LIBRARY_PLUGIN = "com.android.library"
     }
@@ -27,7 +28,7 @@ class SpoonPlugin : Plugin<Project> {
      */
     private fun configureAndroidProject(project: Project) {
         // Create "spoon" extension
-        val extension = project.extensions.create("spoon", SpoonExtension::class.java)
+        val extension = project.extensions.create(EXTENSION_NAME, SpoonExtension::class.java)
 
         // Use "variants" from "buildTypes" to get all types for "testVariants"
         // Configure tasks for all variants
