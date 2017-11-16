@@ -47,6 +47,20 @@ task sourcesJar(type: Jar, dependsOn: classes) {
   from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  group = "Publications"
+  description = "Create javadoc jar of Java documentation."
+  classifier = "javadoc"
+  from javadoc.destinationDir
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+  group = "Publications"
+  description = "Create javadoc jar of Groovy documentation."
+  classifier = "groovydoc"
+  from groovydoc.destinationDir
+}
+
 //task kotlindocJar(type: Jar, dependsOn: kotlindoc) {
 //  group = "Publications"
 //  description = "Create javadoc jar of Groovy documentation."
@@ -72,6 +86,8 @@ publishing {
       from components.java // includes main "artifact jar"
       artifact testsJar
       artifact sourcesJar
+      artifact javadocJar
+      artifact groovydocJar
 //      artifact kotlindocJar
       artifact reportsZip
 
@@ -91,7 +107,7 @@ publishing {
     }
   }
 }
-publish.dependsOn jar, sourcesJar, testsJar, reportsZip
+publish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
 publish.dependsOn "generatePomFileForMavenPublication"
 
 // Snapshots published to JFrog Artifactory repository
@@ -116,7 +132,7 @@ artifactory {
     }
   }
 }
-artifactoryPublish.dependsOn jar, sourcesJar, testsJar, reportsZip
+artifactoryPublish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
 artifactoryPublish.dependsOn "generatePomFileForMavenPublication"
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -133,9 +149,9 @@ bintray {
     websiteUrl = POM_URL
     issueTrackerUrl = POM_ISSUE_URL
     vcsUrl = POM_URL
+    labels = ["gradle", "plugin", "spoon"]
     githubRepo = BINTRAY_GITHUB_REPO
     githubReleaseNotesFile = "README.md"
-    labels = ["gradle", "plugin", "spoon"]
 
     version {
       name = VERSION_NAME
@@ -152,7 +168,7 @@ bintray {
     }
   }
 }
-bintrayUpload.dependsOn jar, sourcesJar, testsJar, reportsZip
+bintrayUpload.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
 bintrayUpload.dependsOn "generatePomFileForMavenPublication"
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -169,7 +185,7 @@ pluginBundle {
     }
   }
 }
-publishPlugins.dependsOn jar, sourcesJar, testsJar, reportsZip
+publishPlugins.dependsOn jar, sourcesJar, javadocJar, groovydocJar, testsJar, reportsZip
 publishPlugins.dependsOn "generatePomFileForMavenPublication"
 
 // Publish to both Bintray and Gradle repositories

@@ -14,6 +14,33 @@ compileJava {
   }
 }
 
+compileGroovy {
+  sourceCompatibility = rootProject.ext.javaVersion
+  targetCompatibility = rootProject.ext.javaVersion
+
+  // Show all warnings except boot classpath
+  configure(options) {
+    compilerArgs << "-Xlint:all"            // Turn on all warnings
+    compilerArgs << "-Xlint:-options"       // Turn off "missing" bootclasspath warning
+    compilerArgs << "-Werror"               // Turn warnings into errors
+    compilerArgs << "-Xdiags:verbose"       // Turn on verbose errors
+    encoding = "utf-8"
+    incremental = true
+    fork = true
+  }
+
+  configure(groovyOptions) {
+    encoding = "utf-8"
+    fork = true
+  }
+}
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = rootProject.ext.javaVersion
+  }
+}
+
 test {
   // Turn on logging for all tests, filter to show failures/skips only
   testLogging {
@@ -24,8 +51,7 @@ test {
     events "failed", "skipped"
   }
 
-  def maxWorkerCount = gradle.startParameter.maxWorkerCount
-  maxParallelForks = (maxWorkerCount < 2) ? 1 : maxWorkerCount / 2
+  maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
 
 javadoc {
@@ -42,6 +68,15 @@ javadoc {
     exclude "**/*Test.java"
     if (JavaVersion.current().isJava8Compatible()) addStringOption("Xdoclint:none", "-quiet")
   }
+}
+
+groovydoc {
+  docTitle = "${project.name} ${project.version}"
+  header = project.name
+  link("http://docs.oracle.com/javase/8/docs/api/",
+          "http://docs.oracle.com/javaee/7/api/",
+          "http://groovy.codehaus.org/gapi/")
+  exclude "**/*Spec.java"
 }
 
 // Prevent forked processes from stealing focus (on MacOS at least)
