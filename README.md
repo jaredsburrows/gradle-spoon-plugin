@@ -54,6 +54,9 @@ Snapshot versions are available in the JFrog Artifactory repository: https://oss
 **Optional extension:**
 ```groovy
 spoon {
+  // Identifying title for this execution. ("Spoon Execution" by default)
+  title = "My tests"
+  
   // Path to output directory. ("$buildDir/spoon-output" by default)
   output = "spoonTests"
 
@@ -77,6 +80,9 @@ spoon {
 
   // Test class name to run (fully-qualified).
   className = "com.android.foo.FooClassName"
+  
+  // Allow no devices to be connected. (false by default)
+  allowNoDevices = true
 
   // Execute the tests device by device. (false by default)
   sequential = true
@@ -90,9 +96,6 @@ spoon {
   // Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
   codeCoverage = true
 
-  // Fail if no device is connected. (false by default)
-  failIfNoDeviceConnected = true
-
   // Toggle sharding. (false by default)
   shard = true
 
@@ -101,6 +104,9 @@ spoon {
 
   // The shardIndex option to specify which shard to run.
   shardIndex = 1
+  
+  // Run tests in separate instrumentation calls.
+  singleInstrumentationCall = true
 
   // Do not fail build if a test fails, let all the tests run and finish. (false by default)
   ignoreFailures = true

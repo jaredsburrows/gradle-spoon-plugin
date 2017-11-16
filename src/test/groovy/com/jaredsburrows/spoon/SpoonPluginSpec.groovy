@@ -59,16 +59,18 @@ final class SpoonPluginSpec extends BaseSpec {
       skipDevices = ["emulator-5555"]
       instrumentationArgs = ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"]
       className = "com.android.foo.FooClassName"
+      allowNoDevices = true
       sequential = true
       grantAll = true
       methodName = "testMethodName"
       codeCoverage = true
-      failIfNoDeviceConnected = true
-      ignoreFailures = true
+      shard = true
       singleInstrumentationCall = true
 
+      // Other
+      ignoreFailures = true
+
       // Passed in via -e, extra arguments
-      shard = true
       numShards = 1
       shardIndex = 1
     }
@@ -76,7 +78,7 @@ final class SpoonPluginSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    def task = project.tasks.getByName(taskName) as SpoonTask
     task.applicationApk = appApk
     task.instrumentationApk = testApk
 
@@ -91,16 +93,18 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
     task.extension.instrumentationArgs as List<String> == ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
+    task.extension.allowNoDevices
     task.extension.sequential
     task.extension.grantAll
     task.extension.methodName == "testMethodName"
     task.extension.codeCoverage
-    task.extension.allowNoDevices
-    task.extension.ignoreFailures
+    task.extension.shard
     task.extension.singleInstrumentationCall
 
+    // Other
+    task.extension.ignoreFailures
+
     // Passed in via -e, extra arguments
-    task.extension.shard
     task.extension.numShards == 1
     task.extension.shardIndex == 1
 

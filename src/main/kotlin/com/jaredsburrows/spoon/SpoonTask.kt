@@ -78,24 +78,7 @@ open class SpoonTask : DefaultTask() {
             builder.addDevice(it)
         }
 
-        logger.log(LogLevel.INFO, "Run instrumentation tests $instrumentationApk for app $applicationApk")
-        logger.log(LogLevel.INFO, "Output: $extension.output")
-        logger.log(LogLevel.INFO, "Ignore failures: $extension.ignoreFailures")
-        logger.log(LogLevel.INFO, "Fail if no device connected: $extension.failIfNoDeviceConnected")
-        logger.log(LogLevel.INFO, "Debug mode: $extension.debug")
-        if (extension.className.isNotEmpty()) {
-            logger.log(LogLevel.INFO, "Class name: $extension.className")
-            if (extension.methodName.isNotEmpty()) {
-                logger.log(LogLevel.INFO, "Method name: $extension.methodName")
-            }
-        }
-        logger.log(LogLevel.INFO, "No animations: $extension.noAnimations")
-        logger.log(LogLevel.INFO, "numShards: $extension.numShards")
-        logger.log(LogLevel.INFO, "shardIndex: $extension.shardIndex")
-
-        val runner = builder.build()
-        val success = if (testing) testValue else runner.run()
-
+        val success = if (testing) testValue else builder.build().run()
         if (!success && !extension.ignoreFailures) {
             throw GradleException("Tests failed! See ${extension.output}/index.html")
         }
