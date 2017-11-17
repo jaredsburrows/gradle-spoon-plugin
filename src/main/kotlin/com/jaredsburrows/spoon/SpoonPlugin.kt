@@ -49,8 +49,11 @@ class SpoonPlugin : Plugin<Project> {
                     // We supply the same apk as an application and instrumentation to the soon runner.
                     task.applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else task.instrumentationApk
                 }
-                // extension properties developers can modify
-                extension.output = File(extension.output, variant.testedVariant.name).path
+                if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == extension.output) {
+                    extension.output = File("${project.buildDir}/${extension.output}", variant.testedVariant.name).path
+                } else {
+                    extension.output = File(extension.output, variant.testedVariant.name).path
+                }
                 task.extension = extension
             }
         }

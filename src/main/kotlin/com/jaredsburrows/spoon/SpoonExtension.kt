@@ -13,8 +13,8 @@ import java.io.File
  */
 open class SpoonExtension { // Extensions cannot be final
     companion object {
+        const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
         private const val DEFAULT_TITLE = "Spoon Execution"
-        private const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
         private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60  // 10 minutes
     }
 
