@@ -1,9 +1,9 @@
 package com.jaredsburrows.spoon
 
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
@@ -12,6 +12,11 @@ import java.time.Duration
  * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
 open class SpoonTask : DefaultTask() {
+    companion object {
+        private const val ANDROID_EXTENSION_NAME = "android"
+        private const val SDK_DIRECTORY_METHOD = "getSdkDirectory"
+    }
+
     /** Use our Spoon extension. */
     lateinit var extension: SpoonExtension
 
@@ -51,8 +56,8 @@ open class SpoonTask : DefaultTask() {
             .setSingleInstrumentationCall(extension.singleInstrumentationCall)
 
         // File and add the SDK
-        val android = project.extensions.findByName("android")
-        val sdkDirectory = android?.javaClass?.getMethod("getSdkDirectory")?.invoke(android) as File?
+        val android = project.extensions.findByName(ANDROID_EXTENSION_NAME)
+        val sdkDirectory = android?.javaClass?.getMethod(SDK_DIRECTORY_METHOD)?.invoke(android) as File?
         if (sdkDirectory != null) {
             builder.setAndroidSdk(sdkDirectory)
         }
@@ -66,6 +71,11 @@ open class SpoonTask : DefaultTask() {
         // If we have args apply them else let them be null
         if (extension.instrumentationArgs.isNotEmpty()) {
             builder.setInstrumentationArgs(extension.instrumentationArgs)
+        }
+
+        // Only apply test size if given, no default
+        if (extension.testSize.isNotEmpty()) {
+            builder.setTestSize(TestSize.valueOf(extension.testSize))
         }
 
         // Add all skipped devices

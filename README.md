@@ -36,7 +36,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.10-SNAPSHOT"
+    classpath "com.jaredsburrows:gradle-spoon-plugin:1.1.11-SNAPSHOT"
   }
 }
 
@@ -80,6 +80,9 @@ spoon {
 
   // Test class name to run (fully-qualified).
   className = "com.android.foo.FooClassName"
+  
+  // Run annotated tests - small, medium, large
+  testSize = "large"
   
   // Allow no devices to be connected. (false by default)
   allowNoDevices = true

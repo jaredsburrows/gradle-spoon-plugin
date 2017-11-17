@@ -10,6 +10,7 @@ ext.deps = [
         "gradle"      : "com.android.tools.build:gradle:$agpVersion",
         "spoonRunner" : "com.squareup.spoon:spoon-runner:latest.integration",
         "kotlinStdlib": "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.60",
+        "ddmlib"      : "com.android.tools.ddms:ddmlib:26.0.0",
 
         // testImplementation
         "spockCore"   : "org.spockframework:spock-core:1.1-groovy-2.4"

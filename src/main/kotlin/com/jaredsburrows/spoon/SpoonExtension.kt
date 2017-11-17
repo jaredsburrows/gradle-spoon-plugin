@@ -58,7 +58,8 @@ open class SpoonExtension { // Extensions cannot be final
     /** Test class name to run (fully-qualified). */
     var className: String = ""
 
-    // TODO testSize
+    /** Run annotated tests - small, medium, large */
+    var testSize: String = ""
 
     /** Allow no devices to be connected. (false by default) */
     var allowNoDevices: Boolean = false

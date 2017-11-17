@@ -4,13 +4,13 @@ pluginManagement {
     maven { url "https://jcenter.bintray.com/" }
   }
 
-    resolutionStrategy {
-      eachPlugin {
-        if (requested.id.id == "org.jetbrains.dokka") {
-          useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-        }
+  resolutionStrategy {
+    eachPlugin {
+      if (requested.id.id == "org.jetbrains.dokka") {
+        useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
       }
     }
+  }
 }
 
 rootProject.name = "gradle-spoon-plugin"
