@@ -5,9 +5,7 @@ compileJava {
   // Show all warnings except boot classpath
   configure(options) {
     compilerArgs << "-Xlint:all"            // Turn on all warnings
-    compilerArgs << "-Xlint:-options"       // Turn off "missing" bootclasspath warning
     compilerArgs << "-Werror"               // Turn warnings into errors
-    compilerArgs << "-Xdiags:verbose"       // Turn on verbose errors
     encoding = "utf-8"
     incremental = true
     fork = true
@@ -21,9 +19,7 @@ compileGroovy {
   // Show all warnings except boot classpath
   configure(options) {
     compilerArgs << "-Xlint:all"            // Turn on all warnings
-    compilerArgs << "-Xlint:-options"       // Turn off "missing" bootclasspath warning
     compilerArgs << "-Werror"               // Turn warnings into errors
-    compilerArgs << "-Xdiags:verbose"       // Turn on verbose errors
     encoding = "utf-8"
     incremental = true
     fork = true
