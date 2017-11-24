@@ -41,7 +41,7 @@ open class SpoonTask : DefaultTask() {
             .setTitle(extension.title)
             .setTestApk(instrumentationApk)
             .addOtherApk(applicationApk)
-            .setOutputDirectory(File(extension.output))
+            .setOutputDirectory(File(extension.finalOutput))
             .setDebug(extension.debug)
             .setNoAnimations(extension.noAnimations)
             .setAdbTimeout(Duration.ofSeconds(extension.adbTimeout.toLong()))
@@ -90,7 +90,7 @@ open class SpoonTask : DefaultTask() {
 
         val success = if (testing) testValue else builder.build().run()
         if (!success && !extension.ignoreFailures) {
-            throw GradleException("Tests failed! See ${extension.output}/index.html")
+            throw GradleException("Tests failed! See ${extension.finalOutput}/index.html")
         }
     }
 }

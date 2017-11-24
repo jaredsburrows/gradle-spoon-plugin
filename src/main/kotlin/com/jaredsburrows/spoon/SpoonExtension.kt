@@ -34,6 +34,9 @@ open class SpoonExtension { // Extensions cannot be final
     /** Path to output directory. ("$buildDir/spoon-output" by default) */
     var output: String = DEFAULT_OUTPUT_DIRECTORY
 
+    /** Final path to output directory. Need to avoid cross-variant execution conflicts */
+    lateinit var finalOutput: String
+
     /** Whether or not debug logging is enabled. (false by default) */
     var debug: Boolean = false
 
