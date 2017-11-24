@@ -48,11 +48,13 @@ class SpoonPlugin : Plugin<Project> {
                     // This is a hack for library projects.
                     // We supply the same apk as an application and instrumentation to the soon runner.
                     task.applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else task.instrumentationApk
-                }
-                if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == extension.output) {
-                    extension.output = File("${project.buildDir}/${extension.output}", variant.testedVariant.name).path
-                } else {
-                    extension.output = File(extension.output, variant.testedVariant.name).path
+
+                    // Do this only before the Task runs to make sure that finalOutput points to the current variant.
+                    if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == extension.output) {
+                        extension.finalOutput = File("${project.buildDir}/${extension.output}", variant.testedVariant.name).path
+                    } else {
+                        extension.finalOutput = File(extension.output, variant.testedVariant.name).path
+                    }
                 }
                 task.extension = extension
             }

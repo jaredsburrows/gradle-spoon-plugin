@@ -222,7 +222,7 @@ final class SpoonTaskSpec extends BaseSpec {
     def e = thrown(GradleException)
     e.cause instanceof GradleException
     e.cause.message.contains("Tests failed! See")
-    e.cause.message.contains("${project.spoon.output}/index.html")
+    e.cause.message.contains("${project.spoon.finalOutput}/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
