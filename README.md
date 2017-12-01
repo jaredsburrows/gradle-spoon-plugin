@@ -76,7 +76,7 @@ spoon {
   skipDevices = ["emulator-5555"]
 
   // Extra arguments to pass to instrumentation.
-  instrumentationArgs = ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"]
+  instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2", "classLoader:com.foo.CustomClassLoader"]
 
   // Test class name to run (fully-qualified).
   className = "com.android.foo.FooClassName"

@@ -27,12 +27,12 @@ class SpoonPlugin : Plugin<Project> {
      * Configure project and all variants for Android.
      */
     private fun configureAndroidProject(project: Project) {
-        // Create "spoon" extension
-        val extension = project.extensions.create(EXTENSION_NAME, SpoonExtension::class.java)
-
         // Use "variants" from "buildTypes" to get all types for "testVariants"
         // Configure tasks for all variants
         val variants = getTestVariants(project)
+
+        // Create "spoon" extension
+        val spoonExtension = project.extensions.create(EXTENSION_NAME, SpoonExtension::class.java)
 
         variants?.all { variant ->
             variant.outputs.all {
@@ -49,12 +49,12 @@ class SpoonPlugin : Plugin<Project> {
                     // We supply the same apk as an application and instrumentation to the soon runner.
                     task.applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else task.instrumentationApk
                 }
-                if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == extension.output) {
-                    extension.output = File("${project.buildDir}/${extension.output}", variant.testedVariant.name).path
+                if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == spoonExtension.output) {
+                    spoonExtension.output = File("${project.buildDir}/${spoonExtension.output}", variant.testedVariant.name).path
                 } else {
-                    extension.output = File(extension.output, variant.testedVariant.name).path
+                    spoonExtension.output = File(spoonExtension.output, variant.testedVariant.name).path
                 }
-                task.extension = extension
+                task.extension = spoonExtension
             }
         }
     }

@@ -57,7 +57,7 @@ final class SpoonPluginSpec extends BaseSpec {
       adbTimeout = 5
       devices = ["emulator-5554", "emulator-5556"]
       skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"]
+      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2", "classLoader:com.foo.CustomClassLoader"]
       className = "com.android.foo.FooClassName"
       allowNoDevices = true
       sequential = true
@@ -71,8 +71,8 @@ final class SpoonPluginSpec extends BaseSpec {
       ignoreFailures = true
 
       // Passed in via -e, extra arguments
-      numShards = 1
-      shardIndex = 1
+      numShards = 10
+      shardIndex = 2
     }
 
     when:
@@ -91,7 +91,7 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.adbTimeout == 5000
     task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
     task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener com.foo.Listener,com.foo.Listener2", "classLoader com.foo.CustomClassLoader"] as List<String>
+    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2", "classLoader:com.foo.CustomClassLoader"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
     task.extension.allowNoDevices
     task.extension.sequential
@@ -105,8 +105,8 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.ignoreFailures
 
     // Passed in via -e, extra arguments
-    task.extension.numShards == 1
-    task.extension.shardIndex == 1
+    task.extension.numShards == 10
+    task.extension.shardIndex == 2
 
     where:
     taskName << ["spoonDebugAndroidTest"]

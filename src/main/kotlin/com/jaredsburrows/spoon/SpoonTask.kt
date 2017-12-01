@@ -64,13 +64,26 @@ open class SpoonTask : DefaultTask() {
 
         // Add shard information to instrumentation args if there are any
         if (extension.numShards > 0) {
-            extension.instrumentationArgs.add("numShards=${extension.numShards}")
-            extension.instrumentationArgs.add("shardIndex=${extension.shardIndex}")
+            if (extension.shardIndex >= extension.numShards) {
+                throw UnsupportedOperationException("'shardIndex' needs to be less than 'numShards'.")
+            }
+
+            extension.instrumentationArgs.add("numShards:${extension.numShards}")
+            extension.instrumentationArgs.add("shardIndex:${extension.shardIndex}")
         }
 
         // If we have args apply them else let them be null
         if (extension.instrumentationArgs.isNotEmpty()) {
-            builder.setInstrumentationArgs(extension.instrumentationArgs)
+            val instrumentationArgs = hashMapOf<String, String>()
+            extension.instrumentationArgs.forEach { instrumentation ->
+                if (!(instrumentation.contains(':') or instrumentation.contains('='))) {
+                    throw UnsupportedOperationException("Please use '=' or ':' to separate arguments.")
+                }
+
+                val keyVal = if (instrumentation.contains(":")) instrumentation.split(":") else instrumentation.split("=")
+                instrumentationArgs.put(keyVal[0], keyVal[1])
+            }
+            builder.setInstrumentationArgs(instrumentationArgs)
         }
 
         // Only apply test size if given, no default

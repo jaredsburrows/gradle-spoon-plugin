@@ -19,7 +19,7 @@ script:
   - ./gradlew clean build jacocoTestReport coveralls --scan --stacktrace
 
 after_success:
-  - .buildscript/deploySnapshot.sh
+  - .buildscript/deploy-snapshot.sh
 
 branches:
   except:

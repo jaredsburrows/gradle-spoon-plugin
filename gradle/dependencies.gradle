@@ -2,16 +2,18 @@
 ext {
   javaVersion = "1.8"
   agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.0"
+  kotlinVersion = "1.2.0"
 }
 
 // Dependencies
 ext.deps = [
-        // implementation
-        "gradle"      : "com.android.tools.build:gradle:$agpVersion",
-        "spoonRunner" : "com.squareup.spoon:spoon-runner:latest.integration",
-        "kotlinStdlib": "org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.60",
-        "ddmlib"      : "com.android.tools.ddms:ddmlib:26.0.0",
+  // implementation
+  "kotlinStdlib" : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion",
+  "kotlinReflect": "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+  "gradle"       : "com.android.tools.build:gradle:$agpVersion",
+  "spoonRunner"  : "com.squareup.spoon:spoon-runner:latest.integration",
+  "ddmlib"       : "com.android.tools.ddms:ddmlib:26.0.0",
 
-        // testImplementation
-        "spockCore"   : "org.spockframework:spock-core:1.1-groovy-2.4"
+  // testImplementation
+  "spockCore"    : "org.spockframework:spock-core:1.1-groovy-2.4"
 ]

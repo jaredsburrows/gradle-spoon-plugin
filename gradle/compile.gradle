@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 compileJava {
   sourceCompatibility = rootProject.ext.javaVersion
   targetCompatibility = rootProject.ext.javaVersion
@@ -34,17 +37,18 @@ compileGroovy {
 compileKotlin {
   kotlinOptions {
     jvmTarget = rootProject.ext.javaVersion
+//    allWarningsAsErrors = true
   }
 }
 
 test {
   // Turn on logging for all tests, filter to show failures/skips only
   testLogging {
-    exceptionFormat "full"
+    exceptionFormat TestExceptionFormat.FULL
     showCauses true
     showExceptions true
     showStackTraces true
-    events "failed", "skipped"
+    events = [TestLogEvent.FAILED, TestLogEvent.SKIPPED]
   }
 
   maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1

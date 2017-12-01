@@ -5,7 +5,7 @@ plugins {
   id "com.jfrog.bintray" version "1.8.0"
   id "com.github.ben-manes.versions" version "0.17.0"
   id "com.gradle.plugin-publish" version "0.9.9"
-  id "org.jetbrains.kotlin.jvm" version "1.1.60"
+  id "org.jetbrains.kotlin.jvm" version "1.2.0"
   id "org.jetbrains.dokka" version "0.9.14"
   id "java-gradle-plugin"
   id "groovy"
@@ -33,9 +33,10 @@ configurations.all {
 }
 
 dependencies {
+  implementation deps.kotlinStdlib
+  implementation deps.kotlinReflect
   implementation deps.gradle
   implementation deps.spoonRunner
-  implementation deps.kotlinStdlib
   implementation deps.ddmlib
 
   testImplementation localGroovy()
