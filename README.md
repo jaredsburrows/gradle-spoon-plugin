@@ -22,8 +22,16 @@ buildscript {
   }
 }
 
+repositories {
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+}
+
 apply plugin: "com.android.application"
 apply plugin: "com.jaredsburrows.spoon"
+
+dependencies {
+  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+}
 ```
 Release versions are available in the JFrog Bintray repository: https://bintray.com/jaredsburrows/maven/gradle-spoon-plugin
 
@@ -40,8 +48,16 @@ buildscript {
   }
 }
 
+repositories {
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+}
+
 apply plugin: "com.android.application"
 apply plugin: "com.jaredsburrows.spoon"
+
+dependencies {
+  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+}
 ```
 Snapshot versions are available in the JFrog Artifactory repository: https://oss.jfrog.org/webapp/#/builds/gradle-spoon-plugin
 
@@ -103,19 +119,15 @@ spoon {
   shard = true
 
   // The number of separate shards to create.
-  numShards = 1
+  numShards = 10
 
   // The shardIndex option to specify which shard to run.
-  shardIndex = 1
+  shardIndex = 2
   
   // Run tests in separate instrumentation calls.
   singleInstrumentationCall = true
 
   // Do not fail build if a test fails, let all the tests run and finish. (false by default)
   ignoreFailures = true
-}
-
-dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
 }
 ```
