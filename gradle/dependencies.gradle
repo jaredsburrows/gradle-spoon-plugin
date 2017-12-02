@@ -3,17 +3,39 @@ ext {
   javaVersion = "1.8"
   agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.0"
   kotlinVersion = "1.2.0"
+  minSdkVersion = 19
+  targetSdkVersion = 27
+  compileSdkVersion = 27
+  buildToolsVersion = "27.0.1"
+  spoonVersion = "2.0.0-SNAPSHOT"
+  jacocoVersion = "0.7.4.201502262128"
 }
 
 // Dependencies
 ext.deps = [
+  // plugin
+  "gradle"            : "com.android.tools.build:gradle:$agpVersion",
+  "kotlinGradlePlugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+
   // implementation
-  "kotlinStdlib" : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion",
-  "kotlinReflect": "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
-  "gradle"       : "com.android.tools.build:gradle:$agpVersion",
-  "spoonRunner"  : "com.squareup.spoon:spoon-runner:latest.integration",
-  "ddmlib"       : "com.android.tools.ddms:ddmlib:26.0.0",
+  "kotlinStdlib"      : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion",
+  "kotlinReflect"     : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
+  "spoonRunner"       : "com.squareup.spoon:spoon-runner:$spoonVersion",
+  "ddmlib"            : "com.android.tools.ddms:ddmlib:26.0.0",
 
   // testImplementation
-  "spockCore"    : "org.spockframework:spock-core:1.1-groovy-2.4"
+  "junit"             : "junit:junit:4.12",
+  "truth"             : "com.google.truth:truth:0.36",
+  "spockCore"         : "org.spockframework:spock-core:1.1-groovy-2.4",
+
+  // androidTestImplementation
+  "spoonClient"       : "com.squareup.spoon:spoon-client:$spoonVersion",
+  "runner"            : "com.android.support.test:runner:0.5",
+  "rules"             : "com.android.support.test:rules:0.5",
+
+  // jacocoAgent/androidJacocoAgent
+  "orgJacocoAgent"    : "org.jacoco:org.jacoco.agent:$jacocoVersion",
+
+  // jacocoAnt/androidJacocoAnt
+  "orgJacocoAnt"      : "org.jacoco:org.jacoco.ant:$jacocoVersion"
 ]

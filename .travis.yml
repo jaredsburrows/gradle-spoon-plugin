@@ -9,14 +9,39 @@ before_install:
   - echo yes | sdkmanager "platform-tools" &>/dev/null
   - echo yes | sdkmanager "build-tools;27.0.1" &>/dev/null
   - echo yes | sdkmanager "platforms;android-27" &>/dev/null
+  # Download emulator
+  - echo yes | sdkmanager "platforms;android-19" &>/dev/null
+  - echo yes | sdkmanager "system-images;android-19;default;armeabi-v7a" &>/dev/null
   # Update remaining dependencies and accept licenses
   - echo yes | sdkmanager --update &>/dev/null
   - echo yes | sdkmanager --licenses &>/dev/null
+  # Setup emulator
+  - echo no | avdmanager create avd --force -n test -k "system-images;android-19;default;armeabi-v7a" &>/dev/null
+  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window & &>/dev/null
 
-install: true
+install:
+  - ./gradlew clean build jacocoTestReport coveralls --scan --stacktrace
+  - rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishMavenPublicationToMavenLocal -x test
+
+before_script:
+  # Make sure the emulator is available
+  - android-wait-for-emulator
+
+  # Turn off animations
+  - adb shell settings put global window_animation_scale 0 &
+  - adb shell settings put global transition_animation_scale 0 &
+  - adb shell settings put global animator_duration_scale 0 &
+
+  # For Multidex issue for devices API < 19
+  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+  - adb shell stop installd
+  - adb shell start installd
+
+  # Wake up
+  - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew clean build jacocoTestReport coveralls --scan --stacktrace
+  - cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports
 
 after_success:
   - .buildscript/deploy-snapshot.sh

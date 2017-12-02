@@ -1,0 +1,96 @@
+buildscript {
+  apply from: rootProject.file("../gradle/dependencies.gradle")
+
+  repositories {
+    google()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+    mavenLocal()
+  }
+
+  dependencies {
+    classpath deps.gradle
+    classpath deps.kotlinGradlePlugin
+    classpath "com.jaredsburrows:gradle-spoon-plugin:latest.integration"
+  }
+}
+
+repositories {
+  jcenter()
+  google()
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+}
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "com.jaredsburrows.spoon"
+
+android {
+  compileSdkVersion rootProject.ext.minSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  defaultConfig {
+    applicationId "com.jaredsburrows.spoon.example"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode 1
+    versionName "1.0"
+
+    testApplicationId "com.jaredsburrows.spoon.example.test"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    debug {
+      testCoverageEnabled = true
+    }
+  }
+}
+
+spoon {
+  debug = true
+
+  output = file("$buildDir/custom-report-dir")
+
+  if (project.hasProperty("spoonClassName")) {
+    className = project.spoonClassName
+
+    if (project.hasProperty("spoonMethodName")) {
+      methodName = project.spoonMethodName
+    }
+  }
+
+  instrumentationArgs = ["foo:bar"]
+
+  adbTimeout = 30
+
+//  codeCoverage = true
+
+  grantAllPermissions = true
+}
+
+configurations.all {
+  resolutionStrategy {
+    force deps.orgJacocoAgent
+    force deps.orgJacocoAnt
+  }
+}
+
+dependencies {
+  implementation deps.kotlinStdlib
+
+  androidTestImplementation deps.truth
+  androidTestImplementation deps.junit
+  androidTestImplementation deps.spoonClient
+  androidTestImplementation deps.runner
+  androidTestImplementation deps.rules
+}
+
+task checkReports() {
+  doLast {
+    assert project.tasks.spoonDebugAndroidTest != null
+    assert project.file("$buildDir/custom-report-dir").exists()
+    assert project.file("$buildDir/custom-report-dir/debug").exists()
+//    assert project.file("$buildDir/custom-report-dir/debug/coverage").exists()
+  }
+}
