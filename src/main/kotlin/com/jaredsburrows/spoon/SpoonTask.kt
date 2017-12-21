@@ -26,6 +26,9 @@ open class SpoonTask : DefaultTask() {
     /** Instrumentation APK (eg. app-debug-androidTest.apk). */
     lateinit var instrumentationApk: File
 
+    /** Results baseOutputDir. */
+    lateinit var outputDir: File
+
     /** TESTING ONLY */
     var testing: Boolean = false
     var testValue: Boolean = true
@@ -39,9 +42,7 @@ open class SpoonTask : DefaultTask() {
 
         val builder = SpoonRunner.Builder()
             .setTitle(extension.title)
-            .setTestApk(instrumentationApk)
-            .addOtherApk(applicationApk)
-            .setOutputDirectory(File(extension.output))
+            .setOutputDirectory(outputDir)
             .setDebug(extension.debug)
             .setNoAnimations(extension.noAnimations)
             .setAdbTimeout(Duration.ofSeconds(extension.adbTimeout.toLong()))
@@ -54,6 +55,12 @@ open class SpoonTask : DefaultTask() {
             .setShard(extension.shard)
             .setTerminateAdb(false)
             .setSingleInstrumentationCall(extension.singleInstrumentationCall)
+
+        // APKs
+        if (!testing) {
+            builder.setTestApk(instrumentationApk)
+            builder.addOtherApk(applicationApk)
+        }
 
         // File and add the SDK
         val android = project.extensions.findByName(ANDROID_EXTENSION_NAME)
@@ -103,7 +110,7 @@ open class SpoonTask : DefaultTask() {
 
         val success = if (testing) testValue else builder.build().run()
         if (!success && !extension.ignoreFailures) {
-            throw GradleException("Tests failed! See ${extension.output}/index.html")
+            throw GradleException("Tests failed! See $outputDir/index.html")
         }
     }
 }

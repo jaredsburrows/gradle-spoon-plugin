@@ -74,7 +74,7 @@ spoon {
   title = "My tests"
   
   // Path to output directory. ("$buildDir/spoon-output" by default)
-  output = "spoonTests"
+  baseOutputDir = "spoonTests"
 
   // Whether or not debug logging is enabled. (false by default)
   debug = true

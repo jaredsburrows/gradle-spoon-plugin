@@ -10,7 +10,7 @@ final class SpoonTaskSpec extends BaseSpec {
   @Unroll "android - #taskName - no spoon extension - run task"() {
     given:
     project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
       buildToolsVersion BUILD_TOOLS_VERSION
@@ -37,7 +37,7 @@ final class SpoonTaskSpec extends BaseSpec {
     then:
     // Supported directly by Spoon's SpoonRunner
     task.extension.title == "Spoon Execution"
-    task.extension.output.contains("spoon-output/debug")
+    task.extension.baseOutputDir == "spoon-output"
     !task.extension.debug
     !task.extension.noAnimations
     task.extension.adbTimeout == 600000
@@ -60,14 +60,17 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.numShards == 0
     task.extension.shardIndex == 0
 
+    // Verify output
+    task.outputDir.path.contains("spoon-output/debug")
+
     where:
     taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - full spoon extension - run task"() {
+  @Unroll "android - #taskName - full spoon extension - buildTypes - run task"() {
     given:
     project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
       buildToolsVersion BUILD_TOOLS_VERSION
@@ -84,13 +87,14 @@ final class SpoonTaskSpec extends BaseSpec {
     project.spoon {
       // Supported directly by Spoon's SpoonRunner
       title = "Spoon Execution"
-      output = "spoonTests"
+      baseOutputDir = "spoonTests"
       debug = true
       noAnimations = true
       adbTimeout = 5
       devices = ["emulator-5554", "emulator-5556"]
       skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2", "classLoader:com.foo.CustomClassLoader"]
+      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
+                             "classLoader:com.foo.CustomClassLoader"]
       className = "com.android.foo.FooClassName"
       allowNoDevices = true
       sequential = true
@@ -122,13 +126,117 @@ final class SpoonTaskSpec extends BaseSpec {
     then:
     // Supported directly by Spoon's SpoonRunner
     task.extension.title == "Spoon Execution"
-    task.extension.output == "spoonTests/debug"
+    task.extension.baseOutputDir == "spoonTests"
     task.extension.debug
     task.extension.noAnimations
     task.extension.adbTimeout == 5000
     task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
     task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2", "classLoader:com.foo.CustomClassLoader", "numShards:10", "shardIndex:2"] as List<String>
+    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
+                                                           "classLoader:com.foo.CustomClassLoader",
+                                                           "numShards:10",
+                                                           "shardIndex:2"] as List<String>
+    task.extension.className == "com.android.foo.FooClassName"
+    task.extension.allowNoDevices
+    task.extension.sequential
+    task.extension.grantAll
+    task.extension.methodName == "testMethodName"
+    task.extension.codeCoverage
+    task.extension.shard
+    task.extension.singleInstrumentationCall
+
+    // Other
+    task.extension.ignoreFailures
+
+    // Passed in via -e, extra arguments
+    task.extension.numShards == 10
+    task.extension.shardIndex == 2
+
+    // Verify output
+    task.outputDir.path.contains("spoonTests/debug")
+
+    where:
+    taskName << ["spoonDebugAndroidTest"]
+  }
+
+  @Unroll "android - #taskName - full spoon extension - productFlavors - run task"() {
+    given:
+    project.apply plugin: "com.android.application"
+    new SpoonPlugin().apply(project)
+    project.android {
+      compileSdkVersion COMPILE_SDK_VERSION
+      buildToolsVersion BUILD_TOOLS_VERSION
+
+      defaultConfig {
+        applicationId APPLICATION_ID
+      }
+
+      buildTypes {
+        debug {}
+        release {}
+      }
+
+      flavorDimensions "a", "b"
+
+      productFlavors {
+        flavor1 { dimension "a" }
+        flavor2 { dimension "a" }
+        flavor3 { dimension "b" }
+        flavor4 { dimension "b" }
+      }
+    }
+    project.spoon {
+      // Supported directly by Spoon's SpoonRunner
+      title = "Spoon Execution"
+      baseOutputDir = "spoonTests"
+      debug = true
+      noAnimations = true
+      adbTimeout = 5
+      devices = ["emulator-5554", "emulator-5556"]
+      skipDevices = ["emulator-5555"]
+      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
+                             "classLoader:com.foo.CustomClassLoader"]
+      className = "com.android.foo.FooClassName"
+      allowNoDevices = true
+      sequential = true
+      grantAll = true
+      methodName = "testMethodName"
+      codeCoverage = true
+      shard = true
+      singleInstrumentationCall = true
+
+      // Other
+      ignoreFailures = true
+
+      // Passed in via -e, extra arguments
+      shard = true
+      numShards = 10
+      shardIndex = 2
+      ignoreFailures = true
+    }
+
+    when:
+    project.evaluate()
+
+    def task = project.tasks.getByName(taskName) as SpoonTask
+    task.testing = true
+    task.applicationApk = testApk
+    task.instrumentationApk = testApk
+    task.execute()
+
+    then:
+    // Supported directly by Spoon's SpoonRunner
+    task.extension.title == "Spoon Execution"
+    task.extension.baseOutputDir == "spoonTests"
+    task.extension.debug
+    task.extension.noAnimations
+    task.extension.adbTimeout == 5000
+    task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
+    task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
+    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
+                                                           "classLoader:com.foo.CustomClassLoader",
+                                                           "numShards:10",
+                                                           "shardIndex:2"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
     task.extension.allowNoDevices
     task.extension.sequential
@@ -146,13 +254,13 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.shardIndex == 2
 
     where:
-    taskName << ["spoonDebugAndroidTest"]
+    taskName << ["spoonFlavor1Flavor3DebugAndroidTest", "spoonFlavor2Flavor4DebugAndroidTest"]
   }
 
   @Unroll "android - #taskName - methodname with not classname"() {
     given:
     project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
       buildToolsVersion BUILD_TOOLS_VERSION
@@ -190,7 +298,7 @@ final class SpoonTaskSpec extends BaseSpec {
   @Unroll "android - #taskName - exception if test failure"() {
     given:
     project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project) // project.apply plugin: "com.jaredsburrows.spoon"
+    new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
       buildToolsVersion BUILD_TOOLS_VERSION
@@ -222,7 +330,7 @@ final class SpoonTaskSpec extends BaseSpec {
     def e = thrown(GradleException)
     e.cause instanceof GradleException
     e.cause.message.contains("Tests failed! See")
-    e.cause.message.contains("${project.spoon.output}/index.html")
+    e.cause.message.contains("${task.outputDir}/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]

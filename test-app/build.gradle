@@ -50,7 +50,7 @@ android {
 spoon {
   debug = true
 
-  output = file("$buildDir/custom-report-dir")
+  baseOutputDir = file("$buildDir/custom-report-dir")
 
   if (project.hasProperty("spoonClassName")) {
     className = project.spoonClassName

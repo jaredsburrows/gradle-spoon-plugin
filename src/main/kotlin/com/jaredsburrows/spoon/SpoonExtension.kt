@@ -31,8 +31,8 @@ open class SpoonExtension { // Extensions cannot be final
 
     // TODO otherApks
 
-    /** Path to output directory. ("$buildDir/spoon-output" by default) */
-    var output: String = DEFAULT_OUTPUT_DIRECTORY
+    /** Path to baseOutputDir directory. ("$buildDir/spoon-baseOutputDir" by default) */
+    var baseOutputDir: String = SpoonExtension.DEFAULT_OUTPUT_DIRECTORY
 
     /** Whether or not debug logging is enabled. (false by default) */
     var debug: Boolean = false
@@ -111,13 +111,6 @@ open class SpoonExtension { // Extensions cannot be final
     ////////////////////////////////////////////////////
     // Deprecated/Renamed
     ///////////////////////////////////////////////////
-
-    @Deprecated("Use 'output'", replaceWith = ReplaceWith("output"))
-    var baseOutputDir: File = File(DEFAULT_OUTPUT_DIRECTORY)
-        set(value) {
-            output = value.absolutePath
-            field = value
-        }
 
     @Deprecated("Use 'grantAll'", replaceWith = ReplaceWith("grantAll"))
     var grantAllPermissions: Boolean = false
