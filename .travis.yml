@@ -7,7 +7,7 @@ before_install:
   # Download SDK
   - echo yes | sdkmanager "tools" &>/dev/null
   - echo yes | sdkmanager "platform-tools" &>/dev/null
-  - echo yes | sdkmanager "build-tools;27.0.1" &>/dev/null
+  - echo yes | sdkmanager "build-tools;27.0.2" &>/dev/null
   - echo yes | sdkmanager "platforms;android-27" &>/dev/null
   # Download emulator
   - echo yes | sdkmanager "platforms;android-19" &>/dev/null
@@ -20,7 +20,7 @@ before_install:
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window & &>/dev/null
 
 install:
-  - ./gradlew clean build jacocoTestReport coveralls --scan --stacktrace
+  - ./gradlew clean build --scan --stacktrace
   - rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishMavenPublicationToMavenLocal -x test
 
 before_script:
