@@ -61,7 +61,7 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.shardIndex == 0
 
     // Verify output
-    task.outputDir.path.contains("spoon-output/debug")
+    task.outputDir.path.contains("spoon-output${File.separator}debug")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
@@ -153,7 +153,7 @@ final class SpoonTaskSpec extends BaseSpec {
     task.extension.shardIndex == 2
 
     // Verify output
-    task.outputDir.path.contains("spoonTests/debug")
+    task.outputDir.path.contains("spoonTests${File.separator}debug")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
