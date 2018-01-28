@@ -1,128 +1,124 @@
 package com.jaredsburrows.spoon
 
-import java.io.File
-
 /**
  * Variables based on the following documentation:
  * - https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
  * - https://developer.android.com/training/testing/espresso/setup.html
  * - https://github.com/square/spoon/blob/master/spoon-runner/src/main/java/com/squareup/spoon/SpoonRunner.java
  * - https://github.com/square/spoon#execution
- *
- * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
  */
 open class SpoonExtension { // Extensions cannot be final
-    companion object {
-        const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
-        private const val DEFAULT_TITLE = "Spoon Execution"
-        private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60  // 10 minutes
+  companion object {
+    const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
+    private const val DEFAULT_TITLE = "Spoon Execution"
+    private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60  // 10 minutes
+  }
+
+  ////////////////////////////////////////////////////
+  // Supported directly by Spoon's SpoonRunner
+  ///////////////////////////////////////////////////
+
+  /** Identifying title for this execution. ("Spoon Execution" by default) */
+  var title: String = DEFAULT_TITLE
+
+  // TODO androidSdk
+
+  // TODO testApk
+
+  // TODO otherApks
+
+  /** Path to baseOutputDir directory. ("$buildDir/spoon-baseOutputDir" by default) */
+  var baseOutputDir: String = SpoonExtension.DEFAULT_OUTPUT_DIRECTORY
+
+  /** Whether or not debug logging is enabled. (false by default) */
+  var debug: Boolean = false
+
+  /** Whether or not animations are enabled. Disable animated gif generation. (false by default) */
+  var noAnimations: Boolean = false
+
+  /** Set ADB timeout. (minutes) (default is 10 minutes) */
+  var adbTimeout: Int = DEFAULT_ADB_TIMEOUT_SEC * 1000
+    set(value) {
+      if (value > 0) field = value * 1000
     }
 
-    ////////////////////////////////////////////////////
-    // Supported directly by Spoon's SpoonRunner
-    ///////////////////////////////////////////////////
+  /** Add device serials for test execution. */
+  var devices = mutableSetOf<String>()
 
-    /** Identifying title for this execution. ("Spoon Execution" by default) */
-    var title: String = DEFAULT_TITLE
+  /** Add device serials for skipping test execution. */
+  var skipDevices = mutableSetOf<String>()
 
-    // TODO androidSdk
+  /** Extra arguments to pass to instrumentation. */
+  var instrumentationArgs = mutableListOf<String>()
 
-    // TODO testApk
+  /** Test class name to run (fully-qualified). */
+  var className: String = ""
 
-    // TODO otherApks
+  /** Run annotated tests - small, medium, large */
+  var testSize: String = ""
 
-    /** Path to baseOutputDir directory. ("$buildDir/spoon-baseOutputDir" by default) */
-    var baseOutputDir: String = SpoonExtension.DEFAULT_OUTPUT_DIRECTORY
+  /** Allow no devices to be connected. (false by default) */
+  var allowNoDevices: Boolean = false
 
-    /** Whether or not debug logging is enabled. (false by default) */
-    var debug: Boolean = false
+  /** Execute the tests device by device. (false by default) */
+  var sequential: Boolean = false
 
-    /** Whether or not animations are enabled. Disable animated gif generation. (false by default) */
-    var noAnimations: Boolean = false
+  // TODO initScript
 
-    /** Set ADB timeout. (minutes) (default is 10 minutes) */
-    var adbTimeout: Int = DEFAULT_ADB_TIMEOUT_SEC * 1000
-        set(value) {
-            if (value > 0) field = value * 1000
-        }
+  /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
+  var grantAll: Boolean = false
 
-    /** Add device serials for test execution. */
-    var devices = mutableSetOf<String>()
+  /** Test method name to run (must also use className) */
+  var methodName: String = ""
 
-    /** Add device serials for skipping test execution. */
-    var skipDevices = mutableSetOf<String>()
+  /** Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
+  (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.) */
+  var codeCoverage: Boolean = false
 
-    /** Extra arguments to pass to instrumentation. */
-    var instrumentationArgs = mutableListOf<String>()
+  /** Toggle sharding. (false by default) */
+  var shard: Boolean = false
 
-    /** Test class name to run (fully-qualified). */
-    var className: String = ""
+  // TODO testRunListener
 
-    /** Run annotated tests - small, medium, large */
-    var testSize: String = ""
+  // TODO terminateAdb
 
-    /** Allow no devices to be connected. (false by default) */
-    var allowNoDevices: Boolean = false
+  /** Run tests in separate instrumentation calls. */
+  var singleInstrumentationCall: Boolean = false
 
-    /** Execute the tests device by device. (false by default) */
-    var sequential: Boolean = false
+  ////////////////////////////////////////////////////
+  // Passed in via -e, extra arguments
+  ///////////////////////////////////////////////////
 
-    // TODO initScript
+  /** The number of separate shards to create. */
+  var numShards: Int = 0
+    set(value) {
+      if (value > 0) field = value
+    }
 
-    /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
-    var grantAll: Boolean = false
+  /** The shardIndex option to specify which shard to run. */
+  var shardIndex: Int = 0
+    set(value) {
+      if (value > 0) field = value
+    }
 
-    /** Test method name to run (must also use className) */
-    var methodName: String = ""
+  /** Do not fail build if a test fails, let all the tests run and finish. (false by default) */
+  var ignoreFailures: Boolean = false
 
-    /** Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
-    (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.) */
-    var codeCoverage: Boolean = false
+  ////////////////////////////////////////////////////
+  // Deprecated/Renamed
+  ///////////////////////////////////////////////////
 
-    /** Toggle sharding. (false by default) */
-    var shard: Boolean = false
+  @Deprecated("Use 'grantAll'", replaceWith = ReplaceWith("grantAll"))
+  var grantAllPermissions: Boolean = false
+    set(value) {
+      grantAll = value
+      field = value
+    }
 
-    // TODO testRunListener
-
-    // TODO terminateAdb
-
-    /** Run tests in separate instrumentation calls. */
-    var singleInstrumentationCall: Boolean = false
-
-    ////////////////////////////////////////////////////
-    // Passed in via -e, extra arguments
-    ///////////////////////////////////////////////////
-
-    /** The number of separate shards to create. */
-    var numShards: Int = 0
-        set(value) {
-            if (value > 0) field = value
-        }
-
-    /** The shardIndex option to specify which shard to run. */
-    var shardIndex: Int = 0
-        set(value) {
-            if (value > 0) field = value
-        }
-
-    /** Do not fail build if a test fails, let all the tests run and finish. (false by default) */
-    var ignoreFailures: Boolean = false
-
-    ////////////////////////////////////////////////////
-    // Deprecated/Renamed
-    ///////////////////////////////////////////////////
-
-    @Deprecated("Use 'grantAll'", replaceWith = ReplaceWith("grantAll"))
-    var grantAllPermissions: Boolean = false
-        set(value) {
-            grantAll = value
-            field = value
-        }
-
-    @Deprecated("Use 'allowNoDevices'", replaceWith = ReplaceWith("allowNoDevices"))
-    var failIfNoDeviceConnected: Boolean = false
-        set(value) {
-            allowNoDevices = !value
-            field = value
-        }
+  @Deprecated("Use 'allowNoDevices'", replaceWith = ReplaceWith("allowNoDevices"))
+  var failIfNoDeviceConnected: Boolean = false
+    set(value) {
+      allowNoDevices = !value
+      field = value
+    }
 }

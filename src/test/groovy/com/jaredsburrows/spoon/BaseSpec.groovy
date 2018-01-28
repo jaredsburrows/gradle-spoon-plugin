@@ -6,18 +6,15 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-/**
- * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
- */
 abstract class BaseSpec extends Specification {
-  @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
-  static def COMPILE_SDK_VERSION = 27
-  static def BUILD_TOOLS_VERSION = "27.0.1"
-  static def APPLICATION_ID = "com.example"
-  static def MANIFEST_FILE_PATH = "src/main/AndroidManifest.xml"
-  static def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"$APPLICATION_ID\"/>"
-  static def APP_APK = "project-debug.apk"
-  static def TEST_APK = "project-debug-androidTest.apk"
+  @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
+  def COMPILE_SDK_VERSION = 27
+  def BUILD_TOOLS_VERSION = "27.0.1"
+  def APPLICATION_ID = "com.example"
+  def MANIFEST_FILE_PATH = "src/main/AndroidManifest.xml"
+  def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"$APPLICATION_ID\"/>"
+  def APP_APK = "project-debug.apk"
+  def TEST_APK = "project-debug-androidTest.apk"
 
   // Project
   Project project

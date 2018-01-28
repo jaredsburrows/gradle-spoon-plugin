@@ -19,42 +19,42 @@ import com.google.common.truth.Truth.assertThat
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
-    @get:Rule
-    val spoon = SpoonRule()
-    @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+  @get:Rule
+  val spoon = SpoonRule()
+  @get:Rule
+  val activityRule = ActivityTestRule(MainActivity::class.java)
 
-    @Test
-    @UiThreadTest
-    fun testSetText() {
-        val act = activityRule.getActivity()
-        val text = act.findViewById(android.R.id.text1) as TextView
-        spoon.screenshot(act, "startup")
+  @Test
+  @UiThreadTest
+  fun testSetText() {
+    val act = activityRule.getActivity()
+    val text = act.findViewById(android.R.id.text1) as TextView
+    spoon.screenshot(act, "startup")
 
-        val steps = 5
-        for (i in 1..steps) {
-            val step = i.toString()
-            act.setText(step)
-            spoon.screenshot(act, "step-" + i)
-            assertThat(text.getText().toString()).isEqualTo(step)
-        }
+    val steps = 5
+    for (i in 1..steps) {
+      val step = i.toString()
+      act.setText(step)
+      spoon.screenshot(act, "step-" + i)
+      assertThat(text.getText().toString()).isEqualTo(step)
     }
+  }
 
-    @SmallTest
-    fun testSmallTest() {
-        val act = activityRule.getActivity()
-        spoon.screenshot(act, "startup-smallTest")
-    }
+  @SmallTest
+  fun testSmallTest() {
+    val act = activityRule.getActivity()
+    spoon.screenshot(act, "startup-smallTest")
+  }
 
-    @MediumTest
-    fun testMediumTest() {
-        val act = activityRule.getActivity()
-        spoon.screenshot(act, "startup-mediumTest")
-    }
+  @MediumTest
+  fun testMediumTest() {
+    val act = activityRule.getActivity()
+    spoon.screenshot(act, "startup-mediumTest")
+  }
 
-    @LargeTest
-    fun testLargeTest() {
-        val act = activityRule.getActivity()
-        spoon.screenshot(act, "startup-largeTest")
-    }
+  @LargeTest
+  fun testLargeTest() {
+    val act = activityRule.getActivity()
+    spoon.screenshot(act, "startup-largeTest")
+  }
 }
