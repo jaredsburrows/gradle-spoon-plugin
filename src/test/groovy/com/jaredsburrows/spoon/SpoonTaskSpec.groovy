@@ -3,9 +3,6 @@ package com.jaredsburrows.spoon
 import org.gradle.api.GradleException
 import spock.lang.Unroll
 
-/**
- * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
- */
 final class SpoonTaskSpec extends BaseSpec {
   @Unroll "android - #taskName - no spoon extension - run task"() {
     given:

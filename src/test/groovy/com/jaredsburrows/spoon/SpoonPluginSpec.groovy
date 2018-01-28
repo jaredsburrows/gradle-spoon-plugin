@@ -2,9 +2,6 @@ package com.jaredsburrows.spoon
 
 import spock.lang.Unroll
 
-/**
- * @author <a href="mailto:jaredsburrows@gmail.com">Jared Burrows</a>
- */
 final class SpoonPluginSpec extends BaseSpec {
   def "unsupported project project"() {
     when:
