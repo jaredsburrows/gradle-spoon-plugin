@@ -20,7 +20,7 @@ before_install:
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window & &>/dev/null
 
 install:
-  - ./gradlew clean build --scan --stacktrace
+  - ./gradlew clean build -s
   - rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishMavenPublicationToMavenLocal -x test
 
 before_script:
