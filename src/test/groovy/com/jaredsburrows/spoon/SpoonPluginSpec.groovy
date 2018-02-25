@@ -55,6 +55,7 @@ final class SpoonPluginSpec extends BaseSpec {
       instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
                              "classLoader:com.foo.CustomClassLoader"]
       className = "com.android.foo.FooClassName"
+      testSize = "large"
       allowNoDevices = true
       sequential = true
       grantAll = true
@@ -90,6 +91,7 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
                                                            "classLoader:com.foo.CustomClassLoader"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
+    task.extension.testSize == "large"
     task.extension.allowNoDevices
     task.extension.sequential
     task.extension.grantAll
@@ -147,6 +149,7 @@ final class SpoonPluginSpec extends BaseSpec {
       instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
                              "classLoader:com.foo.CustomClassLoader"]
       className = "com.android.foo.FooClassName"
+      testSize = "large"
       allowNoDevices = true
       sequential = true
       grantAll = true
@@ -182,6 +185,7 @@ final class SpoonPluginSpec extends BaseSpec {
     task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
                                                            "classLoader:com.foo.CustomClassLoader"] as List<String>
     task.extension.className == "com.android.foo.FooClassName"
+    task.extension.testSize == "large"
     task.extension.allowNoDevices
     task.extension.sequential
     task.extension.grantAll

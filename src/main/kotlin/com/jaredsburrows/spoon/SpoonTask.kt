@@ -92,7 +92,7 @@ open class SpoonTask : DefaultTask() {
 
     // Only apply test size if given, no default
     if (extension.testSize.isNotEmpty()) {
-      builder.setTestSize(TestSize.valueOf(extension.testSize))
+      builder.setTestSize(TestSize.getTestSize(extension.testSize))
     }
 
     // Add all skipped devices
