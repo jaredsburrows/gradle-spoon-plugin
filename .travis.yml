@@ -1,7 +1,6 @@
 language: android
 
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
 
 before_install:
   # Download SDK
@@ -20,7 +19,7 @@ before_install:
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window & &>/dev/null
 
 install:
-  - ./gradlew clean build -s
+  - ./gradlew clean build -s --scan
   - rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishMavenPublicationToMavenLocal -x test
 
 before_script:
