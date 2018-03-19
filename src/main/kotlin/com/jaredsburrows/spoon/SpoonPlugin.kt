@@ -17,7 +17,7 @@ class SpoonPlugin : Plugin<Project> {
   }
 
   override fun apply(project: Project) {
-    configureAndroidProject(project)
+    project.plugins.withId("com.android.base") { configureAndroidProject(project) }
   }
 
   /**

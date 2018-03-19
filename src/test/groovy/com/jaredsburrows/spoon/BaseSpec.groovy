@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-abstract class BaseSpec extends Specification {
+class BaseSpec extends Specification {
   @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
   def COMPILE_SDK_VERSION = 27
   def BUILD_TOOLS_VERSION = "27.0.1"

@@ -4,7 +4,7 @@ import org.gradle.api.GradleException
 import spock.lang.Unroll
 
 final class SpoonTaskSpec extends BaseSpec {
-  @Unroll "android - #taskName - no spoon extension - run task"() {
+  @Unroll "android project running #taskName with no spoon extension"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
@@ -65,7 +65,7 @@ final class SpoonTaskSpec extends BaseSpec {
     taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - full spoon extension - buildTypes - run task"() {
+  @Unroll "android project running #taskName with full spoon extension and  buildTypes"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
@@ -159,7 +159,7 @@ final class SpoonTaskSpec extends BaseSpec {
     taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - full spoon extension - productFlavors - run task"() {
+  @Unroll "android project running #taskName with full spoon extension and productFlavors"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
@@ -259,7 +259,7 @@ final class SpoonTaskSpec extends BaseSpec {
     taskName << ["spoonFlavor1Flavor3DebugAndroidTest", "spoonFlavor2Flavor4DebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - methodname with not classname"() {
+  @Unroll "android project running #taskName with methodname and no classname"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
@@ -297,7 +297,7 @@ final class SpoonTaskSpec extends BaseSpec {
     taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - exception if test failure"() {
+  @Unroll "android project running #taskName with  exception if test failure"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)

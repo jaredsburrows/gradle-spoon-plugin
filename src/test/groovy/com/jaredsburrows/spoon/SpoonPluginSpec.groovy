@@ -3,30 +3,7 @@ package com.jaredsburrows.spoon
 import spock.lang.Unroll
 
 final class SpoonPluginSpec extends BaseSpec {
-  def "unsupported project project"() {
-    when:
-    new SpoonPlugin().apply(project)
-
-    then:
-    def e = thrown(IllegalStateException)
-    e.message == "Spoon plugin can only be applied to android application or library projects."
-  }
-
-  @Unroll "android - apply #projectPlugin on project"() {
-    given:
-    project.apply plugin: projectPlugin
-
-    when:
-    new SpoonPlugin().apply(project)
-
-    then:
-    noExceptionThrown()
-
-    where:
-    projectPlugin << ["com.android.application", "com.android.library"]
-  }
-
-  @Unroll "android - #taskName - full spoon extension - buildTypes - all tasks created"() {
+  @Unroll "android project running #taskName with full spoon extension and buildTypes"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
@@ -111,7 +88,7 @@ final class SpoonPluginSpec extends BaseSpec {
     taskName << ["spoonDebugAndroidTest"]
   }
 
-  @Unroll "android - #taskName - full spoon extension - productFlavors - all tasks created"() {
+  @Unroll "android project running #taskName with full spoon extension and productFlavors"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
