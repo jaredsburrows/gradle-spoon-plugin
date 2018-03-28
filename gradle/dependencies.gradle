@@ -1,8 +1,8 @@
 // Variables for entire project
 ext {
   javaVersion = "1.8"
-  agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.1.0"
-  kotlinVersion = "1.2.31"
+  agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.1"
+  kotlinVersion = "1.2.30"
   minSdkVersion = 19
   targetSdkVersion = 27
   compileSdkVersion = 27
@@ -18,7 +18,7 @@ ext.deps = [
   "kotlinGradlePlugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
 
   // implementation
-  "kotlinStdlib"      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+  "kotlinStdlib"      : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion",
   "kotlinReflect"     : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
   "spoonRunner"       : "com.squareup.spoon:spoon-runner:$spoonVersion",
   "ddmlib"            : "com.android.tools.ddms:ddmlib:26.0.0",
