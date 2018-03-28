@@ -52,7 +52,7 @@ final class SpoonPluginSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.applicationApk = appApk
     task.instrumentationApk = testApk
 
@@ -146,7 +146,7 @@ final class SpoonPluginSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.applicationApk = appApk
     task.instrumentationApk = testApk
 

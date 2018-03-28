@@ -25,7 +25,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
@@ -116,7 +116,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
@@ -219,7 +219,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.testing = true
     task.applicationApk = testApk
     task.instrumentationApk = testApk
@@ -283,7 +283,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()
@@ -321,7 +321,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    def task = project.tasks.getByName(taskName) as SpoonTask
+    SpoonTask task = project.tasks.getByName(taskName)
     task.testing = true
     task.testValue = false
     task.applicationApk = appApk
@@ -330,9 +330,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     def e = thrown(GradleException)
-    e.cause instanceof GradleException
-    e.cause.message.contains("Tests failed! See")
-    e.cause.message.contains("${task.outputDir}/index.html")
+    e.cause.message.find("Tests failed! See file:///.*/build/spoon-output/debug/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
