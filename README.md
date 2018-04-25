@@ -13,6 +13,7 @@ Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradl
 buildscript {
   repositories {
     jcenter()
+    google()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
   }
 
@@ -38,6 +39,7 @@ Release versions are available in the JFrog Bintray repository: https://bintray.
 ```groovy
 buildscript {
   repositories {
+    google()
     maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
   }
