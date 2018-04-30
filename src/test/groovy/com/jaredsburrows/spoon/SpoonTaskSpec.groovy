@@ -330,7 +330,7 @@ final class SpoonTaskSpec extends BaseSpec {
 
     then:
     def e = thrown(GradleException)
-    e.cause.message.find("Tests failed! See file:///.*/build/spoon-output/debug/index.html")
+    e.cause.message.find("Tests failed! See file:/{1,3}.*/build/spoon-output/debug/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
