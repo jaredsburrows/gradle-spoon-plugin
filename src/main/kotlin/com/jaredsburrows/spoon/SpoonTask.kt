@@ -113,6 +113,6 @@ open class SpoonTask : DefaultTask() {
   }
 
   private fun getClickableFileUrl(path: File, fileName: String): String {
-    return URI("file", "", File(path.toURI().path, fileName).path, null, null).toString()
+    return File(path, fileName).toURI().toString()
   }
 }
