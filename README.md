@@ -60,9 +60,27 @@ dependencies {
 ```
 Snapshot versions are available in the JFrog Artifactory repository: https://oss.jfrog.org/webapp/#/builds/gradle-spoon-plugin
 
+**Library modules:**
+
+This plugin allows Spoon to be run on library modules too!
+
+```
+apply plugin: "com.android.library"
+apply plugin: "com.jaredsburrows.spoon"
+
+dependencies {
+  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+}
+```
+
 ## Tasks
 
+Entire project:
 - **`gradlew spoon{variant}`**
+
+or per module:
+- **`gradlew app:spoon{variant}`**
+- **`gradlew library:spoon{variant}`**
 
 ## Usage
 
