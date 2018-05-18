@@ -85,6 +85,9 @@ open class SpoonExtension { // Extensions cannot be final
   /** Run tests in separate instrumentation calls. */
   var singleInstrumentationCall: Boolean = false
 
+  /** Run 'pm clear' before each test to clear app data before each test. */
+  var clearAppDataBeforeEachTest: Boolean = false
+
   ////////////////////////////////////////////////////
   // Passed in via -e, extra arguments
   ///////////////////////////////////////////////////
