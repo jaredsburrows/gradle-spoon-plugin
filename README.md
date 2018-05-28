@@ -128,6 +128,9 @@ spoon {
 
   // Do not fail build if a test fails, let all the tests run and finish. (false by default)
   ignoreFailures = true
+
+  // Clear app data before each test. (false by default)
+  clearAppDataBeforeEachTest = true
 }
 ```
 
