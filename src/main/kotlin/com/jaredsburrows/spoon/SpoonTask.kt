@@ -53,6 +53,7 @@ open class SpoonTask : DefaultTask() {
       .setShard(extension.shard)
       .setTerminateAdb(false)
       .setSingleInstrumentationCall(extension.singleInstrumentationCall)
+      .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
 
     // APKs
     if (!testing) {
