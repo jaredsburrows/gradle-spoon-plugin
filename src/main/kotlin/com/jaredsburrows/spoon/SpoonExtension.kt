@@ -43,13 +43,13 @@ open class SpoonExtension { // Extensions cannot be final
     }
 
   /** Add device serials for test execution. */
-  var devices = mutableSetOf<String>()
+  var devices: MutableSet<String> = mutableSetOf()
 
   /** Add device serials for skipping test execution. */
-  var skipDevices = mutableSetOf<String>()
+  var skipDevices: MutableSet<String> = mutableSetOf()
 
   /** Extra arguments to pass to instrumentation. */
-  var instrumentationArgs = mutableListOf<String>()
+  var instrumentationArgs: MutableList<String> = mutableListOf()
 
   /** Test class name to run (fully-qualified). */
   var className: String = ""

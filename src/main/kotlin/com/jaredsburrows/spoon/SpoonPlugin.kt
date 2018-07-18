@@ -35,24 +35,26 @@ class SpoonPlugin : Plugin<Project> {
       variant.outputs.all {
         // Create tasks based on variant
         val task = project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java)
-        task.description = "Run instrumentation tests for '${variant.name}' variant."
-        task.group = "Verification"
-        task.outputs.upToDateWhen { false }
-        task.dependsOn(variant.testedVariant.assemble, variant.assemble)
-        task.instrumentationApk = variant.outputs.first().outputFile
-        task.doFirst {
-          val testedOutput = variant.testedVariant.outputs.first()
-          // This is a hack for library projects.
-          // We supply the same apk as an application and instrumentation to the soon runner.
-          task.applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else task.instrumentationApk
+        task.apply {
+          description = "Run instrumentation tests for '${variant.name}' variant."
+          group = "Verification"
+          outputs.upToDateWhen { false }
+          dependsOn(variant.testedVariant.assemble, variant.assemble)
+          instrumentationApk = variant.outputs.first().outputFile
+          doFirst {
+            val testedOutput = variant.testedVariant.outputs.first()
+            // This is a hack for library projects.
+            // We supply the same apk as an application and instrumentation to the soon runner.
+            applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else instrumentationApk
 
-          var outputBase = spoonExtension.baseOutputDir
-          if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == outputBase) {
-            outputBase = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY).path
+            var outputBase = spoonExtension.baseOutputDir
+            if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == outputBase) {
+              outputBase = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY).path
+            }
+            outputDir = File(outputBase, variant.testedVariant.name)
           }
-          task.outputDir = File(outputBase, variant.testedVariant.name)
+          extension = spoonExtension
         }
-        task.extension = spoonExtension
       }
     }
   }

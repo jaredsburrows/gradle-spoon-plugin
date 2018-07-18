@@ -25,13 +25,15 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()
 
     then:
+    task.description == "Run instrumentation tests for 'debugAndroidTest' variant."
+    task.group == "Verification"
     // Supported directly by Spoon's SpoonRunner
     task.extension.title == "Spoon Execution"
     task.extension.baseOutputDir == "spoon-output"
@@ -116,7 +118,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
@@ -219,7 +221,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.testing = true
     task.applicationApk = testApk
     task.instrumentationApk = testApk
@@ -283,7 +285,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()
@@ -321,7 +323,7 @@ final class SpoonTaskSpec extends BaseSpec {
     when:
     project.evaluate()
 
-    SpoonTask task = project.tasks.getByName(taskName)
+    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.testing = true
     task.testValue = false
     task.applicationApk = appApk
