@@ -34,13 +34,13 @@ class SpoonPlugin : Plugin<Project> {
     variants?.all { variant ->
       variant.outputs.all {
         // Create tasks based on variant
-        val task = project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java)
-        task.apply {
+        project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java).apply {
           description = "Run instrumentation tests for '${variant.name}' variant."
           group = "Verification"
           outputs.upToDateWhen { false }
           dependsOn(variant.testedVariant.assemble, variant.assemble)
           instrumentationApk = variant.outputs.first().outputFile
+
           doFirst {
             val testedOutput = variant.testedVariant.outputs.first()
             // This is a hack for library projects.
