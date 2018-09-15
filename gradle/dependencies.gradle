@@ -17,7 +17,7 @@ ext.deps = [
   "kotlinGradlePlugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
 
   // implementation
-  "kotlinStdlib"      : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion",
+  "kotlinStdlib"      : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
   "kotlinReflect"     : "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion",
   "spoonRunner"       : "com.squareup.spoon:spoon-runner:$spoonVersion",
   "ddmlib"            : "com.android.tools.ddms:ddmlib:26.0.0",
