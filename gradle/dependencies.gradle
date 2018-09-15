@@ -2,7 +2,7 @@
 ext {
   javaVersion = "1.8"
   agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.1"
-  kotlinVersion = "1.2.30"
+  kotlinVersion = "1.2.70"
   minSdkVersion = 19
   targetSdkVersion = 27
   compileSdkVersion = 27
