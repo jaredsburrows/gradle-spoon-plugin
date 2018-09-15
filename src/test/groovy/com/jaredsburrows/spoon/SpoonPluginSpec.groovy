@@ -9,7 +9,6 @@ final class SpoonPluginSpec extends BaseSpec {
     new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
-      buildToolsVersion BUILD_TOOLS_VERSION
 
       defaultConfig {
         applicationId APPLICATION_ID
@@ -94,7 +93,6 @@ final class SpoonPluginSpec extends BaseSpec {
     new SpoonPlugin().apply(project)
     project.android {
       compileSdkVersion COMPILE_SDK_VERSION
-      buildToolsVersion BUILD_TOOLS_VERSION
 
       defaultConfig {
         applicationId APPLICATION_ID

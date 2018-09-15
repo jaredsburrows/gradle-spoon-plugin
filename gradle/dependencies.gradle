@@ -6,7 +6,6 @@ ext {
   minSdkVersion = 19
   targetSdkVersion = 27
   compileSdkVersion = 27
-  buildToolsVersion = "27.0.3"
   spoonVersion = "2.0.0-SNAPSHOT"
   jacocoVersion = "0.7.4.201502262128"
 }
