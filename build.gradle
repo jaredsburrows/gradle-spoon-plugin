@@ -40,6 +40,17 @@ jar {
 
 configurations.all {
   resolutionStrategy.cacheDynamicVersionsFor 0, "seconds"
+
+  resolutionStrategy {
+    eachDependency { details ->
+      if (details.requested.name == "kotlin-stdlib-jre8") {
+        details.useTarget group: details.requested.group, name: "kotlin-stdlib-jdk8", version: details.requested.version
+      }
+      if (details.requested.name == "kotlin-stdlib-jre7") {
+        details.useTarget group: details.requested.group, name: "kotlin-stdlib-jre7", version: details.requested.version
+      }
+    }
+  }
 }
 
 dependencies {
