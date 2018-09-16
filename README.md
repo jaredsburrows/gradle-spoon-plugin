@@ -32,7 +32,7 @@ dependencies {
   androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Release versions are available in the JFrog Bintray repository: https://bintray.com/jaredsburrows/maven/gradle-spoon-plugin
+Release versions are available in the [JFrog Bintray repository](https://jcenter.bintray.com/).
 
 **Snapshot:**
 ```groovy
@@ -58,7 +58,7 @@ dependencies {
   androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Snapshot versions are available in the JFrog Artifactory repository: https://oss.jfrog.org/webapp/#/builds/gradle-spoon-plugin
+Snapshot versions are available in the [JFrog Artifactory repository](https://oss.jfrog.org/artifactory/libs-snapshot/).
 
 **Library modules:**
 
@@ -154,7 +154,7 @@ spoon {
 
 ## License
 
-    Copyright (C) 2015 Jared Burrows
+    Copyright (C) 2017 Jared Burrows
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
