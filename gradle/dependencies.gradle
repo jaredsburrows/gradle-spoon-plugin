@@ -1,16 +1,14 @@
-// Variables for entire project
 ext {
   javaVersion = "1.8"
   agpVersion = rootProject.hasProperty("agpVersion") ? rootProject.property("agpVersion") : "3.0.1"
   kotlinVersion = "1.2.70"
   minSdkVersion = 19
-  targetSdkVersion = 27
-  compileSdkVersion = 27
+  targetSdkVersion = 28
+  compileSdkVersion = 28
   spoonVersion = "2.0.0-SNAPSHOT"
   jacocoVersion = "0.7.4.201502262128"
 }
 
-// Dependencies
 ext.deps = [
   // plugin
   "gradle"            : "com.android.tools.build:gradle:$agpVersion",
