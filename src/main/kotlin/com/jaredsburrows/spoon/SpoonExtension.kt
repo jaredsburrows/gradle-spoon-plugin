@@ -1,5 +1,7 @@
 package com.jaredsburrows.spoon
 
+import com.android.ddmlib.testrunner.ITestRunListener
+
 /**
  * Variables based on the following documentation:
  * - https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
@@ -78,7 +80,8 @@ open class SpoonExtension { // Extensions cannot be final
   /** Toggle sharding. (false by default) */
   var shard: Boolean = false
 
-  // TODO testRunListener
+  /** Add listener for tests execution */
+  var testRunListener: ITestRunListener? = null
 
   // TODO terminateAdb
 
