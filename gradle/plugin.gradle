@@ -1,6 +1,6 @@
 gradlePlugin {
   plugins {
-    licensePlugin {
+    spoonPlugin {
       id = PLUGIN_NAME
       implementationClass = PLUGIN_NAME_CLASS
     }

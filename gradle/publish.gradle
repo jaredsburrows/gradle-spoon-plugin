@@ -181,7 +181,6 @@ pluginBundle {
 
   plugins {
     spoonPlugin {
-      id = PLUGIN_NAME
       displayName = POM_NAME
     }
   }
