@@ -1,77 +1,75 @@
 plugins {
-  id "com.gradle.build-scan" version "1.16"
-  id "com.jfrog.artifactory" version "4.7.5"
-  id "com.jfrog.bintray" version "1.8.4"
-  id "com.github.ben-manes.versions" version "0.20.0"
-  id "com.gradle.plugin-publish" version "0.10.0"
-  id "org.jetbrains.kotlin.jvm" version "1.2.70"
-  id "org.jetbrains.dokka" version "0.9.17"
-  id "java-gradle-plugin"
-  id "groovy"
-  id "maven-publish"
+  id 'com.gradle.build-scan' version '1.16'
+  id 'com.jfrog.artifactory' version '4.8.1'
+  id 'com.jfrog.bintray' version '1.8.4'
+  id 'com.github.ben-manes.versions' version '0.20.0'
+  id 'com.gradle.plugin-publish' version '0.10.0'
+  id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+  id 'org.jetbrains.dokka' version '0.9.17'
+  id 'org.jlleitschuh.gradle.ktlint' version '6.1.0'
+  id 'java-gradle-plugin'
+  id 'groovy'
+  id 'maven-publish'
 }
 
 repositories {
   jcenter()
   google()
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
 }
 
-apply from: "gradle/dependencies.gradle"
+apply from: 'gradle/dependencies.gradle'
 
 group = GROUP
 version = VERSION_NAME
 description = POM_DESCRIPTION
 
-sourceCompatibility = ext.javaVersion
-targetCompatibility = ext.javaVersion
+sourceCompatibility = versions.java
+targetCompatibility = versions.java
 
 jar {
   manifest {
     attributes(
-      "Implementation-Title": POM_NAME,
-      "Implementation-Version": version,
-      "Built-By": System.getProperty("user.name"),
-      "Built-Date": new Date(),
-      "Built-JDK": System.getProperty("java.version"),
-      "Built-Gradle": gradle.gradleVersion)
+      'Implementation-Title': POM_NAME,
+      'Implementation-Version': version,
+      'Built-By': System.getProperty('user.name'),
+      'Built-Date': new Date(),
+      'Built-JDK': System.getProperty('java.version'),
+      'Built-Gradle': gradle.gradleVersion)
   }
 }
 
 configurations.all {
-  resolutionStrategy.cacheDynamicVersionsFor 0, "seconds"
+  resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
   resolutionStrategy {
     eachDependency { details ->
-      if (details.requested.name == "kotlin-stdlib-jre8") {
-        details.useTarget group: details.requested.group, name: "kotlin-stdlib-jdk8", version: details.requested.version
-      }
-      if (details.requested.name == "kotlin-stdlib-jre7") {
-        details.useTarget group: details.requested.group, name: "kotlin-stdlib-jre7", version: details.requested.version
+      if (details.requested.group == 'org.jetbrains.kotlin') {
+        details.useVersion versions.kotlin
       }
     }
   }
 }
 
 dependencies {
-  implementation deps.kotlinStdlib
-  implementation deps.kotlinReflect
-  implementation deps.gradle
-  implementation deps.spoonRunner
-  implementation deps.ddmlib
+  implementation deps.kotlin.stdlib.jdk
+  implementation deps.kotlin.reflect
+  implementation deps.spoon.runner
+  implementation deps.android.tools.build.gradle
+  implementation deps.android.tools.ddmlib
 
   testImplementation localGroovy()
-  testImplementation deps.spockCore, { exclude module: "groovy-all" } // Use localGroovy()
+  testImplementation deps.spock, { exclude module: 'groovy-all' } // Use localGroovy()
 }
 
-apply from: "gradle/scan.gradle"
-apply from: "gradle/compile.gradle"
-apply from: "gradle/plugin.gradle"
-apply from: "gradle/publish.gradle"
+apply from: 'gradle/scan.gradle'
+apply from: 'gradle/compile.gradle'
+apply from: 'gradle/plugin.gradle'
+apply from: 'gradle/publish.gradle'
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   kotlinOptions {
-    jvmTarget = rootProject.ext.javaVersion
+    jvmTarget = rootProject.versions.java
     allWarningsAsErrors = true
   }
 }

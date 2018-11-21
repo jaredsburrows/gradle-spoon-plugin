@@ -3,9 +3,9 @@ package com.jaredsburrows.spoon.example
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.test.suitebuilder.annotation.LargeTest
-import android.test.suitebuilder.annotation.MediumTest
-import android.test.suitebuilder.annotation.SmallTest
+import android.support.test.filters.LargeTest
+import android.support.test.filters.MediumTest
+import android.support.test.filters.SmallTest
 import android.widget.TextView
 
 import com.squareup.spoon.SpoonRule
@@ -19,10 +19,8 @@ import com.google.common.truth.Truth.assertThat
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
-  @get:Rule
-  val spoon = SpoonRule()
-  @get:Rule
-  val activityRule = ActivityTestRule(MainActivity::class.java)
+  @get:Rule val spoon = SpoonRule()
+  @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
   @Test
   @UiThreadTest
@@ -40,21 +38,21 @@ class MainActivityTest {
     }
   }
 
-  @SmallTest
-  fun testSmallTest() {
+  @SmallTest fun testSmallTest() {
     val act = activityRule.getActivity()
+
     spoon.screenshot(act, "startup-smallTest")
   }
 
-  @MediumTest
-  fun testMediumTest() {
+  @MediumTest fun testMediumTest() {
     val act = activityRule.getActivity()
+
     spoon.screenshot(act, "startup-mediumTest")
   }
 
-  @LargeTest
-  fun testLargeTest() {
+  @LargeTest fun testLargeTest() {
     val act = activityRule.getActivity()
+
     spoon.screenshot(act, "startup-largeTest")
   }
 }

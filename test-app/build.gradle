@@ -1,47 +1,47 @@
 buildscript {
-  apply from: rootProject.file("../gradle/dependencies.gradle")
+  apply from: rootProject.file('../gradle/dependencies.gradle')
 
   repositories {
     mavenLocal()
     google()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
     jcenter()
   }
 
   dependencies {
-    classpath deps.gradle
-    classpath deps.kotlinGradlePlugin
-    classpath "com.jaredsburrows:gradle-spoon-plugin:latest.integration"
+    classpath deps.android.tools.build.gradle
+    classpath deps.kotlin.gradle.plugin
+    classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
   }
 }
 
 repositories {
   google()
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
   jcenter()
 }
 
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "com.jaredsburrows.spoon"
+apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.jaredsburrows.spoon'
 
 android {
-  compileSdkVersion rootProject.ext.minSdkVersion
+  compileSdkVersion rootProject.buildConfig.compileSdk
 
   defaultConfig {
-    applicationId "com.jaredsburrows.spoon.example"
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
+    applicationId 'com.jaredsburrows.spoon.example'
+    minSdkVersion rootProject.buildConfig.minSdk
+    targetSdkVersion rootProject.buildConfig.targetSdk
     versionCode 1
-    versionName "1.0"
+    versionName '1.0'
 
-    testApplicationId "com.jaredsburrows.spoon.example.test"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId 'com.jaredsburrows.spoon.example.test'
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
   }
 
   buildTypes {
     debug {
-      testCoverageEnabled = true
+//      testCoverageEnabled = true
     }
   }
 }
@@ -51,15 +51,15 @@ spoon {
 
   baseOutputDir = file("$buildDir/custom-report-dir")
 
-  if (project.hasProperty("spoonClassName")) {
+  if (project.hasProperty('spoonClassName')) {
     className = project.spoonClassName
 
-    if (project.hasProperty("spoonMethodName")) {
+    if (project.hasProperty('spoonMethodName')) {
       methodName = project.spoonMethodName
     }
   }
 
-  instrumentationArgs = ["foo:bar"]
+  instrumentationArgs = ['foo:bar']
 
   adbTimeout = 30
 
@@ -70,19 +70,25 @@ spoon {
 
 configurations.all {
   resolutionStrategy {
-    force deps.orgJacocoAgent
-    force deps.orgJacocoAnt
+    eachDependency { details ->
+      if (details.requested.group == 'org.jetbrains.kotlin') {
+        details.useVersion versions.kotlin
+      }
+      if (details.requested.group == 'org.jacoco') {
+        details.useVersion versions.jacoco
+      }
+    }
   }
 }
 
 dependencies {
-  implementation deps.kotlinStdlib
+  implementation deps.kotlin.stdlib.jdk
 
   androidTestImplementation deps.truth
   androidTestImplementation deps.junit
-  androidTestImplementation deps.spoonClient
-  androidTestImplementation deps.runner
-  androidTestImplementation deps.rules
+  androidTestImplementation deps.spoon.client
+  androidTestImplementation deps.android.test.runner
+  androidTestImplementation deps.android.test.rules
 }
 
 task checkReports() {
