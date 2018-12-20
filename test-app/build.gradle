@@ -59,7 +59,7 @@ spoon {
     }
   }
 
-  instrumentationArgs = ['foo:bar']
+  instrumentationArgs = ['disableAnalytics:true']
 
   adbTimeout = 30
 
