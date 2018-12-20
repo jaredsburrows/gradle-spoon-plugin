@@ -42,19 +42,3 @@ tasks.withType(Test) {
   failFast = true
   maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
 }
-
-tasks.withType(Javadoc) {
-  title = "${project.name} ${project.version}"
-  configure(options) {
-    header = project.name
-    encoding 'UTF-8'
-    docEncoding 'UTF-8'
-    charSet 'UTF-8'
-    linkSource true
-    author = true
-    links('http://docs.oracle.com/javase/8/docs/api/',
-            'http://docs.oracle.com/javaee/7/api/')
-    exclude "**/*Test.java"
-    if (JavaVersion.current().java8Compatible) addStringOption('Xdoclint:none', '-quiet')
-  }
-}
