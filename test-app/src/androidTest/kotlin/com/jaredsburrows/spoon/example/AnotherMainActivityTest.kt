@@ -16,10 +16,8 @@ import com.google.common.truth.Truth.assertThat
 
 @RunWith(AndroidJUnit4::class)
 class AnotherMainActivityTest {
-  @get:Rule
-  val spoon = SpoonRule()
-  @get:Rule
-  val activityRule = ActivityTestRule(MainActivity::class.java)
+  @get:Rule val spoon = SpoonRule()
+  @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
   @Test
   @UiThreadTest
