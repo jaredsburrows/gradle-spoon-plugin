@@ -13,23 +13,23 @@ Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradl
 buildscript {
   repositories {
     jcenter()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:1.4.0"
+    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.5.0'
   }
 }
 
 repositories {
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
 }
 
-apply plugin: "com.android.application"
-apply plugin: "com.jaredsburrows.spoon"
+apply plugin: 'com.android.application'
+apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
 Release versions are available in the [JFrog Bintray repository](https://jcenter.bintray.com/).
@@ -38,24 +38,24 @@ Release versions are available in the [JFrog Bintray repository](https://jcenter
 ```groovy
 buildscript {
   repositories {
-    maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local/" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
   }
 
   dependencies {
-    classpath "com.jaredsburrows:gradle-spoon-plugin:1.4.1-SNAPSHOT"
+    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.5.1-SNAPSHOT'
   }
 }
 
 repositories {
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
 }
 
-apply plugin: "com.android.application"
-apply plugin: "com.jaredsburrows.spoon"
+apply plugin: 'com.android.application'
+apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
 Snapshot versions are available in the [JFrog Artifactory repository](https://oss.jfrog.org/artifactory/libs-snapshot/).
@@ -65,11 +65,11 @@ Snapshot versions are available in the [JFrog Artifactory repository](https://os
 This plugin allows Spoon to be run on library modules too!
 
 ```
-apply plugin: "com.android.library"
-apply plugin: "com.jaredsburrows.spoon"
+apply plugin: 'com.android.library'
+apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT" // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
 
