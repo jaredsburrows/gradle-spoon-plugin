@@ -41,7 +41,7 @@ android {
 
   buildTypes {
     debug {
-//      testCoverageEnabled = true
+      testCoverageEnabled = true
     }
   }
 }
@@ -63,7 +63,7 @@ spoon {
 
   adbTimeout = 30
 
-//  codeCoverage = true
+  codeCoverage = true
 
   grantAllPermissions = true
 }
@@ -91,11 +91,20 @@ dependencies {
   androidTestImplementation deps.android.test.rules
 }
 
+apply from: rootProject.file('../gradle/scan.gradle')
+apply from: rootProject.file('../gradle/compile.gradle')
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+  kotlinOptions {
+    allWarningsAsErrors = true
+  }
+}
+
 task checkReports() {
   doLast {
     assert project.tasks.spoonDebugAndroidTest != null
     assert project.file("$buildDir/custom-report-dir").exists()
     assert project.file("$buildDir/custom-report-dir/debug").exists()
-//    assert project.file("$buildDir/custom-report-dir/debug/coverage").exists()
+    assert project.file("$buildDir/custom-report-dir/debug/coverage").exists()
   }
 }
