@@ -14,7 +14,7 @@ before_install:
   - yes | sdkmanager --update &>/dev/null
   - yes | sdkmanager --licenses &>/dev/null
   # Setup emulator
-  - echo "no" | avdmanager create avd --force -n test -k "system-images;android-19;default;armeabi-v7a" &>/dev/null
+  - echo "no" | avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a" -c 200M -f &>/dev/null
   - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window & &>/dev/null
 
 install:
@@ -39,7 +39,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports && cd -
+  - cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s --scan && cd -
 
 after_success:
   - cd ..

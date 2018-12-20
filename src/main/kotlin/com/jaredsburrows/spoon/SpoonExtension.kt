@@ -19,12 +19,6 @@ open class SpoonExtension { // Extensions cannot be final
   /** Identifying title for this execution. ("Spoon Execution" by default) */
   var title: String = DEFAULT_TITLE
 
-  // TODO androidSdk
-
-  // TODO testApk
-
-  // TODO otherApks
-
   /** Path to baseOutputDir directory. ("$buildDir/spoon-baseOutputDir" by default) */
   var baseOutputDir: String = SpoonExtension.DEFAULT_OUTPUT_DIRECTORY
 
@@ -61,8 +55,6 @@ open class SpoonExtension { // Extensions cannot be final
   /** Execute the tests device by device. (false by default) */
   var sequential: Boolean = false
 
-  // TODO initScript
-
   /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
   var grantAll: Boolean = false
 
@@ -75,10 +67,6 @@ open class SpoonExtension { // Extensions cannot be final
 
   /** Toggle sharding. (false by default) */
   var shard: Boolean = false
-
-  // TODO testRunListener
-
-  // TODO terminateAdb
 
   /** Run tests in separate instrumentation calls. */
   var singleInstrumentationCall: Boolean = false

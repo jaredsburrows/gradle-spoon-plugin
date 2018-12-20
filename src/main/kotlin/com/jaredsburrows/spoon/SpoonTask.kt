@@ -87,7 +87,7 @@ open class SpoonTask : DefaultTask() {
         }
 
         val keyVal = if (instrumentation.contains(":")) instrumentation.split(":") else instrumentation.split("=")
-        instrumentationArgs.put(keyVal[0], keyVal[1])
+        instrumentationArgs[keyVal[0]] = keyVal[1]
       }
       builder.setInstrumentationArgs(instrumentationArgs)
     }
