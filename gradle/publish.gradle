@@ -34,11 +34,11 @@ def pomConfig = {
   }
 }
 
-task testsJar(type: Jar) {
+task kotlindocJar(type: Jar, dependsOn: dokka) {
   group = 'Publications'
-  description = 'Create jar of all tests.'
-  classifier = 'tests'
-  from sourceSets.test.output
+  description = 'Create javadoc jar of Kotlin documentation.'
+  classifier = 'kotlindoc'
+  from dokka.outputDirectory
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -48,25 +48,11 @@ task sourcesJar(type: Jar, dependsOn: classes) {
   from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+task testsJar(type: Jar) {
   group = 'Publications'
-  description = 'Create javadoc jar of Java documentation.'
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-
-task groovydocJar(type: Jar, dependsOn: groovydoc) {
-  group = 'Publications'
-  description = 'Create javadoc jar of Groovy documentation.'
-  classifier = 'groovydoc'
-  from groovydoc.destinationDir
-}
-
-task kotlindocJar(type: Jar, dependsOn: dokka) {
-  group = 'Publications'
-  description = 'Create javadoc jar of Groovy documentation.'
-  classifier = 'kotlindoc'
-  from dokka.outputDirectory
+  description = 'Create jar of all tests.'
+  classifier = 'tests'
+  from sourceSets.test.output
 }
 
 task reportsZip(type: Zip, dependsOn: check) {
@@ -85,11 +71,9 @@ publishing {
   publications {
     maven(MavenPublication) {
       from components.java // includes main "artifact jar"
-      artifact testsJar
-      artifact sourcesJar
-      artifact javadocJar
-      artifact groovydocJar
       artifact kotlindocJar
+      artifact sourcesJar
+      artifact testsJar
       artifact reportsZip
 
       groupId GROUP
@@ -108,7 +92,7 @@ publishing {
     }
   }
 }
-publish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
+publish.dependsOn jar, sourcesJar, kotlindocJar, testsJar, reportsZip
 publish.dependsOn 'generatePomFileForMavenPublication'
 
 // Snapshots published to JFrog Artifactory repository
@@ -133,7 +117,7 @@ artifactory {
     }
   }
 }
-artifactoryPublish.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
+artifactoryPublish.dependsOn jar, sourcesJar, kotlindocJar, testsJar, reportsZip
 artifactoryPublish.dependsOn 'generatePomFileForMavenPublication'
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -169,7 +153,7 @@ bintray {
     }
   }
 }
-bintrayUpload.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
+bintrayUpload.dependsOn jar, sourcesJar, kotlindocJar, testsJar, reportsZip
 bintrayUpload.dependsOn 'generatePomFileForMavenPublication'
 
 // Publishes to JFrog Bintray's JCenter repository
@@ -185,7 +169,7 @@ pluginBundle {
     }
   }
 }
-publishPlugins.dependsOn jar, sourcesJar, javadocJar, groovydocJar, kotlindocJar, testsJar, reportsZip
+publishPlugins.dependsOn jar, sourcesJar, kotlindocJar, testsJar, reportsZip
 publishPlugins.dependsOn 'generatePomFileForMavenPublication'
 
 // Publish to both Bintray and Gradle repositories
