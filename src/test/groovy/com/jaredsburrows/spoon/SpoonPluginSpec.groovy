@@ -1,17 +1,46 @@
 package com.jaredsburrows.spoon
 
+import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
+import spock.lang.Specification
 import spock.lang.Unroll
 
-final class SpoonPluginSpec extends BaseSpec {
+final class SpoonPluginSpec extends Specification {
+  @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
+  private def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'
+  private def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"com.example\"/>"
+  private  def APP_APK = 'project-debug.apk'
+  private def TEST_APK = 'project-debug-androidTest.apk'
+  private Project project
+  private File appApk
+  private File testApk
+
+  def 'setup'() {
+    // Setup project
+    project = ProjectBuilder.builder()
+      .withProjectDir(testProjectDir.root)
+      .withName('project')
+      .build()
+
+    // Make sure Android projects have a manifest
+    testProjectDir.newFolder('src', 'main')
+    testProjectDir.newFile(MANIFEST_FILE_PATH) << MANIFEST
+    testProjectDir.newFolder('build', 'outputs', 'apk', 'debug')
+    appApk = testProjectDir.newFile('build/outputs/apk/debug/' + APP_APK)
+    testApk = testProjectDir.newFile('build/outputs/apk/debug/' + TEST_APK)
+  }
+
   @Unroll "android project running #taskName with full spoon extension and buildTypes"() {
     given:
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
     project.android {
-      compileSdkVersion COMPILE_SDK_VERSION
+      compileSdkVersion 28
 
       defaultConfig {
-        applicationId APPLICATION_ID
+        applicationId 'com.example'
       }
 
       buildTypes {
@@ -92,10 +121,10 @@ final class SpoonPluginSpec extends BaseSpec {
     project.apply plugin: "com.android.application"
     new SpoonPlugin().apply(project)
     project.android {
-      compileSdkVersion COMPILE_SDK_VERSION
+      compileSdkVersion 28
 
       defaultConfig {
-        applicationId APPLICATION_ID
+        applicationId 'com.example'
       }
 
       buildTypes {
