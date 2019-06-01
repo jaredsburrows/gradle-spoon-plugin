@@ -6,7 +6,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.net.URI
 import java.time.Duration
 
 open class SpoonTask : DefaultTask() {
@@ -109,9 +108,7 @@ open class SpoonTask : DefaultTask() {
 
     val success = if (testing) testValue else builder.build().run()
     if (!success && !extension.ignoreFailures) {
-      throw GradleException("Tests failed! See ${getClickableFileUrl(outputDir, "index.html")}")
+      throw GradleException("Tests failed! See ${ConsoleRenderer().asClickableFileUrl(File(outputDir, "index.html"))}")
     }
   }
-
-  private fun getClickableFileUrl(path: File, fileName: String): String = URI("file", "", File(path.toURI().path, fileName).path, null, null).toString()
 }
