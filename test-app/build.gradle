@@ -5,25 +5,27 @@ buildscript {
     mavenLocal()
     google()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
-    jcenter()
+    gradlePluginPortal()
   }
 
   dependencies {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
+    classpath 'com.gradle:build-scan-plugin:2.4.1'
   }
 }
 
 repositories {
   google()
   maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
-  jcenter()
+  gradlePluginPortal()
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'com.jaredsburrows.spoon'
+apply plugin: 'com.gradle.build-scan'
 
 android {
   compileSdkVersion rootProject.buildConfig.compileSdk

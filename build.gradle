@@ -1,12 +1,12 @@
 plugins {
-  id 'com.gradle.build-scan' version '1.16'
-  id 'com.jfrog.artifactory' version '4.8.1'
+  id 'com.gradle.build-scan' version '2.4.1'
+  id 'com.jfrog.artifactory' version '4.9.9'
   id 'com.jfrog.bintray' version '1.8.4'
-  id 'com.github.ben-manes.versions' version '0.20.0'
-  id 'com.gradle.plugin-publish' version '0.10.0'
-  id 'org.jetbrains.kotlin.jvm' version '1.3.11'
-  id 'org.jetbrains.dokka' version '0.9.17'
-  id 'org.jlleitschuh.gradle.ktlint' version '6.1.0'
+  id 'com.github.ben-manes.versions' version '0.24.0'
+  id 'com.gradle.plugin-publish' version '0.10.1'
+  id 'org.jetbrains.kotlin.jvm' version '1.3.50'
+  id 'org.jetbrains.dokka' version '0.9.18'
+  id 'org.jlleitschuh.gradle.ktlint' version '8.2.0'
   id 'java-gradle-plugin'
   id 'groovy'
   id 'maven-publish'
@@ -64,7 +64,6 @@ dependencies {
 
 apply from: 'gradle/scan.gradle'
 apply from: 'gradle/compile.gradle'
-apply from: 'gradle/plugin.gradle'
 apply from: 'gradle/publish.gradle'
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
