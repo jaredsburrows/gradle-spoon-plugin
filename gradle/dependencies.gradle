@@ -11,7 +11,7 @@ ext.buildConfig = [
 ext.versions = [
   'agp'   : '3.2.1',
   'java'  : '1.8',
-  'kotlin': '1.3.11',
+  'kotlin': '1.3.50',
   'spoon' : '2.0.0-SNAPSHOT',
   'jacoco': '0.7.9'
 ]
