@@ -1,1 +1,1 @@
-include ':test-app'
+rootProject.name = 'test-app'

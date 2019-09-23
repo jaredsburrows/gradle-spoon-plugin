@@ -1,18 +1,15 @@
 package com.jaredsburrows.spoon.example
 
-import android.support.test.annotation.UiThreadTest
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
 import android.widget.TextView
-
-import com.squareup.spoon.SpoonRule
-import com.jaredsburrows.spoon.example.MainActivity
-
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-
+import androidx.test.annotation.UiThreadTest
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
 import com.google.common.truth.Truth.assertThat
+import com.jaredsburrows.spoon.example.MainActivity
+import com.squareup.spoon.SpoonRule
+import org.junit.Rule
+import org.junit.runner.RunWith
+import org.junit.Test
 
 @RunWith(AndroidJUnit4::class)
 class AnotherMainActivityTest {

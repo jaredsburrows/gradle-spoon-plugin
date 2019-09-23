@@ -14,10 +14,12 @@ class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    textView = TextView(this)
-    textView.setId(android.R.id.text1)
-    textView.setGravity(Gravity.CENTER)
-    textView.setTextSize(TEXT_SIZE)
+    textView = TextView(this).apply {
+      setId(android.R.id.text1)
+      setGravity(Gravity.CENTER)
+      setTextSize(TEXT_SIZE)
+    }
+
     setContentView(textView)
   }
 

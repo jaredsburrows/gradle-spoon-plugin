@@ -56,7 +56,6 @@ configurations.all {
 
 dependencies {
   implementation deps.kotlin.stdlib.jdk
-  implementation deps.kotlin.reflect
   implementation deps.spoon.runner
   implementation deps.android.tools.build.gradle
   implementation deps.android.tools.ddmlib
