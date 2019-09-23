@@ -11,7 +11,7 @@ import java.net.URISyntaxException
  *
  * Taken from: https://github.com/gradle/gradle/blob/master/subprojects/logging/src/main/java/org/gradle/internal/logging/ConsoleRenderer.java
  */
-class ConsoleRenderer {
+object ConsoleRenderer {
   /**
    * Renders a path name as a file URL that is likely recognized by consoles.
    */
@@ -41,29 +41,29 @@ class UncheckedException : RuntimeException {
      * Note: always throws the failure in some form. The return value is to keep the compiler happy.
      */
     @JvmOverloads fun throwAsUncheckedException(
-      t: Throwable,
+      throwable: Throwable,
       preserveMessage: Boolean = false
     ): RuntimeException {
-      if (t is RuntimeException) {
-        throw t
+      if (throwable is RuntimeException) {
+        throw throwable
       }
 
-      if (t is Error) {
-        throw t
+      if (throwable is Error) {
+        throw throwable
       }
 
-      if (t is IOException) {
+      if (throwable is IOException) {
         if (preserveMessage) {
-          throw UncheckedIOException(t.message.orEmpty(), t)
+          throw UncheckedIOException(throwable.message.orEmpty(), throwable)
         } else {
-          throw UncheckedIOException(t)
+          throw UncheckedIOException(throwable)
         }
       }
 
       if (preserveMessage) {
-        throw UncheckedException(t.message.orEmpty(), t)
+        throw UncheckedException(throwable.message.orEmpty(), throwable)
       } else {
-        throw UncheckedException(t)
+        throw UncheckedException(throwable)
       }
     }
   }

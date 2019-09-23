@@ -7,8 +7,10 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
+import org.gradle.api.Task
 
-open class SpoonTask : DefaultTask() {
+/** A [Task] that creates and runs the Spoon test runner. */
+open class SpoonTask : DefaultTask() { // tasks can't be final
   companion object {
     private const val ANDROID_EXTENSION_NAME = "android"
     private const val SDK_DIRECTORY_METHOD = "getSdkDirectory"
@@ -29,12 +31,14 @@ open class SpoonTask : DefaultTask() {
   /** TESTING ONLY */
   var testing: Boolean = false
   var testValue: Boolean = true
+  var spoonRenderer: SpoonRunner.Builder? = null
 
   @Suppress("unused")
   @TaskAction
   fun spoonTask() {
     if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
-      throw IllegalStateException("'${extension.methodName}' must have a fully qualified class name.")
+      throw IllegalStateException("'${extension.methodName}' must have a fully qualified class " +
+        "name.")
     }
 
     val builder = SpoonRunner.Builder()
@@ -62,9 +66,9 @@ open class SpoonTask : DefaultTask() {
 
     // File and add the SDK
     val android = project.extensions.findByName(ANDROID_EXTENSION_NAME)
-    val sdkDirectory = android?.javaClass?.getMethod(SDK_DIRECTORY_METHOD)?.invoke(android) as File?
-    if (sdkDirectory != null) {
-      builder.setAndroidSdk(sdkDirectory)
+    val sdkFolder = android?.javaClass?.getMethod(SDK_DIRECTORY_METHOD)?.invoke(android) as File?
+    sdkFolder?.let {
+      builder.setAndroidSdk(sdkFolder)
     }
 
     // Add shard information to instrumentation args if there are any
@@ -85,7 +89,11 @@ open class SpoonTask : DefaultTask() {
           throw UnsupportedOperationException("Please use '=' or ':' to separate arguments.")
         }
 
-        val keyVal = if (instrumentation.contains(":")) instrumentation.split(":") else instrumentation.split("=")
+        val keyVal = if (instrumentation.contains(':')) {
+          instrumentation.split(':')
+        } else {
+          instrumentation.split('=')
+        }
         instrumentationArgs[keyVal[0]] = keyVal[1]
       }
       builder.setInstrumentationArgs(instrumentationArgs)
@@ -106,9 +114,12 @@ open class SpoonTask : DefaultTask() {
       builder.addDevice(it)
     }
 
+    spoonRenderer = builder
+
     val success = if (testing) testValue else builder.build().run()
     if (!success && !extension.ignoreFailures) {
-      throw GradleException("Tests failed! See ${ConsoleRenderer().asClickableFileUrl(File(outputDir, "index.html"))}")
+      throw GradleException("Tests failed! " +
+        "See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}")
     }
   }
 }

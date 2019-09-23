@@ -9,6 +9,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
 
+/** A [Plugin] which wraps the Spoon test runner. */
 class SpoonPlugin : Plugin<Project> {
   companion object {
     private const val EXTENSION_NAME = "spoon"
@@ -45,7 +46,11 @@ class SpoonPlugin : Plugin<Project> {
             val testedOutput = variant.testedVariant.outputs.first()
             // This is a hack for library projects.
             // We supply the same apk as an application and instrumentation to the soon runner.
-            applicationApk = if (testedOutput is ApkVariantOutput) testedOutput.outputFile else instrumentationApk
+            applicationApk = if (testedOutput is ApkVariantOutput) {
+              testedOutput.outputFile
+            } else {
+              instrumentationApk
+            }
 
             var outputBase = spoonExtension.baseOutputDir
             if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == outputBase) {
@@ -61,9 +66,12 @@ class SpoonPlugin : Plugin<Project> {
 
   private fun getTestVariants(project: Project): DomainObjectSet<TestVariant>? {
     return when {
-      project.plugins.hasPlugin(APPLICATION_PLUGIN) -> project.extensions.findByType(AppExtension::class.java)?.testVariants
-      project.plugins.hasPlugin(LIBRARY_PLUGIN) -> project.extensions.findByType(LibraryExtension::class.java)?.testVariants
-      else -> throw IllegalStateException("Spoon plugin can only be applied to android application or library projects.")
+      project.plugins.hasPlugin(APPLICATION_PLUGIN) ->
+        project.extensions.findByType(AppExtension::class.java)?.testVariants
+      project.plugins.hasPlugin(LIBRARY_PLUGIN) ->
+        project.extensions.findByType(LibraryExtension::class.java)?.testVariants
+      else -> throw IllegalStateException("Spoon plugin can only be applied to android " +
+        "application or library projects.")
     }
   }
 }

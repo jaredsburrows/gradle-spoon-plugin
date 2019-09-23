@@ -1,13 +1,15 @@
 package com.jaredsburrows.spoon
 
 /**
+ * Configuration options for the gradle spoon plugin.
+ *
  * Variables based on the following documentation:
  * - https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
  * - https://developer.android.com/training/testing/espresso/setup.html
  * - https://github.com/square/spoon/blob/master/spoon-runner/src/main/java/com/squareup/spoon/SpoonRunner.java
  * - https://github.com/square/spoon#execution
  */
-open class SpoonExtension { // Extensions cannot be final
+open class SpoonExtension { // extensions cannot be final
   companion object {
     const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
     private const val DEFAULT_TITLE = "Spoon Execution"
@@ -20,7 +22,7 @@ open class SpoonExtension { // Extensions cannot be final
   var title: String = DEFAULT_TITLE
 
   /** Path to baseOutputDir directory. ("$buildDir/spoon-baseOutputDir" by default) */
-  var baseOutputDir: String = SpoonExtension.DEFAULT_OUTPUT_DIRECTORY
+  var baseOutputDir: String = DEFAULT_OUTPUT_DIRECTORY
 
   /** Whether or not debug logging is enabled. (false by default) */
   var debug: Boolean = false
@@ -55,14 +57,20 @@ open class SpoonExtension { // Extensions cannot be final
   /** Execute the tests device by device. (false by default) */
   var sequential: Boolean = false
 
-  /** Grant all runtime permissions during installation on Marshmallow and above devices. (false by default) */
+  /**
+   * Grant all runtime permissions during installation on Marshmallow and above devices.
+   * (false by default)
+   */
   var grantAll: Boolean = false
 
   /** Test method name to run (must also use className) */
   var methodName: String = ""
 
-  /** Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission. (false by default)
-  (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.) */
+  /** Code coverage flag. For Spoon to calculate coverage file your app must have the
+   * `WRITE_EXTERNAL_STORAGE` permission. (false by default)
+   * (This option pulls the coverage file from all devices and merge them into a single file
+   * `merged-coverage.ec`.)
+   */
   var codeCoverage: Boolean = false
 
   /** Toggle sharding. (false by default) */
