@@ -1,7 +1,7 @@
 ext.buildConfig = [
-  'compileSdk': 28,
+  'compileSdk': 29,
   'minSdk'    : 19,
-  'targetSdk' : 28,
+  'targetSdk' : 29,
   'signing'   : [
     'alias'   : "androiddebugkey",
     'password': "android"
@@ -9,28 +9,28 @@ ext.buildConfig = [
 ]
 
 ext.versions = [
-  'agp'   : '3.2.1',
-  'java'  : '1.8',
-  'kotlin': '1.3.50',
-  'spoon' : '2.0.0-SNAPSHOT',
-  'jacoco': '0.7.9'
+  'agp'     : '3.2.1',
+  'java'    : '1.8',
+  'kotlin'  : '1.3.50',
+  'spoon'   : '2.0.0-SNAPSHOT',
+  'jacoco'  : '0.7.9',
+  'espresso': '3.2.0'
 ]
 
 ext.deps = [
-  'kotlin' : [
-    'stdlib' : [
-      'jdk': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+  'kotlin'  : [
+    'stdlib': [
+      'jdk': "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
     ],
-    'gradle' : [
+    'gradle': [
       'plugin': "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
     ],
-    'reflect': "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
   ],
-  'spoon'  : [
+  'spoon'   : [
     'runner': "com.squareup.spoon:spoon-runner:$versions.spoon",
     'client': "com.squareup.spoon:spoon-client:$versions.spoon"
   ],
-  'android': [
+  'android' : [
     'tools': [
       'build' : [
         'gradle': "com.android.tools.build:gradle:$versions.agp",
@@ -42,10 +42,23 @@ ext.deps = [
       'rules' : 'com.android.support.test:rules:0.5',
     ]
   ],
-  'spock'  : 'org.spockframework:spock-core:1.1-groovy-2.4',
-  'junit'  : 'junit:junit:4.12',
-  'truth'  : 'com.google.truth:truth:0.36',
-  'jaococ' : [
+  'androidx': [
+    'test'    : [
+      'core'        : 'androidx.test:core:1.2.0',
+      'junit'       : 'androidx.test.ext:junit:1.1.1',
+      'runner'      : 'androidx.test:runner:1.2.0',
+      'orchestrator': 'androidx.test:orchestrator:1.2.0'
+    ],
+    'espresso': [
+      'core'   : "androidx.test.espresso:espresso-core:$versions.espresso",
+      'intents': "androidx.test.espresso:espresso-intents:$versions.espresso",
+      'contrib': "androidx.test.espresso:espresso-contrib:$versions.espresso"
+    ]
+  ],
+  'spock'   : 'org.spockframework:spock-core:1.1-groovy-2.4',
+  'junit'   : 'junit:junit:4.12',
+  'truth'   : 'com.google.truth:truth:0.36',
+  'jaococ'  : [
     'agent': "org.jacoco:org.jacoco.agent:$versions.jacoco",
     'ant'  : "org.jacoco:org.jacoco.ant:$versions.jacoco",
   ]

@@ -12,6 +12,7 @@ buildscript {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
+    classpath 'com.gradle:build-scan-plugin:1.16'
   }
 }
 
@@ -21,6 +22,7 @@ repositories {
   gradlePluginPortal()
 }
 
+apply plugin: 'com.gradle.build-scan'
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'com.jaredsburrows.spoon'
@@ -36,7 +38,7 @@ android {
     versionName '1.0'
 
     testApplicationId 'com.jaredsburrows.spoon.example.test'
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
   }
 
   buildTypes {
@@ -87,8 +89,14 @@ dependencies {
   androidTestImplementation deps.truth
   androidTestImplementation deps.junit
   androidTestImplementation deps.spoon.client
-  androidTestImplementation deps.android.test.runner
-  androidTestImplementation deps.android.test.rules
+  androidTestImplementation deps.androidx.test.core
+  androidTestImplementation deps.androidx.test.junit
+  androidTestImplementation deps.androidx.test.runner
+  androidTestImplementation deps.androidx.espresso.core
+  androidTestImplementation deps.androidx.espresso.intents
+  androidTestImplementation deps.androidx.espresso.contrib
+
+  androidTestUtil deps.androidx.test.orchestrator
 }
 
 apply from: rootProject.file('../gradle/scan.gradle')
