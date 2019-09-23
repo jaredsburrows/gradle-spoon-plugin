@@ -54,7 +54,6 @@ final class SpoonTaskSpec extends Specification {
     project.evaluate()
 
     SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()
@@ -146,7 +145,6 @@ final class SpoonTaskSpec extends Specification {
     project.evaluate()
 
     SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()
@@ -248,7 +246,6 @@ final class SpoonTaskSpec extends Specification {
     project.evaluate()
 
     SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
     task.applicationApk = testApk
     task.instrumentationApk = testApk
     task.execute()
@@ -348,8 +345,6 @@ final class SpoonTaskSpec extends Specification {
     project.evaluate()
 
     SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
-    task.testValue = false
     task.applicationApk = appApk
     task.instrumentationApk = testApk
     task.execute()

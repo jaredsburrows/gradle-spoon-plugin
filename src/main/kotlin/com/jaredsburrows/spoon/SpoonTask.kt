@@ -4,10 +4,10 @@ import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Task
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
-import org.gradle.api.Task
 
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
@@ -17,26 +17,21 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
   }
 
   /** Use our Spoon extension. */
-  lateinit var extension: SpoonExtension
-
+  var extension: SpoonExtension = SpoonExtension()
   /** Application APK (eg. app-debug.apk). */
-  lateinit var applicationApk: File
-
+  var applicationApk: File? = null
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  lateinit var instrumentationApk: File
-
+  var instrumentationApk: File? = null
   /** Results baseOutputDir. */
-  lateinit var outputDir: File
+  var outputDir: File? = null
 
   /** TESTING ONLY */
-  var testing: Boolean = false
-  var testValue: Boolean = true
   var spoonRenderer: SpoonRunner.Builder? = null
 
   @Suppress("unused")
   @TaskAction
   fun spoonTask() {
-    if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
+    if (extension.className.isEmpty() and extension.methodName.isNotEmpty()) {
       throw IllegalStateException("'${extension.methodName}' must have a fully qualified class " +
         "name.")
     }
@@ -59,8 +54,10 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
 
     // APKs
-    if (!testing) {
+    instrumentationApk?.let {
       builder.setTestApk(instrumentationApk)
+    }
+    applicationApk?.let {
       builder.addOtherApk(applicationApk)
     }
 
@@ -116,8 +113,9 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
 
     spoonRenderer = builder
 
-    val success = if (testing) testValue else builder.build().run()
-    if (!success && !extension.ignoreFailures) {
+    builder.build().run()
+
+    if (!extension.ignoreFailures) {
       throw GradleException("Tests failed! " +
         "See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}")
     }
