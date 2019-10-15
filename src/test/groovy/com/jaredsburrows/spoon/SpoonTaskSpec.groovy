@@ -57,7 +57,8 @@ final class SpoonTaskSpec extends Specification {
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
-    task.execute()
+    task.outputDir = new File(new File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY), "debug")
+    task.spoonTask()
 
     then:
     task.description == "Run instrumentation tests for 'debugAndroidTest' variant."
@@ -149,7 +150,8 @@ final class SpoonTaskSpec extends Specification {
     task.testing = true
     task.applicationApk = appApk
     task.instrumentationApk = testApk
-    task.execute()
+    task.outputDir = new File(new File(project.buildDir, "spoonTests"), "debug")
+    task.spoonTask()
 
     then:
     // Supported directly by Spoon's SpoonRunner
@@ -251,7 +253,8 @@ final class SpoonTaskSpec extends Specification {
     task.testing = true
     task.applicationApk = testApk
     task.instrumentationApk = testApk
-    task.execute()
+    task.outputDir = new File(new File(project.buildDir, "spoonTests"), "debug")
+    task.spoonTask()
 
     then:
     // Supported directly by Spoon's SpoonRunner
@@ -313,12 +316,12 @@ final class SpoonTaskSpec extends Specification {
     SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
     task.applicationApk = appApk
     task.instrumentationApk = testApk
-    task.execute()
+    task.outputDir = new File(new File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY), "debug")
+    task.spoonTask()
 
     then:
-    def e = thrown(GradleException)
-    e.cause instanceof IllegalStateException
-    e.cause.message == "'testMethodName' must have a fully qualified class name."
+    def e = thrown(IllegalStateException)
+    e.message == "'testMethodName' must have a fully qualified class name."
 
     where:
     taskName << ["spoonDebugAndroidTest"]
@@ -352,11 +355,12 @@ final class SpoonTaskSpec extends Specification {
     task.testValue = false
     task.applicationApk = appApk
     task.instrumentationApk = testApk
-    task.execute()
+    task.outputDir = new File(new File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY), "debug")
+    task.spoonTask()
 
     then:
     def e = thrown(GradleException)
-    e.cause.message.find("Tests failed! See file:///.*/build/spoon-output/debug/index.html")
+    e.message.find("Tests failed! See file:///.*/build/spoon-output/debug/index.html")
 
     where:
     taskName << ["spoonDebugAndroidTest"]
