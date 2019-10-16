@@ -108,7 +108,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   }
 }
 
-task checkReports() {
+tasks.register("checkReports") {
   doLast {
     assert project.tasks.spoonDebugAndroidTest != null
     assert project.file("$buildDir/custom-report-dir").exists()
