@@ -34,7 +34,16 @@ class SpoonPlugin : Plugin<Project> {
           description = "Run instrumentation tests for '${variant.name}' variant."
           group = "Verification"
           outputs.upToDateWhen { false }
-          dependsOn(variant.testedVariant.assemble, variant.assemble)
+          variant.testedVariant.assembleProvider.configure { provider ->
+            provider.doLast {
+              dependsOn(it)
+            }
+          }
+          variant.assembleProvider.configure { provider ->
+            provider.doLast {
+              dependsOn(it)
+            }
+          }
           instrumentationApk = variant.outputs.first().outputFile
 
           doFirst {
