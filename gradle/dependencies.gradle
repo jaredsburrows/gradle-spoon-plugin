@@ -1,6 +1,6 @@
 ext.buildConfig = [
   'compileSdk': 29,
-  'minSdk'    : 19,
+  'minSdk'    : 21,
   'targetSdk' : 29,
   'signing'   : [
     'alias'   : "androiddebugkey",

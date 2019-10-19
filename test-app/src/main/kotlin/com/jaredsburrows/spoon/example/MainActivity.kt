@@ -6,9 +6,6 @@ import android.view.Gravity
 import android.widget.TextView
 
 class MainActivity : Activity() {
-  companion object {
-    private const val TEXT_SIZE = 30F
-  }
 
   private lateinit var textView: TextView
 
@@ -25,5 +22,9 @@ class MainActivity : Activity() {
 
   fun setText(text: String) {
     textView.setText(text)
+  }
+
+  companion object {
+    private const val TEXT_SIZE = 30F
   }
 }
