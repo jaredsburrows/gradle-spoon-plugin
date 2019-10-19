@@ -4,10 +4,10 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.TestVariant
+import java.io.File
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import java.io.File
 
 /** A [Plugin] which wraps the Spoon test runner. */
 class SpoonPlugin : Plugin<Project> {

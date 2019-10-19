@@ -70,7 +70,3 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
     allWarningsAsErrors = true
   }
 }
-
-tasks.withType(org.jetbrains.dokka.gradle.DokkaTask) {
-  moduleName = "${project.name} ${project.version}"
-}
