@@ -2,12 +2,12 @@ package com.jaredsburrows.spoon
 
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
-import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
-import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
 import org.gradle.api.Task
+import org.gradle.api.tasks.TaskAction
 
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
