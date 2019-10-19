@@ -11,11 +11,6 @@ import java.io.File
 
 /** A [Plugin] which wraps the Spoon test runner. */
 class SpoonPlugin : Plugin<Project> {
-  companion object {
-    private const val EXTENSION_NAME = "spoon"
-    private const val APPLICATION_PLUGIN = "com.android.application"
-    private const val LIBRARY_PLUGIN = "com.android.library"
-  }
 
   override fun apply(project: Project) {
     project.plugins.withId("com.android.base") { configureAndroidProject(project) }
@@ -73,5 +68,11 @@ class SpoonPlugin : Plugin<Project> {
       else -> throw IllegalStateException("Spoon plugin can only be applied to android " +
         "application or library projects.")
     }
+  }
+
+  companion object {
+    private const val EXTENSION_NAME = "spoon"
+    private const val APPLICATION_PLUGIN = "com.android.application"
+    private const val LIBRARY_PLUGIN = "com.android.library"
   }
 }

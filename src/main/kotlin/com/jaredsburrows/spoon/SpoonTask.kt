@@ -11,10 +11,6 @@ import org.gradle.api.Task
 
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
-  companion object {
-    private const val ANDROID_EXTENSION_NAME = "android"
-    private const val SDK_DIRECTORY_METHOD = "getSdkDirectory"
-  }
 
   /** Use our Spoon extension. */
   lateinit var extension: SpoonExtension
@@ -121,5 +117,10 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       throw GradleException("Tests failed! " +
         "See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}")
     }
+  }
+
+  companion object {
+    private const val ANDROID_EXTENSION_NAME = "android"
+    private const val SDK_DIRECTORY_METHOD = "getSdkDirectory"
   }
 }
