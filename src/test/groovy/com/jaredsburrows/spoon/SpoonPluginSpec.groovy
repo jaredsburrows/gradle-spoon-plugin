@@ -13,7 +13,7 @@ final class SpoonPluginSpec extends Specification {
   @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
   private def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'
   private def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"com.example\"/>"
-  private  def APP_APK = 'project-debug.apk'
+  private def APP_APK = 'project-debug.apk'
   private def TEST_APK = 'project-debug-androidTest.apk'
   private Project project
   private File appApk
