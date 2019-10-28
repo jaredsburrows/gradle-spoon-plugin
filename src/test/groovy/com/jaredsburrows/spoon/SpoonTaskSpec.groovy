@@ -5,9 +5,11 @@ import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
+@Ignore // integration in test-app
 final class SpoonTaskSpec extends Specification {
   @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
   private def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'

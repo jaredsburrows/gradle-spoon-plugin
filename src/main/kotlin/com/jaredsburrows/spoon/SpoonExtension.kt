@@ -10,12 +10,6 @@ package com.jaredsburrows.spoon
  * - https://github.com/square/spoon#execution
  */
 open class SpoonExtension { // extensions cannot be final
-  companion object {
-    const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
-    private const val DEFAULT_TITLE = "Spoon Execution"
-    private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60 // 10 minutes
-  }
-
   /* Supported directly by Spoon's SpoonRunner */
 
   /** Identifying title for this execution. ("Spoon Execution" by default) */
@@ -114,4 +108,10 @@ open class SpoonExtension { // extensions cannot be final
       allowNoDevices = !value
       field = value
     }
+
+  companion object {
+    const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
+    private const val DEFAULT_TITLE = "Spoon Execution"
+    private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60 // 10 minutes
+  }
 }
