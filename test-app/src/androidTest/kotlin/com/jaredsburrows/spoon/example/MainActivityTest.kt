@@ -11,45 +11,48 @@ import com.google.common.truth.Truth.assertThat
 import com.jaredsburrows.spoon.example.MainActivity
 import com.squareup.spoon.SpoonRule
 import org.junit.Rule
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.junit.Test
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
-  @get:Rule val spoon = SpoonRule()
-  @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
+  private val spoon = SpoonRule()
+  private val activityRule = ActivityTestRule(MainActivity::class.java)
+  @get:Rule val chain: RuleChain = RuleChain.outerRule(activityRule)
+    .around(spoon)
 
   @Test
   @UiThreadTest
   fun testSetText() {
-    val act = activityRule.getActivity()
-    val text = act.findViewById(android.R.id.text1) as TextView
-    spoon.screenshot(act, "startup")
+    val activity = activityRule.getActivity()
+    val text = activity.findViewById(android.R.id.text1) as TextView
+    spoon.screenshot(activity, "start")
 
     val steps = 5
     for (i in 1..steps) {
       val step = i.toString()
-      act.setText(step)
-      spoon.screenshot(act, "step-" + i)
+      activity.setText(step)
+      spoon.screenshot(activity, "step-" + i)
       assertThat(text.getText().toString()).isEqualTo(step)
     }
   }
 
   @SmallTest fun testSmallTest() {
-    val act = activityRule.getActivity()
+    val activity = activityRule.getActivity()
 
-    spoon.screenshot(act, "startup-smallTest")
+    spoon.screenshot(activity, "smallTest")
   }
 
   @MediumTest fun testMediumTest() {
-    val act = activityRule.getActivity()
+    val activity = activityRule.getActivity()
 
-    spoon.screenshot(act, "startup-mediumTest")
+    spoon.screenshot(activity, "mediumTest")
   }
 
   @LargeTest fun testLargeTest() {
-    val act = activityRule.getActivity()
+    val activity = activityRule.getActivity()
 
-    spoon.screenshot(act, "startup-largeTest")
+    spoon.screenshot(activity, "largeTest")
   }
 }
