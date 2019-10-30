@@ -5,7 +5,6 @@ import com.squareup.spoon.SpoonRunner
 import java.io.File
 import java.time.Duration
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskAction
 
@@ -13,28 +12,22 @@ import org.gradle.api.tasks.TaskAction
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Use our Spoon extension. */
-  lateinit var extension: SpoonExtension
+  var extension: SpoonExtension = SpoonExtension()
 
   /** Application APK (eg. app-debug.apk). */
-  lateinit var applicationApk: File
+  var applicationApk: File? = null
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  lateinit var instrumentationApk: File
+  var instrumentationApk: File? = null
 
   /** Results baseOutputDir. */
-  lateinit var outputDir: File
-
-  /** TESTING ONLY */
-  var testing: Boolean = false
-  var testValue: Boolean = true
-  var spoonRenderer: SpoonRunner.Builder? = null
+  var outputDir: File? = null
 
   @Suppress("unused")
   @TaskAction
   fun spoonTask() {
-    if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
-      throw IllegalStateException("'${extension.methodName}' must have a fully qualified class " +
-        "name.")
+    check(!(extension.className.isEmpty() and extension.methodName.isNotEmpty())) {
+      "'${extension.methodName}' must have a fully qualified class name."
     }
 
     val builder = SpoonRunner.Builder()
@@ -55,8 +48,10 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
 
     // APKs
-    if (!testing) {
+    instrumentationApk?.let {
       builder.setTestApk(instrumentationApk)
+    }
+    applicationApk?.let {
       builder.addOtherApk(applicationApk)
     }
 
@@ -81,8 +76,8 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
     if (extension.instrumentationArgs.isNotEmpty()) {
       val instrumentationArgs = hashMapOf<String, String>()
       extension.instrumentationArgs.forEach { instrumentation ->
-        if (!(instrumentation.contains(':') or instrumentation.contains('='))) {
-          throw UnsupportedOperationException("Please use '=' or ':' to separate arguments.")
+        check(instrumentation.contains(':') or instrumentation.contains('=')) {
+          "Please use '=' or ':' to separate arguments."
         }
 
         val keyVal = if (instrumentation.contains(':')) {
@@ -110,12 +105,10 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       builder.addDevice(it)
     }
 
-    spoonRenderer = builder
+    builder.build().run()
 
-    val success = if (testing) testValue else builder.build().run()
-    if (!success && !extension.ignoreFailures) {
-      throw GradleException("Tests failed! " +
-        "See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}")
+    check(builder.build().run() && extension.ignoreFailures) {
+      "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}"
     }
   }
 
