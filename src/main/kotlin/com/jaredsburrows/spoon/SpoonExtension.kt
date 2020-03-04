@@ -1,5 +1,7 @@
 package com.jaredsburrows.spoon
 
+import java.io.Serializable
+
 /**
  * Configuration options for the gradle spoon plugin.
  *
@@ -9,7 +11,7 @@ package com.jaredsburrows.spoon
  * - https://github.com/square/spoon/blob/master/spoon-runner/src/main/java/com/squareup/spoon/SpoonRunner.java
  * - https://github.com/square/spoon#execution
  */
-open class SpoonExtension { // extensions cannot be final
+open class SpoonExtension : Serializable { // extensions cannot be final
   /* Supported directly by Spoon's SpoonRunner */
 
   /** Identifying title for this execution. ("Spoon Execution" by default) */
@@ -111,6 +113,7 @@ open class SpoonExtension { // extensions cannot be final
 
   companion object {
     const val DEFAULT_OUTPUT_DIRECTORY = "spoon-output"
+    private const val serialVersionUID = 1L
     private const val DEFAULT_TITLE = "Spoon Execution"
     private const val DEFAULT_ADB_TIMEOUT_SEC = 10 * 60 // 10 minutes
   }
