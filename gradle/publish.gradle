@@ -35,21 +35,21 @@ def pomConfig = {
 task docsJar(type: Jar, dependsOn: dokka) {
   group = 'Publications'
   description = 'Create jar of documentation.'
-  classifier = 'docs'
+  archiveClassifier = 'docs'
   from dokka.outputDirectory
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
   group = 'Publications'
   description = 'Create jar of sources.'
-  classifier = 'sources'
+  archiveClassifier = 'sources'
   from sourceSets.main.allSource
 }
 
 task testsJar(type: Jar) {
   group = 'Publications'
   description = 'Create jar of tests.'
-  classifier = 'tests'
+  archiveClassifier = 'tests'
   from sourceSets.test.output
 }
 

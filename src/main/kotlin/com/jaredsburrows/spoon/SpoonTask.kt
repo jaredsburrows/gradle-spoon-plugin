@@ -6,7 +6,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
@@ -15,21 +16,22 @@ import java.time.Duration
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Use our Spoon extension. */
-  @Input lateinit var extension: SpoonExtension
+  @Internal lateinit var extension: SpoonExtension
 
   /** Application APK (eg. app-debug.apk). */
-  @InputFile lateinit var applicationApk: File
+  @Internal lateinit var applicationApk: File
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  @InputFile lateinit var instrumentationApk: File
+  @Internal lateinit var instrumentationApk: File
 
   /** Results baseOutputDir. */
-  @InputFile lateinit var outputDir: File
+  @Internal lateinit var outputDir: File
 
   /** TESTING ONLY */
+  @Optional @Input
+  var spoonRenderer: SpoonRunner.Builder? = null
   @Input var testing: Boolean = false
   @Input var testValue: Boolean = true
-  @Input var spoonRenderer: SpoonRunner.Builder? = null
 
   @Suppress("unused")
   @TaskAction
