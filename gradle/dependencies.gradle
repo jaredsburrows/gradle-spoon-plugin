@@ -9,7 +9,7 @@ ext.buildConfig = [
 ]
 
 ext.versions = [
-  'agp'     : '3.5.1',
+  'agp'     : '4.1.1',
   'java'    : '1.8',
   'kotlin'  : '1.4.10',
   'spoon'   : '2.0.0-SNAPSHOT',
