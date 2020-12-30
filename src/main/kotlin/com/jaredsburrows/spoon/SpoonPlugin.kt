@@ -4,10 +4,10 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.TestVariant
-import java.io.File
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import java.io.File
 
 /** A [Plugin] which wraps the Spoon test runner. */
 class SpoonPlugin : Plugin<Project> {
@@ -65,8 +65,9 @@ class SpoonPlugin : Plugin<Project> {
         project.extensions.findByType(AppExtension::class.java)?.testVariants
       project.plugins.hasPlugin(LIBRARY_PLUGIN) ->
         project.extensions.findByType(LibraryExtension::class.java)?.testVariants
-      else -> throw IllegalStateException("Spoon plugin can only be applied to android " +
-        "application or library projects.")
+      else -> throw IllegalStateException(
+        "Spoon plugin can only be applied to android application or library projects."
+      )
     }
   }
 
