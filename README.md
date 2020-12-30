@@ -1,7 +1,7 @@
 # Gradle Spoon Plugin
 
 [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Build Status](https://travis-ci.org/jaredsburrows/gradle-spoon-plugin.svg?branch=master)](https://travis-ci.org/jaredsburrows/gradle-spoon-plugin)
+[![Build](https://github.com/jaredsburrows/gradle-spoon-plugin/workflows/build/badge.svg)](https://github.com/jaredsburrows/gradle-spoon-plugin/actions)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
 Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin.html) 3+.
@@ -32,7 +32,7 @@ dependencies {
   androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Release versions are available in the [JFrog Bintray repository](https://jcenter.bintray.com/).
+Release versions are available in the [JFrog Bintray repository](https://jcenter.bintray.com/com/jaredsburrows/gradle-spoon-plugin/).
 
 **Snapshot:**
 ```groovy
@@ -58,7 +58,7 @@ dependencies {
   androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Snapshot versions are available in the [JFrog Artifactory repository](https://oss.jfrog.org/artifactory/libs-snapshot/).
+Snapshot versions are available in the [JFrog Artifactory repository](https://oss.jfrog.org/artifactory/libs-snapshot/com/jaredsburrows/gradle-spoon-plugin/).
 
 **Library modules:**
 
