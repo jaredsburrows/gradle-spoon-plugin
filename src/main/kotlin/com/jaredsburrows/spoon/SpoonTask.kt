@@ -35,8 +35,9 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
   @TaskAction
   fun spoonTask() {
     if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
-      throw IllegalStateException("'${extension.methodName}' must have a fully qualified class " +
-        "name.")
+      throw IllegalStateException(
+        "'${extension.methodName}' must have a fully qualified class name."
+      )
     }
 
     val builder = SpoonRunner.Builder()
@@ -116,8 +117,9 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
 
     val success = if (testing) testValue else builder.build().run()
     if (!success && !extension.ignoreFailures) {
-      throw GradleException("Tests failed! " +
-        "See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}")
+      throw GradleException(
+        "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}"
+      )
     }
   }
 

@@ -12,7 +12,6 @@ buildscript {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
-    classpath 'com.gradle:build-scan-plugin:2.4.2'
   }
 }
 
@@ -22,7 +21,6 @@ repositories {
   gradlePluginPortal()
 }
 
-apply plugin: 'com.gradle.build-scan'
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'com.jaredsburrows.spoon'
@@ -99,14 +97,7 @@ dependencies {
   androidTestUtil deps.androidx.test.orchestrator
 }
 
-apply from: rootProject.file('../gradle/scan.gradle')
 apply from: rootProject.file('../gradle/compile.gradle')
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-  kotlinOptions {
-    allWarningsAsErrors = true
-  }
-}
 
 tasks.register("checkReports") {
  dependsOn(tasks.named("spoonDebugAndroidTest"))
