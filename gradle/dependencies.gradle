@@ -14,13 +14,13 @@ ext.versions = [
   'kotlin'  : '1.4.10',
   'spoon'   : '2.0.0-SNAPSHOT',
   'jacoco'  : '0.7.9',
-  'espresso': '3.2.0'
+  'espresso': '3.3.0'
 ]
 
 ext.deps = [
   'kotlin'  : [
     'stdlib': [
-      'jdk': "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+      'jdk': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
     ],
     'gradle': [
       'plugin': "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
@@ -35,12 +35,8 @@ ext.deps = [
       'build' : [
         'gradle': "com.android.tools.build:gradle:$versions.agp",
       ],
-      'ddmlib': 'com.android.tools.ddms:ddmlib:26.0.0',
+      'ddmlib': 'com.android.tools.ddms:ddmlib:27.1.1',
     ],
-    'test' : [
-      'runner': 'com.android.support.test:runner:0.5',
-      'rules' : 'com.android.support.test:rules:0.5',
-    ]
   ],
   'androidx': [
     'test'    : [
@@ -56,8 +52,8 @@ ext.deps = [
     ]
   ],
   'spock'   : 'org.spockframework:spock-core:1.3-groovy-2.5',
-  'junit'   : 'junit:junit:4.12',
-  'truth'   : 'com.google.truth:truth:0.36',
+  'junit'   : 'junit:junit:4.13.1',
+  'truth'   : 'com.google.truth:truth:1.1',
   'jaococ'  : [
     'agent': "org.jacoco:org.jacoco.agent:$versions.jacoco",
     'ant'  : "org.jacoco:org.jacoco.ant:$versions.jacoco",

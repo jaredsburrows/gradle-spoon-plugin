@@ -11,6 +11,7 @@ buildscript {
   dependencies {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
   }
 }
@@ -24,6 +25,7 @@ repositories {
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'com.jaredsburrows.spoon'
+apply plugin: 'com.github.ben-manes.versions'
 
 android {
   compileSdkVersion rootProject.buildConfig.compileSdk
