@@ -8,6 +8,7 @@ import org.gradle.api.Task
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.time.Duration
@@ -25,7 +26,8 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
   @Internal lateinit var instrumentationApk: File
 
   /** Results baseOutputDir. */
-  @Internal lateinit var outputDir: File
+  @Optional @OutputDirectory
+  var outputDir: File = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
 
   /** TESTING ONLY */
   @Optional @Input
