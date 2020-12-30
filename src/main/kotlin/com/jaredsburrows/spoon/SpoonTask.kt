@@ -2,32 +2,34 @@ package com.jaredsburrows.spoon
 
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
-import java.io.File
-import java.time.Duration
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
+import java.io.File
+import java.time.Duration
 
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Use our Spoon extension. */
-  lateinit var extension: SpoonExtension
+  @Input lateinit var extension: SpoonExtension
 
   /** Application APK (eg. app-debug.apk). */
-  lateinit var applicationApk: File
+  @InputFile lateinit var applicationApk: File
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  lateinit var instrumentationApk: File
+  @InputFile lateinit var instrumentationApk: File
 
   /** Results baseOutputDir. */
-  lateinit var outputDir: File
+  @InputFile lateinit var outputDir: File
 
   /** TESTING ONLY */
-  var testing: Boolean = false
-  var testValue: Boolean = true
-  var spoonRenderer: SpoonRunner.Builder? = null
+  @Input var testing: Boolean = false
+  @Input var testValue: Boolean = true
+  @Input var spoonRenderer: SpoonRunner.Builder? = null
 
   @Suppress("unused")
   @TaskAction
