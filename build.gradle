@@ -18,8 +18,6 @@ repositories {
 }
 
 apply from: 'gradle/dependencies.gradle'
-apply from: 'gradle/compile.gradle'
-apply from: 'gradle/publish.gradle'
 
 group = GROUP
 version = VERSION_NAME
@@ -37,6 +35,21 @@ jar {
       'Built-Date': new Date(),
       'Built-JDK': System.getProperty('java.version'),
       'Built-Gradle': gradle.gradleVersion)
+  }
+}
+
+task createClasspathManifest() {
+  def outputDir = file("$buildDir/$name")
+
+  inputs.files sourceSets.main.runtimeClasspath
+  outputs.dir outputDir
+
+  doLast {
+    outputDir.mkdirs()
+    // Combine both main and test plugin classpaths
+//    file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join('\n') + '\n' + sourceSets.test.runtimeClasspath.join('\n')
+    file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join('\n')
+
   }
 }
 
@@ -58,9 +71,14 @@ dependencies {
   implementation deps.android.tools.build.gradle
   implementation deps.android.tools.ddmlib
 
+  testRuntimeOnly files(createClasspathManifest)
+
   testImplementation localGroovy()
   testImplementation deps.spock, { exclude module: 'groovy-all' } // Use localGroovy()
 }
+
+apply from: 'gradle/compile.gradle'
+apply from: 'gradle/publish.gradle'
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
   kotlinOptions {
