@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 1.5.1 (2021-01-05)
+
+* [#54](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/54) Use Gradle's ConsoleRenderer
+* [#73](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/73) Using assemble Provider
+
+Many thanks to
+[@pjakubczyk](https://github.com/pjakubczyk)
+for the code contributions!
+
 ## Version 1.5.0 (2018-11-21)
 
 * [#37](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/37) Add a clear option to match new spoon runner clear app data feature
