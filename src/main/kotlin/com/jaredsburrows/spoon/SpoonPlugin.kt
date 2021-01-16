@@ -33,7 +33,6 @@ class SpoonPlugin : Plugin<Project> {
         project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java).apply {
           description = "Run instrumentation tests for '${variant.name}' variant."
           group = "Verification"
-          outputs.upToDateWhen { false }
           dependsOn(variant.testedVariant.assembleProvider, variant.assembleProvider)
           instrumentationApk = variant.outputs.first().outputFile
 
