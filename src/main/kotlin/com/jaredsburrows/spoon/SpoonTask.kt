@@ -61,6 +61,10 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       .setSingleInstrumentationCall(extension.singleInstrumentationCall)
       .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
 
+    if (extension.testRunListener != null) {
+      builder.addTestRunListener(extension.testRunListener)
+    }
+
     // APKs
     if (!testing) {
       builder.setTestApk(instrumentationApk)
