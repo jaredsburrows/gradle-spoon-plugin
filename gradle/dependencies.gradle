@@ -12,7 +12,7 @@ ext.versions = [
   'agp'     : '4.1.1',
   'java'    : '1.8',
   'kotlin'  : '1.4.10',
-  'spoon'   : '2.0.0-SNAPSHOT',
+  'spoon'   : '2.0.0-20181002.234303-49',
   'jacoco'  : '0.7.9',
   'espresso': '3.3.0'
 ]
