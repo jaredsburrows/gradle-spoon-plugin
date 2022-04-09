@@ -1,7 +1,7 @@
 # Gradle Spoon Plugin
 
 [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Build](https://github.com/jaredsburrows/gradle-spoon-plugin/workflows/build/badge.svg)](https://github.com/jaredsburrows/gradle-spoon-plugin/actions)
+[![Build](https://github.com/jaredsburrows/gradle-spoon-plugin/actions/workflows/build.yml/badge.svg)](https://github.com/jaredsburrows/gradle-spoon-plugin/actions/workflows/build.yml)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
 Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin.html) 3+.
@@ -12,7 +12,7 @@ Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradl
 ```groovy
 buildscript {
   repositories {
-    jcenter()
+    mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
   }
 
@@ -32,7 +32,7 @@ dependencies {
   androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Release versions are available in the [JFrog Bintray repository](https://jcenter.bintray.com/com/jaredsburrows/gradle-spoon-plugin/).
+Release versions are available in the [Sonatype's release repository](https://repo1.maven.org/maven2/com/jaredsburrows/gradle-spoon-plugin/).
 
 **Snapshot:**
 ```groovy
@@ -58,13 +58,13 @@ dependencies {
   androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
 }
 ```
-Snapshot versions are available in the [JFrog Artifactory repository](https://oss.jfrog.org/artifactory/libs-snapshot/com/jaredsburrows/gradle-spoon-plugin/).
+Snapshot versions are available in the [Sonatype's snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/com/jaredsburrows/gradle-spoon-plugin/).
 
 **Library modules:**
 
 This plugin allows Spoon to be run on library modules too!
 
-```
+```groovy
 apply plugin: 'com.android.library'
 apply plugin: 'com.jaredsburrows.spoon'
 
@@ -153,17 +153,18 @@ spoon {
 ```
 
 ## License
+```
+Copyright (C) 2017 Jared Burrows
 
-    Copyright (C) 2017 Jared Burrows
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
 
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```

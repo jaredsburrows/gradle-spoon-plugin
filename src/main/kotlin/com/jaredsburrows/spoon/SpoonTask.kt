@@ -7,27 +7,28 @@ import java.time.Duration
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Use our Spoon extension. */
-  lateinit var extension: SpoonExtension
+  @Internal lateinit var extension: SpoonExtension
 
   /** Application APK (eg. app-debug.apk). */
-  lateinit var applicationApk: File
+  @Internal lateinit var applicationApk: File
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  lateinit var instrumentationApk: File
+  @Internal lateinit var instrumentationApk: File
 
   /** Results baseOutputDir. */
-  lateinit var outputDir: File
+  @Internal lateinit var outputDir: File
 
   /** TESTING ONLY */
-  var testing: Boolean = false
-  var testValue: Boolean = true
-  var spoonRenderer: SpoonRunner.Builder? = null
+  @Internal var testing: Boolean = false
+  @Internal var testValue: Boolean = true
+  @Internal var spoonRenderer: SpoonRunner.Builder? = null
 
   @Suppress("unused")
   @TaskAction
