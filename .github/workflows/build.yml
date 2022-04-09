@@ -1,6 +1,11 @@
 name: build
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened, labeled, unlabeled, synchronize ]
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
@@ -15,47 +20,47 @@ jobs:
         api-level:
           - 23
         java-version:
-          - 1.8
           - 11
 
     steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
+
       - name: Cache Gradle dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper/
             ~/.android/build-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-
-      - name: Checkout Project
-        uses: actions/checkout@v2
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
       - name: Configure JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3.1.0
         with:
+          distribution: temurin
           java-version: ${{ matrix.java-version }}
 
       - name: Build the Plugin
-        run: ./gradlew clean ktlintCheck build jar docsJar sourcesJar testsJar reportsZip generatePomFileForMavenPublication -s --scan
+        run: ./gradlew clean ktlintCheck build -s
 
       - name: Run Unit Tests
-        run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishMavenPublicationToMavenLocal -x test -s --scan
+        run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishToMavenLocal -x test -s
 
       - name: Run Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          script: cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s --scan && cd ..
+          script: cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s && cd ..
         env:
           API_LEVEL: ${{ matrix.api-level }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.0.0
         if: always()
         with:
           name: gradle-spoon-plugin-${{ github.workflow }}-${{ github.run_id }}
@@ -76,20 +81,19 @@ jobs:
 
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v1.0.4
 
       - name: Configure JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3.0.0
         with:
-          java-version: 1.8
+          distribution: 'adopt'
+          java-version: 11
 
       - name: Publish
-        run: ./gradlew clean artifactoryPublish -s --scan
+        run: ./gradlew clean publish -s
         env:
-          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
-          BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
-          GRADLE_KEY: ${{ secrets.GRADLE_KEY }}
-          GRADLE_SECRET: ${{ secrets.GRADLE_SECRET }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}

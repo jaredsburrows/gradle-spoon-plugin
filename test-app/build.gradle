@@ -4,6 +4,7 @@ buildscript {
   repositories {
     mavenLocal()
     google()
+    mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
     gradlePluginPortal()
   }
@@ -11,13 +12,14 @@ buildscript {
   dependencies {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.42.0'
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
   }
 }
 
 repositories {
   google()
+  mavenCentral()
   maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
   gradlePluginPortal()
 }
@@ -39,6 +41,12 @@ android {
 
     testApplicationId 'com.jaredsburrows.spoon.example.test'
     testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+  }
+
+  compileOptions {
+//    coreLibraryDesugaringEnabled = true
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
   }
 
   buildTypes {
@@ -84,6 +92,8 @@ configurations.all {
 }
 
 dependencies {
+//  coreLibraryDesugaring deps.android.tools.desugar
+
   implementation deps.kotlin.stdlib.jdk
 
   androidTestImplementation deps.truth
@@ -98,8 +108,6 @@ dependencies {
 
   androidTestUtil deps.androidx.test.orchestrator
 }
-
-apply from: rootProject.file('../gradle/compile.gradle')
 
 tasks.register("checkReports") {
  dependsOn(tasks.named("spoonDebugAndroidTest"))

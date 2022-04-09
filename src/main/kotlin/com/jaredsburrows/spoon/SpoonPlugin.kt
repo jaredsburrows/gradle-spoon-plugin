@@ -8,6 +8,7 @@ import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
+import java.util.Locale
 
 /** A [Plugin] which wraps the Spoon test runner. */
 class SpoonPlugin : Plugin<Project> {
@@ -29,8 +30,15 @@ class SpoonPlugin : Plugin<Project> {
 
     variants?.all { variant ->
       variant.outputs.all {
+        val taskVariant = variant.name.replaceFirstChar {
+          if (it.isLowerCase()) {
+            it.titlecase(Locale.getDefault())
+          } else {
+            it.toString()
+          }
+        }
         // Create tasks based on variant
-        project.tasks.create("spoon${variant.name.capitalize()}", SpoonTask::class.java).apply {
+        project.tasks.create("spoon$taskVariant", SpoonTask::class.java).apply {
           description = "Run instrumentation tests for '${variant.name}' variant."
           group = "Verification"
           dependsOn(variant.testedVariant.assembleProvider, variant.assembleProvider)
