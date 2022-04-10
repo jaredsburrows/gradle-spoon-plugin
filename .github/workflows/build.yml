@@ -89,7 +89,7 @@ jobs:
       - name: Configure JDK
         uses: actions/setup-java@v3.0.0
         with:
-          distribution: 'adopt'
+          distribution: temurin
           java-version: 11
 
       - name: Publish
