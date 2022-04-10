@@ -1,7 +1,7 @@
 ext.buildConfig = [
-  'compileSdk': 29,
+  'compileSdk': 30,
   'minSdk'    : 21,
-  'targetSdk' : 29,
+  'targetSdk' : 30,
   'signing'   : [
     'alias'   : "androiddebugkey",
     'password': "android"
@@ -9,9 +9,8 @@ ext.buildConfig = [
 ]
 
 ext.versions = [
-  'agp'     : '4.1.1',
-  'java'    : '1.8',
-  'kotlin'  : '1.4.10',
+  'agp'     : '4.2.2', // 7.1.3, ddms issue
+  'kotlin'  : '1.6.20',
   'spoon'   : '2.0.0-SNAPSHOT',
   'jacoco'  : '0.7.9',
   'espresso': '3.3.0'
@@ -32,10 +31,11 @@ ext.deps = [
   ],
   'android' : [
     'tools': [
-      'build' : [
+      'build'  : [
         'gradle': "com.android.tools.build:gradle:$versions.agp",
       ],
-      'ddmlib': 'com.android.tools.ddms:ddmlib:27.1.1',
+      'desugar': 'com.android.tools:desugar_jdk_libs:1.1.5',
+      'ddmlib' : 'com.android.tools.ddms:ddmlib:27.1.1', // 30.1.3
     ],
   ],
   'androidx': [
@@ -51,9 +51,9 @@ ext.deps = [
       'contrib': "androidx.test.espresso:espresso-contrib:$versions.espresso"
     ]
   ],
-  'spock'   : 'org.spockframework:spock-core:1.3-groovy-2.5',
-  'junit'   : 'junit:junit:4.13.1',
-  'truth'   : 'com.google.truth:truth:1.1',
+  'spock'   : 'org.spockframework:spock-core:2.1-M2-groovy-3.0', // error on upgrading 2.2-M1-groovy-4.0
+  'junit'   : 'junit:junit:4.13.2',
+  'truth'   : 'com.google.truth:truth:1.1.3',
   'jaococ'  : [
     'agent': "org.jacoco:org.jacoco.agent:$versions.jacoco",
     'ant'  : "org.jacoco:org.jacoco.ant:$versions.jacoco",
