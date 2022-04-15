@@ -149,6 +149,9 @@ spoon {
 
   // Clear app data before each test. (false by default)
   clearAppDataBeforeEachTest = true
+
+  // Add test run listener to spoon runner
+  testRunListener = null
 }
 ```
 

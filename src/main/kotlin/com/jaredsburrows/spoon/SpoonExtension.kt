@@ -1,5 +1,7 @@
 package com.jaredsburrows.spoon
 
+import com.android.ddmlib.testrunner.ITestRunListener
+
 /**
  * Configuration options for the gradle spoon plugin.
  *
@@ -75,6 +77,9 @@ open class SpoonExtension { // extensions cannot be final
 
   /** Run 'pm clear' before each test to clear app data before each test. */
   var clearAppDataBeforeEachTest: Boolean = false
+
+  /** Add test run listener to spoon runner */
+  var testRunListener: ITestRunListener? = null
 
   /* Passed in via -e, extra arguments */
 
