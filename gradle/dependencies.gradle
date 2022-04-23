@@ -10,7 +10,7 @@ ext.buildConfig = [
 
 ext.versions = [
   'agp'     : '4.2.2', // 7.1.3, ddms issue
-  'kotlin'  : '1.6.20',
+  'kotlin'  : '1.6.21',
   'spoon'   : '2.0.0-SNAPSHOT',
   'jacoco'  : '0.7.9',
   'espresso': '3.3.0'
