@@ -13,7 +13,8 @@ Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradl
 buildscript {
   repositories {
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+    // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
   }
 
   dependencies {
@@ -22,14 +23,16 @@ buildscript {
 }
 
 repositories {
-  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
 }
 ```
 Release versions are available in the [Sonatype's release repository](https://repo1.maven.org/maven2/com/jaredsburrows/gradle-spoon-plugin/).
@@ -39,7 +42,8 @@ Release versions are available in the [Sonatype's release repository](https://re
 buildscript {
   repositories {
     maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local/' }
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+    // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
   }
 
   dependencies {
@@ -48,14 +52,16 @@ buildscript {
 }
 
 repositories {
-  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
 }
 ```
 Snapshot versions are available in the [Sonatype's snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/com/jaredsburrows/gradle-spoon-plugin/).
