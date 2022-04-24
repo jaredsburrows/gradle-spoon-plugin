@@ -9,17 +9,21 @@ final class TestUtils {
 
   static def gradleWithCommand(def file, String... commands) {
     return GradleRunner.create()
-      .withProjectDir(file)
       .withArguments(commands)
+      .withDebug(true)
+      .withProjectDir(file)
       .withPluginClasspath()
+      .forwardOutput()
       .build()
   }
 
   static def gradleWithCommandWithFail(def file, String... commands) {
     return GradleRunner.create()
-      .withProjectDir(file)
       .withArguments(commands)
+      .withDebug(true)
+      .withProjectDir(file)
       .withPluginClasspath()
+      .forwardOutput()
       .buildAndFail()
   }
 }

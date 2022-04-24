@@ -1,366 +1,239 @@
 package com.jaredsburrows.spoon
 
-import org.gradle.api.GradleException
-import org.gradle.api.Project
-import org.gradle.testfixtures.ProjectBuilder
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import static test.TestUtils.gradleWithCommand
+
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@Ignore // integration in test-app
 final class SpoonTaskSpec extends Specification {
-  @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
-  private def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'
-  private def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"com.example\"/>"
-  private def APP_APK = 'project-debug.apk'
-  private def TEST_APK = 'project-debug-androidTest.apk'
-  private Project project
-  private File appApk
-  private File testApk
+  @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder()
+  private int compileSdkVersion = 32
+  private List<File> pluginClasspath
+  private String classpathString
+  private File buildFile
 
   def 'setup'() {
-    // Setup project
-    project = ProjectBuilder.builder()
-      .withProjectDir(testProjectDir.root)
-      .withName('project')
-      .build()
-
-    // Make sure Android projects have a manifest
-    testProjectDir.newFolder('src', 'main')
-    testProjectDir.newFile(MANIFEST_FILE_PATH) << MANIFEST
-    testProjectDir.newFolder('build', 'outputs', 'apk', 'debug')
-    appApk = testProjectDir.newFile('build/outputs/apk/debug/' + APP_APK)
-    testApk = testProjectDir.newFile('build/outputs/apk/debug/' + TEST_APK)
-  }
-
-  @Unroll "android project running #taskName with no spoon extension"() {
-    given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
-      }
-
-      buildTypes {
-        debug {}
-        release {}
-      }
+    def pluginClasspathResource = getClass().classLoader.getResource('plugin-classpath.txt')
+    if (pluginClasspathResource == null) {
+      throw new IllegalStateException(
+        'Did not find plugin classpath resource, run `testClasses` build task.')
     }
 
-    when:
-    project.evaluate()
+    pluginClasspath = pluginClasspathResource.readLines().collect { new File(it) }
+    classpathString = pluginClasspath
+      .collect { it.absolutePath.replace('\\', '\\\\') } // escape backslashes in Windows paths
+      .collect { "'$it'" }
+      .join(", ")
+    buildFile = testProjectDir.newFile('build.gradle')
+  }
 
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
-    task.execute()
+  @Unroll "running #taskName with no spoon extension"() {
+    given:
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+      }
+      """
+
+    when:
+    def result = gradleWithCommand(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
 
     then:
-    task.description == "Run instrumentation tests for 'debugAndroidTest' variant."
-    task.group == "Verification"
-    // Supported directly by Spoon's SpoonRunner
-    task.extension.title == "Spoon Execution"
-    task.extension.baseOutputDir == "spoon-output"
-    !task.extension.debug
-    !task.extension.noAnimations
-    task.extension.adbTimeout == 600000
-    task.extension.devices.empty
-    task.extension.skipDevices.empty
-    task.extension.instrumentationArgs.empty
-    task.extension.className.empty
-    task.extension.testSize.empty
-    !task.extension.allowNoDevices
-    !task.extension.sequential
-    !task.extension.grantAll
-    task.extension.methodName.empty
-    !task.extension.codeCoverage
-    !task.extension.shard
-    !task.extension.singleInstrumentationCall
-
-    // Other
-    !task.extension.ignoreFailures
-
-    // Passed in via -e, extra arguments
-    task.extension.numShards == 0
-    task.extension.shardIndex == 0
-
-    // Verify output
-    task.outputDir.path.contains("spoon-output${File.separator}debug")
+    result.task(":${taskName}").outcome == SUCCESS
 
     where:
     taskName << ['spoonDebugAndroidTest']
   }
 
-  @Unroll "android project running #taskName with full spoon extension and  buildTypes"() {
+  @Unroll "running #taskName with #testBuildType and with no spoon extension"() {
     given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
       }
 
-      buildTypes {
-        debug {}
-        release {}
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+
+        testBuildType = "$testBuildType"
+
+        buildTypes {
+          debug {}
+          release {}
+        }
       }
-    }
-    project.spoon {
-      // Supported directly by Spoon's SpoonRunner
-      title = "Spoon Execution"
-      baseOutputDir = "spoonTests"
-      debug = true
-      noAnimations = true
-      adbTimeout = 5
-      devices = ["emulator-5554", "emulator-5556"]
-      skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
-                             "classLoader:com.foo.CustomClassLoader"]
-      className = "com.android.foo.FooClassName"
-      testSize = "large"
-      allowNoDevices = true
-      sequential = true
-      grantAll = true
-      methodName = "testMethodName"
-      codeCoverage = true
-      shard = true
-      singleInstrumentationCall = true
-
-      // Other
-      ignoreFailures = true
-
-      // Passed in via -e, extra arguments
-      shard = true
-      numShards = 10
-      shardIndex = 2
-      ignoreFailures = true
-    }
+      """
 
     when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
-    task.execute()
+    def result = gradleWithCommand(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
 
     then:
-    // Supported directly by Spoon's SpoonRunner
-    task.extension.title == "Spoon Execution"
-    task.extension.baseOutputDir == "spoonTests"
-    task.extension.debug
-    task.extension.noAnimations
-    task.extension.adbTimeout == 5000
-    task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
-    task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
-                                                           "classLoader:com.foo.CustomClassLoader",
-                                                           "numShards:10",
-                                                           "shardIndex:2"] as List<String>
-    task.extension.className == "com.android.foo.FooClassName"
-    task.extension.testSize == "large"
-    task.extension.allowNoDevices
-    task.extension.sequential
-    task.extension.grantAll
-    task.extension.methodName == "testMethodName"
-    task.extension.codeCoverage
-    task.extension.shard
-    task.extension.singleInstrumentationCall
-
-    // Other
-    task.extension.ignoreFailures
-
-    // Passed in via -e, extra arguments
-    task.extension.numShards == 10
-    task.extension.shardIndex == 2
-
-    // Verify output
-    task.outputDir.path.contains("spoonTests${File.separator}debug")
+    result.task(":${taskName}").outcome == SUCCESS
 
     where:
-    taskName << ["spoonDebugAndroidTest"]
+    taskName << ['spoonDebugAndroidTest', 'spoonReleaseAndroidTest']
+    testBuildType << ['debug', 'release']
   }
 
-  @Unroll "android project running #taskName with full spoon extension and productFlavors"() {
+  @Unroll "running #taskName with #testBuildType and productFlavors and with no spoon extension"() {
     given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
       }
 
-      buildTypes {
-        debug {}
-        release {}
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+
+        testBuildType = "$testBuildType"
+
+        buildTypes {
+          debug {}
+          release {}
+        }
+
+        flavorDimensions 'a', 'b'
+
+        productFlavors {
+          flavor1 { dimension 'a' }
+          flavor2 { dimension 'a' }
+          flavor3 { dimension 'b' }
+          flavor4 { dimension 'b' }
+        }
       }
-
-      flavorDimensions "a", "b"
-
-      productFlavors {
-        flavor1 { dimension "a" }
-        flavor2 { dimension "a" }
-        flavor3 { dimension "b" }
-        flavor4 { dimension "b" }
-      }
-    }
-    project.spoon {
-      // Supported directly by Spoon's SpoonRunner
-      title = "Spoon Execution"
-      baseOutputDir = "spoonTests"
-      debug = true
-      noAnimations = true
-      adbTimeout = 5
-      devices = ["emulator-5554", "emulator-5556"]
-      skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
-                             "classLoader:com.foo.CustomClassLoader"]
-      className = "com.android.foo.FooClassName"
-      testSize = "large"
-      allowNoDevices = true
-      sequential = true
-      grantAll = true
-      methodName = "testMethodName"
-      codeCoverage = true
-      shard = true
-      singleInstrumentationCall = true
-
-      // Other
-      ignoreFailures = true
-
-      // Passed in via -e, extra arguments
-      shard = true
-      numShards = 10
-      shardIndex = 2
-      ignoreFailures = true
-    }
+      """
 
     when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
-    task.applicationApk = testApk
-    task.instrumentationApk = testApk
-    task.execute()
+    def result = gradleWithCommand(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
 
     then:
-    // Supported directly by Spoon's SpoonRunner
-    task.extension.title == "Spoon Execution"
-    task.extension.baseOutputDir == "spoonTests"
-    task.extension.debug
-    task.extension.noAnimations
-    task.extension.adbTimeout == 5000
-    task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
-    task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
-                                                           "classLoader:com.foo.CustomClassLoader",
-                                                           "numShards:10",
-                                                           "shardIndex:2"] as List<String>
-    task.extension.className == "com.android.foo.FooClassName"
-    task.extension.testSize == "large"
-    task.extension.allowNoDevices
-    task.extension.sequential
-    task.extension.grantAll
-    task.extension.methodName == "testMethodName"
-    task.extension.codeCoverage
-    task.extension.shard
-    task.extension.singleInstrumentationCall
-
-    // Other
-    task.extension.ignoreFailures
-
-    // Passed in via -e, extra arguments
-    task.extension.numShards == 10
-    task.extension.shardIndex == 2
+    result.task(":${taskName}").outcome == SUCCESS
 
     where:
-    taskName << ["spoonFlavor1Flavor3DebugAndroidTest", "spoonFlavor2Flavor4DebugAndroidTest"]
+    testBuildType | taskName
+    'debug'       | 'spoonFlavor1Flavor3DebugAndroidTest'
+    'debug'       | 'spoonFlavor1Flavor4DebugAndroidTest'
+    'debug'       | 'spoonFlavor2Flavor3DebugAndroidTest'
+    'debug'       | 'spoonFlavor2Flavor4DebugAndroidTest'
+    'release'     | 'spoonFlavor1Flavor3ReleaseAndroidTest'
+    'release'     | 'spoonFlavor1Flavor4ReleaseAndroidTest'
+    'release'     | 'spoonFlavor2Flavor3ReleaseAndroidTest'
+    'release'     | 'spoonFlavor2Flavor4ReleaseAndroidTest'
   }
 
-  @Unroll "android project running #taskName with methodname and no classname"() {
+  @Unroll "running #taskName with basic spoon extension"() {
     given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
       }
 
-      buildTypes {
-        debug {}
-        release {}
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
       }
-    }
-    project.spoon {
-      methodName = "testMethodName"
-    }
+
+      spoon {
+        debug = true
+
+        baseOutputDir = file("custom-report-dir")
+
+        if (project.hasProperty('spoonClassName')) {
+          className = project.spoonClassName
+
+          if (project.hasProperty('spoonMethodName')) {
+            methodName = project.spoonMethodName
+          }
+        }
+
+        instrumentationArgs = ['disableAnalytics:true']
+
+        adbTimeout = 30
+
+        codeCoverage = true
+
+        grantAllPermissions = true
+      }
+
+      import com.jaredsburrows.spoon.SpoonExtension
+      def extension = project.extensions.getByType(SpoonExtension.class)
+      println extension.properties.entrySet()*.toString().sort().toString().replaceAll(", ","\\n")
+      """
 
     when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
-    task.execute()
+    def result = gradleWithCommand(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
 
     then:
-    def e = thrown(GradleException)
-    e.cause instanceof IllegalStateException
-    e.cause.message == "'testMethodName' must have a fully qualified class name."
+    result.task(":${taskName}").outcome == SUCCESS
+    result.output.contains("title=Spoon Execution")
+    result.output.find("baseOutputDir.*custom-report-dir")
+    result.output.contains("debug=true")
+    result.output.contains("noAnimations=false")
+    result.output.contains("adbTimeout=30000")
+    result.output.contains("devices=[]")
+    result.output.contains("skipDevices=[]")
+    result.output.contains("instrumentationArgs=[disableAnalytics:true]")
+    result.output.contains("className=")
+    result.output.contains("testSize=")
+    result.output.contains("allowNoDevices=false")
+    result.output.contains("sequential=false")
+    result.output.contains("grantAll=true")
+    result.output.contains("methodName=")
+    result.output.contains("codeCoverage=true")
+    result.output.contains("shard=false")
+    result.output.contains("singleInstrumentationCall=false")
+    result.output.contains("clearAppDataBeforeEachTest=false")
+    result.output.contains("numShards=0")
+    result.output.contains("shardIndex=0")
+    result.output.contains("ignoreFailures=false")
 
     where:
-    taskName << ["spoonDebugAndroidTest"]
-  }
-
-  @Unroll "android project running #taskName with  exception if test failure"() {
-    given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
-      }
-
-      buildTypes {
-        debug {}
-        release {}
-      }
-    }
-    project.spoon {
-      ignoreFailures = false
-    }
-
-    when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.testing = true
-    task.testValue = false
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
-    task.execute()
-
-    then:
-    def e = thrown(GradleException)
-    e.cause.message.find("Tests failed! See file:///.*/build/spoon-output/debug/index.html")
-
-    where:
-    taskName << ["spoonDebugAndroidTest"]
+    taskName << ['spoonDebugAndroidTest']
   }
 }
