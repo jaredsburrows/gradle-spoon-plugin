@@ -1,13 +1,14 @@
 package com.jaredsburrows.spoon
 
+import com.android.build.gradle.api.ApkVariantOutput
+import com.android.build.gradle.api.TestVariant
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
-import org.gradle.api.tasks.Input
+import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -16,33 +17,52 @@ import java.time.Duration
 /** A [Task] that creates and runs the Spoon test runner. */
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
-  /** Use our Spoon extension. */
-  @Internal lateinit var extension: SpoonExtension
+  /** Results baseOutputDir. */
+  @get:OutputDirectory var outputDir: File
+
+  /** Variant of the test */
+  @Internal lateinit var variant: TestVariant
 
   /** Application APK (eg. app-debug.apk). */
-  @Internal lateinit var applicationApk: File
+  private lateinit var applicationApk: File
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  @Internal lateinit var instrumentationApk: File
+  private lateinit var instrumentationApk: File
 
-  /** Results baseOutputDir. */
-  @Optional @OutputDirectory
-  var outputDir: File = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
+  init {
+    // From DefaultTask
+    description = "Run instrumentation tests for '$name' variant."
+    group = "Verification"
 
-  /** TESTING ONLY */
-  @Optional @Input
-  var spoonRenderer: SpoonRunner.Builder? = null
-  @Input var testing: Boolean = false
-  @Input var testValue: Boolean = true
+    // Customizing internal task options
+    outputDir = project.extensions.getByType(ReportingExtension::class.java)
+      .file(SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
+  }
 
-  @Suppress("unused")
   @TaskAction
   fun spoonTask() {
+    val extension = project.extensions.getByType(SpoonExtension::class.java)
     if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
       throw IllegalStateException(
         "'${extension.methodName}' must have a fully qualified class name."
       )
     }
+
+    instrumentationApk = variant.outputs.first().outputFile
+    val testedOutput = variant.testedVariant.outputs.first()
+    // This is a hack for library projects.
+    // We supply the same apk as an application and instrumentation to the soon runner.
+    applicationApk = if (testedOutput is ApkVariantOutput) {
+      testedOutput.outputFile
+    } else {
+      instrumentationApk
+    }
+
+    var outputBase = extension.baseOutputDir
+    if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == outputBase) {
+      outputBase = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY).path
+    }
+    outputDir = File(outputBase, variant.testedVariant.name)
 
     val builder = SpoonRunner.Builder()
       .setTitle(extension.title)
@@ -62,7 +82,7 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
 
     // APKs
-    if (!testing) {
+    if (project.isNotTest()) {
       builder.setTestApk(instrumentationApk)
       builder.addOtherApk(applicationApk)
     }
@@ -117,9 +137,7 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
       builder.addDevice(it)
     }
 
-    spoonRenderer = builder
-
-    val success = if (testing) testValue else builder.build().run()
+    val success = if (project.isNotTest()) builder.build().run() else true
     if (!success && !extension.ignoreFailures) {
       throw GradleException(
         "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}"

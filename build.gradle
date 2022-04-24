@@ -15,7 +15,7 @@ plugins {
 
 apply from: 'gradle/dependencies.gradle'
 
-configurations.all {
+configurations.configureEach {
   resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 
   resolutionStrategy {
@@ -63,7 +63,7 @@ subprojects {
 
   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
-      jvmTarget = JavaVersion.VERSION_1_8.toString()
+      jvmTarget = JavaVersion.VERSION_1_8
     }
   }
 
@@ -75,6 +75,7 @@ subprojects {
       compilerArgs << '-Xlint:all'
       compilerArgs << '-Xlint:-options'
       encoding = 'utf-8'
+      fork = true
     }
   }
 
@@ -86,10 +87,13 @@ subprojects {
       compilerArgs << '-Xlint:all'
       compilerArgs << '-Xlint:-options'
       encoding = 'utf-8'
+      fork = true
     }
   }
 
   tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+
     testLogging {
       exceptionFormat 'full'
       showCauses true
@@ -97,5 +101,8 @@ subprojects {
       showStackTraces true
       events 'failed', 'skipped'
     }
+
+    def maxWorkerCount = gradle.startParameter.maxWorkerCount
+    maxParallelForks = (maxWorkerCount < 2) ? 1 : maxWorkerCount / 2
   }
 }

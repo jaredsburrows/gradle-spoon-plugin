@@ -1,213 +1,233 @@
 package com.jaredsburrows.spoon
 
-import org.gradle.api.Project
-import org.gradle.testfixtures.ProjectBuilder
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import static test.TestUtils.gradleWithCommand
+import static test.TestUtils.gradleWithCommandWithFail
+
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
-import spock.lang.Ignore
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@Ignore // integration in test-app
 final class SpoonPluginSpec extends Specification {
-  @Rule TemporaryFolder testProjectDir = new TemporaryFolder()
-  private def MANIFEST_FILE_PATH = 'src/main/AndroidManifest.xml'
-  private def MANIFEST = "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" package=\"com.example\"/>"
-  private  def APP_APK = 'project-debug.apk'
-  private def TEST_APK = 'project-debug-androidTest.apk'
-  private Project project
-  private File appApk
-  private File testApk
+  @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder()
+  private int compileSdkVersion = 28
+  private String agpVersion = "3.6.4"
+  private List<File> pluginClasspath
+  private String classpathString
+  private File buildFile
 
   def 'setup'() {
-    // Setup project
-    project = ProjectBuilder.builder()
-      .withProjectDir(testProjectDir.root)
-      .withName('project')
-      .build()
+    def pluginClasspathResource = getClass().classLoader.getResource('plugin-classpath.txt')
+    if (pluginClasspathResource == null) {
+      throw new IllegalStateException(
+        'Did not find plugin classpath resource, run `testClasses` build task.')
+    }
 
-    // Make sure Android projects have a manifest
-    testProjectDir.newFolder('src', 'main')
-    testProjectDir.newFile(MANIFEST_FILE_PATH) << MANIFEST
-    testProjectDir.newFolder('build', 'outputs', 'apk', 'debug')
-    appApk = testProjectDir.newFile('build/outputs/apk/debug/' + APP_APK)
-    testApk = testProjectDir.newFile('build/outputs/apk/debug/' + TEST_APK)
+    pluginClasspath = pluginClasspathResource.readLines().collect { new File(it) }
+    classpathString = pluginClasspath
+      .collect { it.absolutePath.replace('\\', '\\\\') } // escape backslashes in Windows paths
+      .collect { "'$it'" }
+      .join(", ")
+    buildFile = testProjectDir.newFile('build.gradle')
   }
 
-  @Unroll "android project running #taskName with full spoon extension and buildTypes"() {
+  def 'apply with buildscript'() {
     given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
+    buildFile <<
+      """
+      buildscript {
+        repositories {
+          mavenCentral()
+          google()
+        }
+        dependencies {
+          classpath files($classpathString)
+        }
       }
 
-      buildTypes {
-        debug {}
-        release {}
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
       }
-    }
-    project.spoon {
-      // Supported directly by Spoon's SpoonRunner
-      title = "My tests"
-      baseOutputDir = "spoonTests"
-      debug = true
-      noAnimations = true
-      adbTimeout = 5
-      devices = ["emulator-5554", "emulator-5556"]
-      skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
-                             "classLoader:com.foo.CustomClassLoader"]
-      className = "com.android.foo.FooClassName"
-      testSize = "large"
-      allowNoDevices = true
-      sequential = true
-      grantAll = true
-      methodName = "testMethodName"
-      codeCoverage = true
-      shard = true
-      singleInstrumentationCall = true
-
-      // Other
-      ignoreFailures = true
-
-      // Passed in via -e, extra arguments
-      numShards = 10
-      shardIndex = 2
-    }
+      """
 
     when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
+    def result = gradleWithCommand(testProjectDir.root, 'spoonDebugAndroidTest', '-s', '-Ptesting')
 
     then:
-    // Supported directly by Spoon's SpoonRunner
-    task.extension.title == "My tests"
-    task.extension.baseOutputDir == "spoonTests"
-    task.extension.debug
-    task.extension.noAnimations
-    task.extension.adbTimeout == 5000
-    task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
-    task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
-                                                           "classLoader:com.foo.CustomClassLoader"] as List<String>
-    task.extension.className == "com.android.foo.FooClassName"
-    task.extension.testSize == "large"
-    task.extension.allowNoDevices
-    task.extension.sequential
-    task.extension.grantAll
-    task.extension.methodName == "testMethodName"
-    task.extension.codeCoverage
-    task.extension.shard
-    task.extension.singleInstrumentationCall
-
-    // Other
-    task.extension.ignoreFailures
-
-    // Passed in via -e, extra arguments
-    task.extension.numShards == 10
-    task.extension.shardIndex == 2
-
-    where:
-    taskName << ["spoonDebugAndroidTest"]
+    result.task(':spoonDebugAndroidTest').outcome == SUCCESS
   }
 
-  @Unroll "android project running #taskName with full spoon extension and productFlavors"() {
+  def 'apply with plugins'() {
     given:
-    project.apply plugin: "com.android.application"
-    new SpoonPlugin().apply(project)
-    project.android {
-      compileSdkVersion 28
-
-      defaultConfig {
-        applicationId 'com.example'
+    buildFile <<
+      """
+      plugins {
+        id 'com.android.application'
+        id 'com.jaredsburrows.spoon'
       }
 
-      buildTypes {
-        debug {}
-        release {}
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
       }
-
-      flavorDimensions "a", "b"
-
-      productFlavors {
-        flavor1 { dimension "a" }
-        flavor2 { dimension "a" }
-        flavor3 { dimension "b" }
-        flavor4 { dimension "b" }
-      }
-    }
-    project.spoon {
-      // Supported directly by Spoon's SpoonRunner
-      title = "My tests"
-      baseOutputDir = "spoonTests"
-      debug = true
-      noAnimations = true
-      adbTimeout = 5
-      devices = ["emulator-5554", "emulator-5556"]
-      skipDevices = ["emulator-5555"]
-      instrumentationArgs = ["listener:com.foo.Listener,com.foo.Listener2",
-                             "classLoader:com.foo.CustomClassLoader"]
-      className = "com.android.foo.FooClassName"
-      testSize = "large"
-      allowNoDevices = true
-      sequential = true
-      grantAll = true
-      methodName = "testMethodName"
-      codeCoverage = true
-      shard = true
-      singleInstrumentationCall = true
-
-      // Other
-      ignoreFailures = true
-
-      // Passed in via -e, extra arguments
-      numShards = 10
-      shardIndex = 2
-    }
+      """
 
     when:
-    project.evaluate()
-
-    SpoonTask task = project.tasks.getByName(taskName) as SpoonTask
-    task.applicationApk = appApk
-    task.instrumentationApk = testApk
+    def result = gradleWithCommand(testProjectDir.root, 'spoonDebugAndroidTest', '-s', '-Ptesting')
 
     then:
-    // Supported directly by Spoon's SpoonRunner
-    task.extension.title == "My tests"
-    task.extension.baseOutputDir == "spoonTests"
-    task.extension.debug
-    task.extension.noAnimations
-    task.extension.adbTimeout == 5000
-    task.extension.devices as List<String> == ["emulator-5554", "emulator-5556"] as List<String>
-    task.extension.skipDevices as List<String> == ["emulator-5555"] as List<String>
-    task.extension.instrumentationArgs as List<String> == ["listener:com.foo.Listener,com.foo.Listener2",
-                                                           "classLoader:com.foo.CustomClassLoader"] as List<String>
-    task.extension.className == "com.android.foo.FooClassName"
-    task.extension.testSize == "large"
-    task.extension.allowNoDevices
-    task.extension.sequential
-    task.extension.grantAll
-    task.extension.methodName == "testMethodName"
-    task.extension.codeCoverage
-    task.extension.shard
-    task.extension.singleInstrumentationCall
+    result.task(':spoonDebugAndroidTest').outcome == SUCCESS
+  }
 
-    // Other
-    task.extension.ignoreFailures
+  def 'apply with no plugins'() {
+    given:
+    buildFile <<
+      """
+      plugins {
+        id 'com.jaredsburrows.spoon'
+      }
+      """
 
-    // Passed in via -e, extra arguments
-    task.extension.numShards == 10
-    task.extension.shardIndex == 2
+    when:
+    def result = gradleWithCommandWithFail(testProjectDir.root, 'spoonDebugAndroidTest', '-s', '-Ptesting')
+
+    then:
+    result.output.contains("'com.jaredsburrows.spoon' requires the Android Gradle Plugins.")
+  }
+
+  @Unroll def 'apply with non agp plugins: #plugin'() {
+    given:
+    buildFile <<
+      """
+      plugins {
+        id '${plugin}'
+        id 'com.jaredsburrows.spoon'
+      }
+      """
+
+    when:
+    def result = gradleWithCommandWithFail(testProjectDir.root, 'spoonDebugAndroidTest', '-s', '-Ptesting')
+
+    then:
+    result.output.contains("'com.jaredsburrows.spoon' requires the Android Gradle Plugins.")
 
     where:
-    taskName << ["spoonFlavor1Flavor3DebugAndroidTest", "spoonFlavor2Flavor4DebugAndroidTest"]
+    // https://github.com/gradle/gradle/find/master, search for "gradle-plugins"
+    plugin << [
+      // Java
+      'antlr', // AntlrPlugin, applies JavaLibraryPlugin, JavaPlugin
+      'application', // JavaApplicationPlugin, applies JavaPlugin
+      'groovy', // GroovyPlugin, applies JavaPlugin
+      'java', // JavaPlugin, applies JavaBasePlugin
+      'java-gradle-plugin', // JavaGradlePluginPlugin, applies JavaLibraryPlugin, JavaPlugin
+      'java-library', // JavaLibraryPlugin, applies JavaPlugin
+      'java-library-distribution', // JavaLibraryDistributionPlugin, applies JavaPlugin
+      'scala', // ScalaPlugin, applies JavaPlugin
+      'war', // WarPlugin, applies JavaPlugin
+      // Native
+      'assembler', // AssemblerPlugin
+      'assembler-lang', // AssemblerLangPlugin
+      'c', // CPlugin
+      'c-lang', // CLangPlugin
+      'cpp', // CppPlugin
+      'cpp-application', // CppApplicationPlugin
+      'cpp-lang', // CppLangPlugin
+      'cpp-library', // CppLibraryPlugin
+      'objective-c', // ObjectiveCPlugin
+      'objective-c-lang', // ObjectiveCLangPlugin
+      'objective-cpp', // ObjectiveCppPlugin
+      'objective-cpp-lang', // ObjectiveCppLangPlugin
+      'swift-application', // SwiftApplicationPlugin
+      'swift-library', // SwiftLibraryPlugin
+    ]
+  }
+
+  @Unroll def 'apply with allowed android plugins: #androidPlugin'() {
+    given:
+    testProjectDir.newFile('settings.gradle') <<
+      """
+      include 'subproject'
+      """
+
+    testProjectDir.newFolder('subproject')
+
+    testProjectDir.newFile('subproject/build.gradle') <<
+      """
+     buildscript {
+        repositories {
+          mavenCentral()
+          google()
+        }
+        dependencies {
+          classpath "com.android.tools.build:gradle:$agpVersion"
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          if (project.plugins.hasPlugin("com.android.application")) applicationId 'com.example'
+          if (project.plugins.hasPlugin("com.android.test")) targetProjectPath ':subproject'
+        }
+      }
+      """
+
+    buildFile <<
+      """
+      buildscript {
+        repositories {
+          mavenCentral()
+          google()
+        }
+        dependencies {
+          classpath "com.android.tools.build:gradle:$agpVersion"
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: '${androidPlugin}'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          if (project.plugins.hasPlugin("com.android.application")) applicationId 'com.example'
+          if (project.plugins.hasPlugin("com.android.test")) targetProjectPath ':subproject'
+        }
+      }
+      """
+
+    when:
+    def result = gradleWithCommand(testProjectDir.root, 'spoonDebugAndroidTest', '-s', '-Ptesting')
+
+    then:
+    result.task(':spoonDebugAndroidTest').outcome == SUCCESS
+
+    where:
+    androidPlugin << [
+      // AppPlugin
+      'android',
+      'com.android.application',
+      // LibraryPlugin
+      'android-library',
+      'com.android.library',
+    ]
   }
 }
