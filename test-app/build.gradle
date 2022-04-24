@@ -5,7 +5,8 @@ buildscript {
     mavenLocal()
     google()
     mavenCentral()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+    // For Spoon snapshot, until 2.0.0 is released
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     gradlePluginPortal()
   }
 
@@ -20,7 +21,8 @@ buildscript {
 repositories {
   google()
   mavenCentral()
-  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
   gradlePluginPortal()
 }
 
@@ -30,12 +32,12 @@ apply plugin: 'com.jaredsburrows.spoon'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
-  compileSdkVersion rootProject.buildConfig.compileSdk
+  compileSdkVersion 32
 
   defaultConfig {
     applicationId 'com.jaredsburrows.spoon.example'
-    minSdkVersion rootProject.buildConfig.minSdk
-    targetSdkVersion rootProject.buildConfig.targetSdk
+    minSdkVersion 21
+    targetSdkVersion 32
     versionCode 1
     versionName '1.0'
 
@@ -44,7 +46,6 @@ android {
   }
 
   compileOptions {
-//    coreLibraryDesugaringEnabled = true
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
   }
@@ -52,6 +53,19 @@ android {
   buildTypes {
     debug {
       testCoverageEnabled = true
+    }
+  }
+}
+
+configurations.all {
+  resolutionStrategy {
+    eachDependency { details ->
+      if (details.requested.group == 'org.jetbrains.kotlin') {
+        details.useVersion versions.kotlin
+      }
+      if (details.requested.group == 'org.jacoco') {
+        details.useVersion versions.jacoco
+      }
     }
   }
 }
@@ -78,22 +92,7 @@ spoon {
   grantAllPermissions = true
 }
 
-configurations.all {
-  resolutionStrategy {
-    eachDependency { details ->
-      if (details.requested.group == 'org.jetbrains.kotlin') {
-        details.useVersion versions.kotlin
-      }
-      if (details.requested.group == 'org.jacoco') {
-        details.useVersion versions.jacoco
-      }
-    }
-  }
-}
-
 dependencies {
-//  coreLibraryDesugaring deps.android.tools.desugar
-
   implementation deps.kotlin.stdlib.jdk
 
   androidTestImplementation deps.truth
@@ -102,11 +101,6 @@ dependencies {
   androidTestImplementation deps.androidx.test.core
   androidTestImplementation deps.androidx.test.junit
   androidTestImplementation deps.androidx.test.runner
-  androidTestImplementation deps.androidx.espresso.core
-  androidTestImplementation deps.androidx.espresso.intents
-  androidTestImplementation deps.androidx.espresso.contrib
-
-  androidTestUtil deps.androidx.test.orchestrator
 }
 
 tasks.register("checkReports") {

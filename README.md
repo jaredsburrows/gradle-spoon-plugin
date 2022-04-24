@@ -75,7 +75,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jaredsburrows.spoon'
 
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT' // For Spoon snapshot, until 2.0.0 is released
+  // For Spoon snapshot, until 2.0.0 is released
+  androidTestCompile 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
 }
 ```
 

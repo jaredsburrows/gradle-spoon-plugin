@@ -11,15 +11,41 @@ plugins {
 
 apply from: "${project.rootDir}/gradle/dependencies.gradle"
 
+task createClasspathManifest() {
+  def outputDir = new File(buildDir, name)
+
+  inputs.files sourceSets.main.runtimeClasspath
+  outputs.dir outputDir
+
+  doLast {
+    outputDir.mkdirs()
+    // Combine both main and test plugin classpaths
+    def set = new HashSet<String>()
+    sourceSets.main.runtimeClasspath.files.forEach {
+      set.add(it.path)
+    }
+    sourceSets.test.runtimeClasspath.files.forEach {
+      set.add(it.path)
+    }
+    def list = new ArrayList<String>(set)
+    file("$outputDir/plugin-classpath.txt").text = String.join("\n", list)
+  }
+}
+
 dependencies {
+  compileOnly gradleApi()
+
   implementation deps.kotlin.stdlib.jdk
   implementation deps.spoon.runner
   implementation deps.android.tools.build.gradle
   implementation deps.android.tools.ddmlib
 
-  testImplementation deps.junit
+  testRuntimeOnly files(createClasspathManifest)
+
   testImplementation localGroovy()
+  testImplementation gradleTestKit()
   testImplementation deps.spock, { exclude module: 'groovy-all' } // Use localGroovy()
+  testImplementation deps.junit
 }
 
 gradlePlugin {
