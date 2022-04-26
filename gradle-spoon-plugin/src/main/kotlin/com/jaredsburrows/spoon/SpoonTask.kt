@@ -1,13 +1,10 @@
 package com.jaredsburrows.spoon
 
-import com.android.build.gradle.api.ApkVariantOutput
-import com.android.build.gradle.api.TestVariant
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
-import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -18,96 +15,86 @@ import java.time.Duration
 open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Results baseOutputDir. */
-  @get:OutputDirectory var outputDir: File
+  @get:OutputDirectory lateinit var outputDir: File
+  @Internal lateinit var buildDir: File
 
-  /** Variant of the test */
-  @Internal lateinit var variant: TestVariant
+  /** For testing only. */
+  @get:Internal internal var testing: Boolean = false
 
-  /** Application APK (eg. app-debug.apk). */
-  private lateinit var applicationApk: File
+  /** Spoon Extension. */
+  @get:Internal internal lateinit var spoonExtension: SpoonExtension
+
+  /** Android SDK directory */
+  @get:Internal internal lateinit var sdkDirectory: File
 
   /** Instrumentation APK (eg. app-debug-androidTest.apk). */
-  private lateinit var instrumentationApk: File
+  @get:Internal internal lateinit var instrumentationApk: File
+
+  /** Application APK (eg. app-debug.apk). */
+  @get:Internal internal lateinit var applicationApk: File
+
+  /** The variant ran by Spoon. */
+  @get:Internal internal lateinit var variantName: String
 
   init {
-    // From DefaultTask
     description = "Run instrumentation tests for '$name' variant."
     group = "Verification"
-
-    // Customizing internal task options
-    outputDir = project.extensions.getByType(ReportingExtension::class.java)
-      .file(SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
   }
 
   @TaskAction
   fun spoonTask() {
-    val extension = project.extensions.getByType(SpoonExtension::class.java)
-    if (extension.className.isEmpty() && extension.methodName.isNotEmpty()) {
+    if (spoonExtension.className.isEmpty() && spoonExtension.methodName.isNotEmpty()) {
       throw IllegalStateException(
-        "'${extension.methodName}' must have a fully qualified class name."
+        "'${spoonExtension.methodName}' must have a fully qualified class name."
       )
     }
 
-    instrumentationApk = variant.outputs.first().outputFile
-    val testedOutput = variant.testedVariant.outputs.first()
-    // This is a hack for library projects.
-    // We supply the same apk as an application and instrumentation to the soon runner.
-    applicationApk = if (testedOutput is ApkVariantOutput) {
-      testedOutput.outputFile
-    } else {
-      instrumentationApk
-    }
-
-    var outputBase = extension.baseOutputDir
+    var outputBase = spoonExtension.baseOutputDir
     if (SpoonExtension.DEFAULT_OUTPUT_DIRECTORY == outputBase) {
-      outputBase = File(project.buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY).path
+      outputBase = File(buildDir, SpoonExtension.DEFAULT_OUTPUT_DIRECTORY).path
     }
-    outputDir = File(outputBase, variant.testedVariant.name)
+    outputDir = File(outputBase, variantName)
 
     val builder = SpoonRunner.Builder()
-      .setTitle(extension.title)
+      .setTitle(spoonExtension.title)
       .setOutputDirectory(outputDir)
-      .setDebug(extension.debug)
-      .setNoAnimations(extension.noAnimations)
-      .setAdbTimeout(Duration.ofSeconds(extension.adbTimeout.toLong()))
-      .setClassName(extension.className)
-      .setAllowNoDevices(extension.allowNoDevices)
-      .setSequential(extension.sequential)
-      .setGrantAll(extension.grantAll)
-      .setMethodName(extension.methodName)
-      .setCodeCoverage(extension.codeCoverage)
-      .setShard(extension.shard)
+      .setDebug(spoonExtension.debug)
+      .setNoAnimations(spoonExtension.noAnimations)
+      .setAdbTimeout(Duration.ofSeconds(spoonExtension.adbTimeout.toLong()))
+      .setClassName(spoonExtension.className)
+      .setAllowNoDevices(spoonExtension.allowNoDevices)
+      .setSequential(spoonExtension.sequential)
+      .setGrantAll(spoonExtension.grantAll)
+      .setMethodName(spoonExtension.methodName)
+      .setCodeCoverage(spoonExtension.codeCoverage)
+      .setShard(spoonExtension.shard)
       .setTerminateAdb(false)
-      .setSingleInstrumentationCall(extension.singleInstrumentationCall)
-      .setClearAppDataBeforeEachTest(extension.clearAppDataBeforeEachTest)
+      .setSingleInstrumentationCall(spoonExtension.singleInstrumentationCall)
+      .setClearAppDataBeforeEachTest(spoonExtension.clearAppDataBeforeEachTest)
 
     // APKs
-    if (project.isNotTest()) {
+    if (testing) {
       builder.setTestApk(instrumentationApk)
       builder.addOtherApk(applicationApk)
     }
 
     // File and add the SDK
-    val android = project.extensions.findByName(ANDROID_EXTENSION_NAME)
-    val sdkFolder = android?.javaClass?.getMethod(SDK_DIRECTORY_METHOD)?.invoke(android) as File?
-    sdkFolder?.let {
-      builder.setAndroidSdk(sdkFolder)
-    }
+    builder.setAndroidSdk(sdkDirectory)
 
     // Add shard information to instrumentation args if there are any
-    if (extension.numShards > 0) {
-      if (extension.shardIndex >= extension.numShards) {
+    if (spoonExtension.numShards > 0) {
+      if (spoonExtension.shardIndex >= spoonExtension.numShards) {
         throw UnsupportedOperationException("'shardIndex' needs to be less than 'numShards'.")
       }
 
-      extension.instrumentationArgs.add("numShards:${extension.numShards}")
-      extension.instrumentationArgs.add("shardIndex:${extension.shardIndex}")
+      spoonExtension.instrumentationArgs.add("numShards:${spoonExtension.numShards}")
+      spoonExtension.instrumentationArgs.add("shardIndex:${spoonExtension.shardIndex}")
     }
 
     // If we have args apply them else let them be null
-    if (extension.instrumentationArgs.isNotEmpty()) {
+    if (spoonExtension.instrumentationArgs.isNotEmpty()) {
       val instrumentationArgs = hashMapOf<String, String>()
-      extension.instrumentationArgs.forEach { instrumentation ->
+      spoonExtension.instrumentationArgs.forEach { instrumentation ->
         if (!(instrumentation.contains(':') or instrumentation.contains('='))) {
           throw UnsupportedOperationException("Please use '=' or ':' to separate arguments.")
         }
@@ -123,30 +110,25 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
     }
 
     // Only apply test size if given, no default
-    if (extension.testSize.isNotEmpty()) {
-      builder.setTestSize(TestSize.getTestSize(extension.testSize))
+    if (spoonExtension.testSize.isNotEmpty()) {
+      builder.setTestSize(TestSize.getTestSize(spoonExtension.testSize))
     }
 
     // Add all skipped devices
-    extension.skipDevices.forEach {
+    spoonExtension.skipDevices.forEach {
       builder.skipDevice(it)
     }
 
     // Add all devices
-    extension.devices.forEach {
+    spoonExtension.devices.forEach {
       builder.addDevice(it)
     }
 
-    val success = if (project.isNotTest()) builder.build().run() else true
-    if (!success && !extension.ignoreFailures) {
+    val success = if (testing) builder.build().run() else true
+    if (!success && !spoonExtension.ignoreFailures) {
       throw GradleException(
         "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}"
       )
     }
-  }
-
-  companion object {
-    private const val ANDROID_EXTENSION_NAME = "android"
-    private const val SDK_DIRECTORY_METHOD = "getSdkDirectory"
   }
 }

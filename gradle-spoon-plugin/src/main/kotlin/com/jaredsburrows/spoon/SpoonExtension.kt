@@ -60,7 +60,8 @@ open class SpoonExtension { // extensions cannot be final
   /** Test method name to run (must also use className) */
   var methodName: String = ""
 
-  /** Code coverage flag. For Spoon to calculate coverage file your app must have the
+  /**
+   * Code coverage flag. For Spoon to calculate coverage file your app must have the
    * `WRITE_EXTERNAL_STORAGE` permission. (false by default)
    * (This option pulls the coverage file from all devices and merge them into a single file
    * `merged-coverage.ec`.)
