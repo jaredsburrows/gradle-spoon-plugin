@@ -2,6 +2,7 @@ package com.jaredsburrows.spoon
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 import static test.TestUtils.gradleWithCommand
+import static test.TestUtils.gradleWithCommandWithFail
 
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -232,6 +233,116 @@ final class SpoonTaskSpec extends Specification {
     result.output.contains("numShards=0")
     result.output.contains("shardIndex=0")
     result.output.contains("ignoreFailures=false")
+
+    where:
+    taskName << ['spoonDebugAndroidTest']
+  }
+
+  def "running #taskName without fully qualified class name"() {
+    given:
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+      }
+
+      spoon {
+        className = ""
+        methodName = "SomeMethod"
+      }
+      """
+
+    when:
+    def result = gradleWithCommandWithFail(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
+
+    then:
+    result.output.contains("'SomeMethod' must have a fully qualified class name.")
+
+    where:
+    taskName << ['spoonDebugAndroidTest']
+  }
+
+  def "running #taskName with shardIndex more than numShards"() {
+    given:
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+      }
+
+      spoon {
+        numShards = 1
+        shardIndex = 2
+      }
+      """
+
+    when:
+    def result = gradleWithCommandWithFail(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
+
+    then:
+    result.output.contains("'shardIndex' needs to be less than 'numShards'.")
+
+    where:
+    taskName << ['spoonDebugAndroidTest']
+  }
+
+  def "running #taskName with instrumentationArgs"() {
+    given:
+    buildFile <<
+      """
+      buildscript {
+        dependencies {
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+      }
+
+      spoon {
+        instrumentationArgs = [ 'clearPackageData' , 'true' ]
+      }
+      """
+
+    when:
+    def result = gradleWithCommandWithFail(testProjectDir.root, "${taskName}", '-s', '-Ptesting')
+
+    then:
+    result.output.contains("Please use '=' or ':' to separate arguments.")
 
     where:
     taskName << ['spoonDebugAndroidTest']
