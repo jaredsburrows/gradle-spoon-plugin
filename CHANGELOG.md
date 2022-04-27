@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 1.6.0 (2022-04-27)
+
+* [#108](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/108) Gradle Configuration Cache
+* [#92](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/92) Remove upToDateWhen
+
 ## Version 1.5.1 (2021-01-05)
 
 * [#54](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/54) Use Gradle's ConsoleRenderer

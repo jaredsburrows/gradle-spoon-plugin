@@ -48,6 +48,18 @@ dependencies {
   testImplementation deps.junit
 }
 
+pluginBundle {
+  website = POM_URL
+  vcsUrl = POM_URL
+  description = POM_DESCRIPTION
+  tags = ['spoon']
+
+  plugins {
+    spoonPlugin {
+      displayName = POM_NAME
+    }
+  }
+}
 gradlePlugin {
   plugins {
     spoonPlugin {

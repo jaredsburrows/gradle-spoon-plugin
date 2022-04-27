@@ -18,7 +18,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.5.1'
+    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.6.0'
   }
 }
 
@@ -47,7 +47,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.6.0-SNAPSHOT'
+    classpath 'com.jaredsburrows:gradle-spoon-plugin:1.6.1-SNAPSHOT'
   }
 }
 
