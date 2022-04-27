@@ -1,6 +1,7 @@
 package com.jaredsburrows.spoon
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 import static test.TestUtils.gradleWithCommand
 import static test.TestUtils.gradleWithCommandWithFail
 
@@ -229,5 +230,46 @@ final class SpoonPluginSpec extends Specification {
       'android-library',
       'com.android.library',
     ]
+  }
+
+  def 'apply with plugin with configuration cache'() {
+    given:
+    buildFile <<
+      """
+      buildscript {
+        repositories {
+          mavenCentral()
+          google()
+        }
+
+        dependencies {
+          classpath files($classpathString)
+        }
+      }
+
+      apply plugin: 'com.android.application'
+      apply plugin: 'com.jaredsburrows.spoon'
+
+      android {
+        compileSdkVersion $compileSdkVersion
+
+        defaultConfig {
+          applicationId 'com.example'
+        }
+      }
+      """
+
+    when:
+    def firstResult = gradleWithCommand(testProjectDir.root, '--configuration-cache', 'spoonDebugAndroidTest', '-s', '-Ptesting')
+
+    then:
+    firstResult.task(':spoonDebugAndroidTest').outcome == SUCCESS
+
+    and:
+    def secondResult = gradleWithCommand(testProjectDir.root, '--configuration-cache', 'spoonDebugAndroidTest', '-s', '-Ptesting')
+
+    then:
+    secondResult.task(':spoonDebugAndroidTest').outcome == UP_TO_DATE
+    secondResult.output.contains('Reusing configuration cache.')
   }
 }
