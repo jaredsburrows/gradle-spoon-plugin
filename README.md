@@ -1,8 +1,9 @@
 # Gradle Spoon Plugin
 
-[![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/github/license/jaredsburrows/gradle-spoon-plugin?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Maven](https://img.shields.io/maven-central/v/com.jaredsburrows/gradle-spoon-plugin?label=maven&style=flat)](https://search.maven.org/artifact/com.jaredsburrows/gradle-spoon-plugin)
 [![Build](https://github.com/jaredsburrows/gradle-spoon-plugin/actions/workflows/build.yml/badge.svg)](https://github.com/jaredsburrows/gradle-spoon-plugin/actions/workflows/build.yml)
-[![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
+[![Twitter](https://img.shields.io/twitter/follow/jaredsburrows?label=follow%20%40jaredsburrows&style=flat)](https://twitter.com/jaredsburrows)
 
 Gradle plugin for [Spoon](https://github.com/square/spoon) 2+ and [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin.html) 3+.
 
@@ -167,7 +168,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+   https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
