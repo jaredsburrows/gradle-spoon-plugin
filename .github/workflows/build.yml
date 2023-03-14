@@ -44,10 +44,13 @@ jobs:
         with:
           distribution: temurin
           java-version: ${{ matrix.java-version }}
+          cache: gradle
 
       - name: Build the Plugin
-        run: ./gradlew clean ktlintCheck build -s
-
+        uses: gradle/gradle-build-action@v2.4.0
+        with:
+          arguments: clean ktlintCheck build -s
+          
       - name: Run Unit Tests
         run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishToMavenLocal -x test -s
 
@@ -61,7 +64,7 @@ jobs:
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.1
-        if: always()
+        if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
         with:
           name: gradle-spoon-plugin-${{ github.workflow }}-${{ github.run_id }}
           path: |
@@ -75,7 +78,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
     needs:
       - android
 
@@ -91,9 +94,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 11
+          cache: gradle
 
       - name: Publish
-        run: ./gradlew clean publish -s
+        uses: gradle/gradle-build-action@v2.4.0
+        with:
+          arguments: clean publish -s
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
