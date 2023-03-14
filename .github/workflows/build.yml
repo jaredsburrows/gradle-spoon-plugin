@@ -63,7 +63,7 @@ jobs:
           API_LEVEL: ${{ matrix.api-level }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.2
         if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
         with:
           name: gradle-spoon-plugin-${{ github.workflow }}-${{ github.run_id }}
