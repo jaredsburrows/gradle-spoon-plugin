@@ -15,7 +15,6 @@ jobs:
     runs-on: macos-latest
 
     strategy:
-      fail-fast: false
       matrix:
         api-level:
           - 23
@@ -24,20 +23,10 @@ jobs:
 
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper/
-            ~/.android/build-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
 
       - name: Configure JDK
         uses: actions/setup-java@v3.11.0
@@ -62,6 +51,12 @@ jobs:
         env:
           API_LEVEL: ${{ matrix.api-level }}
 
+      - name: Publish Test Report
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2.6.1
+        if: success() || failure()
+        with:
+          files: '**/build/test-results/test/TEST-*.xml'
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2
         if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
@@ -84,7 +79,7 @@ jobs:
 
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.5.0
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
