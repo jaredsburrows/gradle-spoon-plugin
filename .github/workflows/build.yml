@@ -17,6 +17,9 @@ jobs:
     name: Build
     runs-on: macos-latest
 
+    strategy:
+      fail-fast: false
+
     steps:
       - name: Checkout Project
         uses: actions/checkout@v3.5.0
