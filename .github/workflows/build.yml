@@ -9,17 +9,16 @@ on:
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+  JAVA_VERSION: 11
+  ANDROID_API_LEVEL: 23
 
 jobs:
-  android:
+  build:
+    name: Build
     runs-on: macos-latest
 
     strategy:
-      matrix:
-        api-level:
-          - 23
-        java-version:
-          - 11
+      fail-fast: false
 
     steps:
       - name: Checkout Project
@@ -28,11 +27,11 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
 
-      - name: Configure JDK
+      - name: Configure JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v3.11.0
         with:
           distribution: temurin
-          java-version: ${{ matrix.java-version }}
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Build the Plugin
@@ -43,13 +42,11 @@ jobs:
       - name: Run Unit Tests
         run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishToMavenLocal -x test -s
 
-      - name: Run Instrumentation Tests
+      - name: Run Instrumentation Tests on Android API ${{ env.ANDROID_API_LEVEL }}
         uses: reactivecircus/android-emulator-runner@v2.28.0
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ env.ANDROID_API_LEVEL }}
           script: cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s && cd ..
-        env:
-          API_LEVEL: ${{ matrix.api-level }}
 
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action/composite@v2.6.1
@@ -69,13 +66,13 @@ jobs:
             build/distributions
             build/reports
             build/test-results
-          if-no-files-found: warn
 
   publish:
+    name: Publish Snapshot
     runs-on: ubuntu-latest
     if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
     needs:
-      - android
+      - build
 
     steps:
       - name: Checkout Project
@@ -84,11 +81,11 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
 
-      - name: Configure JDK
+      - name: Configure JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v3.11.0
         with:
           distribution: temurin
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
           cache: gradle
 
       - name: Publish
