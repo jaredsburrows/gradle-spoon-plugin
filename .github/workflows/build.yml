@@ -9,8 +9,8 @@ on:
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
-  JAVA_VERSION: 19
-  API_LEVEL: 33
+  JAVA_VERSION: 11
+  API_LEVEL: 23
 
 jobs:
   build:
