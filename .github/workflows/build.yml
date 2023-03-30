@@ -13,7 +13,8 @@ env:
   API_LEVEL: 33
 
 jobs:
-  android:
+  build:
+    name: Build with JDK ${{ env.JAVA_VERSION }}
     runs-on: macos-latest
 
     steps:
@@ -64,10 +65,11 @@ jobs:
             build/test-results
 
   publish:
+    name: Publish Snapshot
     runs-on: ubuntu-latest
     if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
     needs:
-      - android
+      - build
 
     steps:
       - name: Checkout Project
