@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    name: Build with JDK ${{ env.JAVA_VERSION }}
+    name: Build
     runs-on: macos-latest
 
     steps:
@@ -39,7 +39,7 @@ jobs:
       - name: Run Unit Tests
         run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishToMavenLocal -x test -s
 
-      - name: Run Instrumentation Tests
+      - name: Run Instrumentation Tests on API ${{ env.API_LEVEL }}
         uses: reactivecircus/android-emulator-runner@v2.28.0
         with:
           api-level: ${{ env.API_LEVEL }}
