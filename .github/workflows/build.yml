@@ -10,7 +10,7 @@ on:
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
   JAVA_VERSION: 11
-  API_LEVEL: 23
+  ANDROID_API_LEVEL: 23
 
 jobs:
   build:
@@ -42,10 +42,10 @@ jobs:
       - name: Run Unit Tests
         run: rm -rf ~/.m2/repository/com/jaredsburrows/gradle-spoon-plugin/ && ./gradlew publishToMavenLocal -x test -s
 
-      - name: Run Instrumentation Tests on API ${{ env.API_LEVEL }}
+      - name: Run Instrumentation Tests on Android API ${{ env.ANDROID_API_LEVEL }}
         uses: reactivecircus/android-emulator-runner@v2.28.0
         with:
-          api-level: ${{ env.API_LEVEL }}
+          api-level: ${{ env.ANDROID_API_LEVEL }}
           script: cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s && cd ..
 
       - name: Publish Test Report
