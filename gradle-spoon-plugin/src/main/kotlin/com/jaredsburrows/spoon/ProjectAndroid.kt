@@ -22,7 +22,7 @@ internal fun Project.isAndroidProject(): Boolean {
       // LibraryPlugin
       "android-library",
       "com.android.library",
-    )
+    ),
   )
 }
 
@@ -51,7 +51,7 @@ internal fun Project.configureAndroidProject() {
 
 private fun Project.configureVariant(
   baseExtension: BaseExtension,
-  variants: DomainObjectSet<TestVariant>? = null
+  variants: DomainObjectSet<TestVariant>? = null,
 ) {
   // Configure tasks for all variants
   variants?.all { variant ->

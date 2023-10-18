@@ -42,7 +42,7 @@ class UncheckedException : RuntimeException {
      */
     @JvmOverloads fun throwAsUncheckedException(
       throwable: Throwable,
-      preserveMessage: Boolean = false
+      preserveMessage: Boolean = false,
     ): RuntimeException {
       if (throwable is RuntimeException) {
         throw throwable
