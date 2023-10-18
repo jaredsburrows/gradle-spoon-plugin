@@ -16,6 +16,7 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
 
   /** Results baseOutputDir. */
   @get:OutputDirectory lateinit var outputDir: File
+
   @Internal lateinit var buildDir: File
 
   /** For testing only. */
@@ -45,7 +46,7 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
   fun spoonTask() {
     if (spoonExtension.className.isEmpty() && spoonExtension.methodName.isNotEmpty()) {
       throw IllegalStateException(
-        "'${spoonExtension.methodName}' must have a fully qualified class name."
+        "'${spoonExtension.methodName}' must have a fully qualified class name.",
       )
     }
 
@@ -127,7 +128,7 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
     val success = if (testing) builder.build().run() else true
     if (!success && !spoonExtension.ignoreFailures) {
       throw GradleException(
-        "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}"
+        "Tests failed! See ${ConsoleRenderer.asClickableFileUrl(File(outputDir, "index.html"))}",
       )
     }
   }
