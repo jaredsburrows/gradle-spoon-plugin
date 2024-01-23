@@ -7,7 +7,7 @@ plugins {
   id 'org.jlleitschuh.gradle.ktlint' version '11.6.1' apply false
   id 'com.vanniktech.maven.publish' version '0.25.3' apply false
   id 'com.gradle.plugin-publish' version '0.21.0' apply false
-  id 'com.github.ben-manes.versions' version '0.49.0'
+  id 'com.github.ben-manes.versions' version '0.51.0'
   id 'java-gradle-plugin'
   id 'java-library'
   id 'groovy'
