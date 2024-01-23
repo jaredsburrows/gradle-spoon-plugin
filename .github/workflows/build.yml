@@ -7,10 +7,6 @@ on:
   pull_request:
     types: [ opened, labeled, unlabeled, synchronize ]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
   JAVA_VERSION: 11
@@ -24,9 +20,6 @@ jobs:
     permissions:
       checks: write
       pull-requests: write
-
-    strategy:
-      fail-fast: false
 
     steps:
       - name: Checkout Project
@@ -58,14 +51,14 @@ jobs:
           script: cd test-app && ../gradlew clean spoonDebugAndroidTest checkReports -s && cd ..
 
       - name: Publish Test Report
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2.11.0
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2.12.0
         if: always()
         with:
           comment_mode: off
           files: '**/build/test-results/test/TEST-*.xml'
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.2.0
         if: github.repository == 'jaredsburrows/gradle-spoon-plugin' && github.ref == 'refs/heads/master'
         with:
           name: gradle-spoon-plugin-${{ github.workflow }}-${{ github.run_id }}
