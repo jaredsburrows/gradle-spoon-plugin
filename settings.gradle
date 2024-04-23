@@ -1,7 +1,7 @@
 pluginManagement {
   repositories {
-    google()
     gradlePluginPortal()
+    google()
     mavenCentral()
     // For Spoon snapshot, until 2.0.0 is released
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
@@ -9,26 +9,27 @@ pluginManagement {
 }
 
 plugins {
-  id 'com.gradle.enterprise' version '3.16.2'
+  id 'com.gradle.develocity' version '3.17.2'
+}
+
+develocity {
+  buildScan {
+    termsOfUseUrl = 'https://gradle.com/terms-of-service'
+    termsOfUseAgree = 'yes'
+    def isCI = System.getenv('CI') != null
+    publishing.onlyIf { isCI }
+  }
 }
 
 dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
   repositories {
-    google()
     gradlePluginPortal()
+    google()
     mavenCentral()
     // For Spoon snapshot, until 2.0.0 is released
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-  }
-}
-
-gradleEnterprise {
-  buildScan {
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-    termsOfServiceAgree = 'yes'
-    publishAlways()
   }
 }
 
