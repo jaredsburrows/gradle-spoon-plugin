@@ -2,7 +2,7 @@ plugins {
   id 'org.jetbrains.kotlin.jvm' version '2.0.0'
   id 'org.jetbrains.dokka' version '1.9.20'
   id 'org.jlleitschuh.gradle.ktlint' version '11.6.1'
-  id 'com.vanniktech.maven.publish' version '0.25.3'
+  id 'com.vanniktech.maven.publish' version '0.29.0'
   id 'com.gradle.plugin-publish' version '0.21.0'
   id 'java-gradle-plugin'
   id 'java-library'
