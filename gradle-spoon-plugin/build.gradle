@@ -37,6 +37,7 @@ dependencies {
 
   implementation deps.kotlin.stdlib.jdk
   implementation deps.spoon.runner
+  implementation 'com.xenomachina:kotlin-argparser:2.0.7' // https://mvnrepository.com/artifact/com.xenomachina/kotlin-argparser/2.0.7
   implementation deps.android.tools.build.gradle
   implementation deps.android.tools.ddmlib
 
