@@ -36,7 +36,7 @@ jobs:
           cache: gradle
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.4.1
+        uses: gradle/actions/setup-gradle@v3.5.0
 
       - name: Run Build
         run: ./gradlew ktlintCheck build -s
@@ -115,7 +115,7 @@ jobs:
           cache: gradle
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.4.1
+        uses: gradle/actions/setup-gradle@v3.5.0
 
       - name: Publish
         run: ./gradlew publish -s
