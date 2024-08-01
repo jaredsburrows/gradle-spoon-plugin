@@ -55,13 +55,14 @@ private fun Project.configureVariant(
 ) {
   // Configure tasks for all variants
   variants?.all { variant ->
-    val name = variant.name.replaceFirstChar {
-      if (it.isLowerCase()) {
-        it.titlecase(Locale.getDefault())
-      } else {
-        it.toString()
+    val name =
+      variant.name.replaceFirstChar {
+        if (it.isLowerCase()) {
+          it.titlecase(Locale.getDefault())
+        } else {
+          it.toString()
+        }
       }
-    }
 
     // Create tasks based on variant
     tasks.register("spoon$name", SpoonTask::class.java) {
@@ -70,8 +71,9 @@ private fun Project.configureVariant(
       }
 
       it.spoonExtension = project.extensions.getByType(SpoonExtension::class.java)
-      it.outputDir = project.extensions.getByType(ReportingExtension::class.java)
-        .file(SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
+      it.outputDir =
+        project.extensions.getByType(ReportingExtension::class.java)
+          .file(SpoonExtension.DEFAULT_OUTPUT_DIRECTORY)
       it.buildDir = project.buildDir
 
       it.testing = project.isNotTest()
@@ -82,11 +84,12 @@ private fun Project.configureVariant(
       val testedOutput = variant.testedVariant.outputs.first()
       // This is a hack for library projects.
       // We supply the same apk as an application and instrumentation to the soon runner.
-      it.applicationApk = if (testedOutput is ApkVariantOutput) {
-        testedOutput.outputFile
-      } else {
-        instrumentationApk
-      }
+      it.applicationApk =
+        if (testedOutput is ApkVariantOutput) {
+          testedOutput.outputFile
+        } else {
+          instrumentationApk
+        }
 
       it.sdkDirectory = baseExtension.sdkDirectory
 
