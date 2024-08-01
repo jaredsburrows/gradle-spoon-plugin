@@ -31,14 +31,6 @@ configurations.configureEach {
 }
 
 subprojects {
-  repositories {
-    gradlePluginPortal()
-    google()
-    mavenCentral()
-    // For Spoon snapshot, until 2.0.0 is released
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-  }
-
   tasks.withType(Jar).configureEach {
     def dateFile = new File(buildDir, 'jar-manifest-date.txt')
     if (!dateFile.exists()) {
