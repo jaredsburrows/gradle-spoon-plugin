@@ -1,7 +1,7 @@
 package com.jaredsburrows.spoon
 
 /**
- * Configuration options for the gradle spoon plugin.
+ * Configuration options for the gradle spoon plugin. Supported directly by Spoon's SpoonRunner.
  *
  * Variables based on the following documentation:
  * - https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html
@@ -10,7 +10,6 @@ package com.jaredsburrows.spoon
  * - https://github.com/square/spoon#execution
  */
 open class SpoonExtension { // extensions cannot be final
-  /* Supported directly by Spoon's SpoonRunner */
 
   /** Identifying title for this execution. ("Spoon Execution" by default) */
   var title: String = DEFAULT_TITLE
@@ -77,7 +76,7 @@ open class SpoonExtension { // extensions cannot be final
   /** Run 'pm clear' before each test to clear app data before each test. */
   var clearAppDataBeforeEachTest: Boolean = false
 
-  /* Passed in via -e, extra arguments */
+  // Passed in via -e, extra arguments
 
   /** The number of separate shards to create. */
   var numShards: Int = 0
@@ -94,7 +93,7 @@ open class SpoonExtension { // extensions cannot be final
   /** Do not fail build if a test fails, let all the tests run and finish. (false by default) */
   var ignoreFailures: Boolean = false
 
-  /* Deprecated/Renamed */
+  // Deprecated/Renamed
 
   @Deprecated("Use 'grantAll'", replaceWith = ReplaceWith("grantAll"))
   var grantAllPermissions: Boolean = false

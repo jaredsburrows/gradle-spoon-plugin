@@ -56,22 +56,23 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
     }
     outputDir = File(outputBase, variantName)
 
-    val builder = SpoonRunner.Builder()
-      .setTitle(spoonExtension.title)
-      .setOutputDirectory(outputDir)
-      .setDebug(spoonExtension.debug)
-      .setNoAnimations(spoonExtension.noAnimations)
-      .setAdbTimeout(Duration.ofSeconds(spoonExtension.adbTimeout.toLong()))
-      .setClassName(spoonExtension.className)
-      .setAllowNoDevices(spoonExtension.allowNoDevices)
-      .setSequential(spoonExtension.sequential)
-      .setGrantAll(spoonExtension.grantAll)
-      .setMethodName(spoonExtension.methodName)
-      .setCodeCoverage(spoonExtension.codeCoverage)
-      .setShard(spoonExtension.shard)
-      .setTerminateAdb(false)
-      .setSingleInstrumentationCall(spoonExtension.singleInstrumentationCall)
-      .setClearAppDataBeforeEachTest(spoonExtension.clearAppDataBeforeEachTest)
+    val builder =
+      SpoonRunner.Builder()
+        .setTitle(spoonExtension.title)
+        .setOutputDirectory(outputDir)
+        .setDebug(spoonExtension.debug)
+        .setNoAnimations(spoonExtension.noAnimations)
+        .setAdbTimeout(Duration.ofSeconds(spoonExtension.adbTimeout.toLong()))
+        .setClassName(spoonExtension.className)
+        .setAllowNoDevices(spoonExtension.allowNoDevices)
+        .setSequential(spoonExtension.sequential)
+        .setGrantAll(spoonExtension.grantAll)
+        .setMethodName(spoonExtension.methodName)
+        .setCodeCoverage(spoonExtension.codeCoverage)
+        .setShard(spoonExtension.shard)
+        .setTerminateAdb(false)
+        .setSingleInstrumentationCall(spoonExtension.singleInstrumentationCall)
+        .setClearAppDataBeforeEachTest(spoonExtension.clearAppDataBeforeEachTest)
 
     // APKs
     if (testing) {
@@ -100,11 +101,12 @@ open class SpoonTask : DefaultTask() { // tasks can't be final
           throw UnsupportedOperationException("Please use '=' or ':' to separate arguments.")
         }
 
-        val keyVal = if (instrumentation.contains(':')) {
-          instrumentation.split(':')
-        } else {
-          instrumentation.split('=')
-        }
+        val keyVal =
+          if (instrumentation.contains(':')) {
+            instrumentation.split(':')
+          } else {
+            instrumentation.split('=')
+          }
         instrumentationArgs[keyVal[0]] = keyVal[1]
       }
       builder.setInstrumentationArgs(instrumentationArgs)
