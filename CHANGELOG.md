@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 1.6.2 (2024-10-11)
+
+* [#301](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/301) Fix arparser issue 
+
 ## Version 1.6.0 (2022-04-27)
 
 * [#108](https://github.com/jaredsburrows/gradle-spoon-plugin/pull/108) Gradle Configuration Cache
