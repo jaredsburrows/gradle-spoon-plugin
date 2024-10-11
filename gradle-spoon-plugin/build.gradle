@@ -12,6 +12,9 @@ plugins {
 
 apply from: "${project.rootDir}/gradle/dependencies.gradle"
 
+group = GROUP
+version = VERSION_NAME
+
 task createClasspathManifest() {
   def outputDir = new File(buildDir, name)
 
