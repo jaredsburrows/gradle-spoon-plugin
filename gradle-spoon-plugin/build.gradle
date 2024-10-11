@@ -50,23 +50,16 @@ dependencies {
   testImplementation deps.junit
 }
 
-pluginBundle {
+gradlePlugin {
   website = POM_URL
   vcsUrl = POM_SCM_URL
-  description = POM_DESCRIPTION
-  tags = ['spoon']
-
-  plugins {
-    spoonPlugin {
-      displayName = POM_NAME
-    }
-  }
-}
-gradlePlugin {
   plugins {
     spoonPlugin {
       id = PLUGIN_NAME
       implementationClass = PLUGIN_NAME_CLASS
+      displayName = POM_NAME
+      description = POM_DESCRIPTION
+      tags.set(['spoon'])
     }
   }
 }
