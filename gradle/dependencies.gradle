@@ -30,7 +30,7 @@ ext.deps = [
   ],
   'androidx': [
     'test'    : [
-      'core'        : 'androidx.test:core:1.5.0',
+      'core'        : 'androidx.test:core:1.6.1',
       'junit'       : 'androidx.test.ext:junit:1.2.1',
       'runner'      : 'androidx.test:runner:1.5.2',
     ],
