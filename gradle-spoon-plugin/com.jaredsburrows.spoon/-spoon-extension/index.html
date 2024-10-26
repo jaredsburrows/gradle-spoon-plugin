@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>SpoonExtension</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            gradle-spoon-plugin
+                    </a>
+            </div>
+            <div class="library-version">
+1.6.3-SNAPSHOT            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":gradle-spoon-plugin:dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="gradle-spoon-plugin::com.jaredsburrows.spoon/SpoonExtension///PointingToDeclaration//-1165458358">
+  <div class="breadcrumbs"><a href="../../../index.html">gradle-spoon-plugin</a><span class="delimiter">/</span><a href="../index.html">com.jaredsburrows.spoon</a><span class="delimiter">/</span><span class="current">SpoonExtension</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Spoon</span><wbr></wbr><span><span>Extension</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">SpoonExtension</a></div><p class="paragraph">Configuration options for the gradle spoon plugin. Supported directly by Spoon's SpoonRunner.</p><p class="paragraph">Variables based on the following documentation:</p><ul><li><p class="paragraph">https://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html</p></li><li><p class="paragraph">https://developer.android.com/training/testing/espresso/setup.html</p></li><li><p class="paragraph">https://github.com/square/spoon/blob/master/spoon-runner/src/main/java/com/squareup/spoon/SpoonRunner.java</p></li><li><p class="paragraph">https://github.com/square/spoon#execution</p></li></ul></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="725670472%2FConstructors%2F-1165458358" anchor-label="SpoonExtension" id="725670472%2FConstructors%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-spoon-extension.html"><span>Spoon</span><wbr></wbr><span><span>Extension</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="725670472%2FConstructors%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="981860939%2FClasslikes%2F-1165458358" anchor-label="Companion" id="981860939%2FClasslikes%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="981860939%2FClasslikes%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1769525716%2FProperties%2F-1165458358" anchor-label="adbTimeout" id="1769525716%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="adb-timeout.html"><span>adb</span><wbr></wbr><span><span>Timeout</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1769525716%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="adb-timeout.html">adbTimeout</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">Set ADB timeout. (minutes) (default is 10 minutes)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-962872413%2FProperties%2F-1165458358" anchor-label="allowNoDevices" id="-962872413%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="allow-no-devices.html"><span>allow</span><wbr></wbr><span>No</span><wbr></wbr><span><span>Devices</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-962872413%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="allow-no-devices.html">allowNoDevices</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Allow no devices to be connected. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="139074025%2FProperties%2F-1165458358" anchor-label="baseOutputDir" id="139074025%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="base-output-dir.html"><span>base</span><wbr></wbr><span>Output</span><wbr></wbr><span><span>Dir</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="139074025%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="base-output-dir.html">baseOutputDir</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Path to baseOutputDir directory. (&quot;$buildDir/spoon-baseOutputDir&quot; by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1332874687%2FProperties%2F-1165458358" anchor-label="className" id="-1332874687%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="class-name.html"><span>class</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1332874687%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="class-name.html">className</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Test class name to run (fully-qualified).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="716814982%2FProperties%2F-1165458358" anchor-label="clearAppDataBeforeEachTest" id="716814982%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="clear-app-data-before-each-test.html"><span>clear</span><wbr></wbr><span>App</span><wbr></wbr><span>Data</span><wbr></wbr><span>Before</span><wbr></wbr><span>Each</span><wbr></wbr><span><span>Test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="716814982%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="clear-app-data-before-each-test.html">clearAppDataBeforeEachTest</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Run 'pm clear' before each test to clear app data before each test.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="917749697%2FProperties%2F-1165458358" anchor-label="codeCoverage" id="917749697%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="code-coverage.html"><span>code</span><wbr></wbr><span><span>Coverage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="917749697%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="code-coverage.html">codeCoverage</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Code coverage flag. For Spoon to calculate coverage file your app must have the <code class="lang-kotlin">WRITE_EXTERNAL_STORAGE</code> permission. (false by default) (This option pulls the coverage file from all devices and merge them into a single file <code class="lang-kotlin">merged-coverage.ec</code>.)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-646772335%2FProperties%2F-1165458358" anchor-label="debug" id="-646772335%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="debug.html"><span><span>debug</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-646772335%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="debug.html">debug</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether or not debug logging is enabled. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="742878343%2FProperties%2F-1165458358" anchor-label="devices" id="742878343%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="devices.html"><span><span>devices</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="742878343%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="devices.html">devices</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html">MutableSet</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Add device serials for test execution.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1975308013%2FProperties%2F-1165458358" anchor-label="failIfNoDeviceConnected" id="1975308013%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fail-if-no-device-connected.html"><span>fail</span><wbr></wbr><span>If</span><wbr></wbr><span>No</span><wbr></wbr><span>Device</span><wbr></wbr><span><span>Connected</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1975308013%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="fail-if-no-device-connected.html"><strike>failIfNoDeviceConnected</strike></a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1392307631%2FProperties%2F-1165458358" anchor-label="grantAll" id="-1392307631%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="grant-all.html"><span>grant</span><wbr></wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1392307631%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="grant-all.html">grantAll</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Grant all runtime permissions during installation on Marshmallow and above devices. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-643928891%2FProperties%2F-1165458358" anchor-label="grantAllPermissions" id="-643928891%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="grant-all-permissions.html"><span>grant</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Permissions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-643928891%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="grant-all-permissions.html"><strike>grantAllPermissions</strike></a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1774296859%2FProperties%2F-1165458358" anchor-label="ignoreFailures" id="1774296859%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="ignore-failures.html"><span>ignore</span><wbr></wbr><span><span>Failures</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1774296859%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="ignore-failures.html">ignoreFailures</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Do not fail build if a test fails, let all the tests run and finish. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="379966777%2FProperties%2F-1165458358" anchor-label="instrumentationArgs" id="379966777%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="instrumentation-args.html"><span>instrumentation</span><wbr></wbr><span><span>Args</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="379966777%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="instrumentation-args.html">instrumentationArgs</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Extra arguments to pass to instrumentation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1523311158%2FProperties%2F-1165458358" anchor-label="methodName" id="-1523311158%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="method-name.html"><span>method</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1523311158%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="method-name.html">methodName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Test method name to run (must also use className)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2026499334%2FProperties%2F-1165458358" anchor-label="noAnimations" id="2026499334%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="no-animations.html"><span>no</span><wbr></wbr><span><span>Animations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2026499334%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="no-animations.html">noAnimations</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether or not animations are enabled. Disable animated gif generation. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1609041431%2FProperties%2F-1165458358" anchor-label="numShards" id="-1609041431%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="num-shards.html"><span>num</span><wbr></wbr><span><span>Shards</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1609041431%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="num-shards.html">numShards</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The number of separate shards to create.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1167840457%2FProperties%2F-1165458358" anchor-label="sequential" id="-1167840457%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sequential.html"><span><span>sequential</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1167840457%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="sequential.html">sequential</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Execute the tests device by device. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1120890266%2FProperties%2F-1165458358" anchor-label="shard" id="-1120890266%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="shard.html"><span><span>shard</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1120890266%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="shard.html">shard</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Toggle sharding. (false by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="492374594%2FProperties%2F-1165458358" anchor-label="shardIndex" id="492374594%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="shard-index.html"><span>shard</span><wbr></wbr><span><span>Index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="492374594%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="shard-index.html">shardIndex</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">The shardIndex option to specify which shard to run.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-889882112%2FProperties%2F-1165458358" anchor-label="singleInstrumentationCall" id="-889882112%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="single-instrumentation-call.html"><span>single</span><wbr></wbr><span>Instrumentation</span><wbr></wbr><span><span>Call</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-889882112%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="single-instrumentation-call.html">singleInstrumentationCall</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Run tests in separate instrumentation calls.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="28884646%2FProperties%2F-1165458358" anchor-label="skipDevices" id="28884646%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="skip-devices.html"><span>skip</span><wbr></wbr><span><span>Devices</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="28884646%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="skip-devices.html">skipDevices</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html">MutableSet</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Add device serials for skipping test execution.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="97046851%2FProperties%2F-1165458358" anchor-label="testSize" id="97046851%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="test-size.html"><span>test</span><wbr></wbr><span><span>Size</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="97046851%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="test-size.html">testSize</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Run annotated tests - small, medium, large</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1889770796%2FProperties%2F-1165458358" anchor-label="title" id="1889770796%2FProperties%2F-1165458358" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":gradle-spoon-plugin:dokkaHtml/main" data-filterable-set=":gradle-spoon-plugin:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="title.html"><span><span>title</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1889770796%2FProperties%2F-1165458358"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":gradle-spoon-plugin:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="title.html">title</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Identifying title for this execution. (&quot;Spoon Execution&quot; by default)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

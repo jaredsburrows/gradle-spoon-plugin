@@ -1,0 +1,47 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.jaredsburrows.spoon////PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/index.html
+$dokka.location:com.jaredsburrows.spoon/ConsoleRenderer///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-console-renderer/index.html
+$dokka.location:com.jaredsburrows.spoon/ConsoleRenderer/asClickableFileUrl/#java.io.File/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-console-renderer/as-clickable-file-url.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension.Companion///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/-companion/index.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension.Companion/DEFAULT_OUTPUT_DIRECTORY/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/-companion/-d-e-f-a-u-l-t_-o-u-t-p-u-t_-d-i-r-e-c-t-o-r-y.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/index.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/SpoonExtension/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/-spoon-extension.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/adbTimeout/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/adb-timeout.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/allowNoDevices/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/allow-no-devices.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/baseOutputDir/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/base-output-dir.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/className/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/class-name.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/clearAppDataBeforeEachTest/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/clear-app-data-before-each-test.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/codeCoverage/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/code-coverage.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/debug/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/debug.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/devices/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/devices.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/failIfNoDeviceConnected/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/fail-if-no-device-connected.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/grantAll/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/grant-all.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/grantAllPermissions/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/grant-all-permissions.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/ignoreFailures/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/ignore-failures.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/instrumentationArgs/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/instrumentation-args.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/methodName/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/method-name.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/noAnimations/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/no-animations.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/numShards/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/num-shards.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/sequential/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/sequential.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/shard/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/shard.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/shardIndex/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/shard-index.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/singleInstrumentationCall/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/single-instrumentation-call.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/skipDevices/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/skip-devices.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/testSize/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/test-size.html
+$dokka.location:com.jaredsburrows.spoon/SpoonExtension/title/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-extension/title.html
+$dokka.location:com.jaredsburrows.spoon/SpoonPlugin///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-plugin/index.html
+$dokka.location:com.jaredsburrows.spoon/SpoonPlugin/SpoonPlugin/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-plugin/-spoon-plugin.html
+$dokka.location:com.jaredsburrows.spoon/SpoonPlugin/apply/#org.gradle.api.Project/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-plugin/apply.html
+$dokka.location:com.jaredsburrows.spoon/SpoonTask///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-task/index.html
+$dokka.location:com.jaredsburrows.spoon/SpoonTask/SpoonTask/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-task/-spoon-task.html
+$dokka.location:com.jaredsburrows.spoon/SpoonTask/buildDir/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-task/build-dir.html
+$dokka.location:com.jaredsburrows.spoon/SpoonTask/outputDir/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-task/output-dir.html
+$dokka.location:com.jaredsburrows.spoon/SpoonTask/spoonTask/#/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-spoon-task/spoon-task.html
+$dokka.location:com.jaredsburrows.spoon/UncheckedException.Companion///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-unchecked-exception/-companion/index.html
+$dokka.location:com.jaredsburrows.spoon/UncheckedException.Companion/throwAsUncheckedException/#kotlin.Throwable#kotlin.Boolean/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-unchecked-exception/-companion/throw-as-unchecked-exception.html
+$dokka.location:com.jaredsburrows.spoon/UncheckedException///PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-unchecked-exception/index.html
+$dokka.location:com.jaredsburrows.spoon/UncheckedException/UncheckedException/#kotlin.String#kotlin.Throwable/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-unchecked-exception/-unchecked-exception.html
+$dokka.location:com.jaredsburrows.spoon/UncheckedException/UncheckedException/#kotlin.Throwable/PointingToDeclaration/gradle-spoon-plugin/com.jaredsburrows.spoon/-unchecked-exception/-unchecked-exception.html
+com.jaredsburrows.spoon
+
