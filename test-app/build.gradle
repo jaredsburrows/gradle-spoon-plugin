@@ -32,12 +32,12 @@ apply plugin: 'com.jaredsburrows.spoon'
 apply plugin: 'com.github.ben-manes.versions'
 
 android {
-  compileSdkVersion 32
+  compileSdkVersion 23
 
   defaultConfig {
     applicationId 'com.jaredsburrows.spoon.example'
     minSdkVersion 21
-    targetSdkVersion 32
+    targetSdkVersion 23
     versionCode 1
     versionName '1.0'
 
