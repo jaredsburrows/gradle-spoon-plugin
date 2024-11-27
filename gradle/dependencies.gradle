@@ -32,7 +32,7 @@ ext.deps = [
     'test'    : [
       'core'        : 'androidx.test:core:1.6.1',
       'junit'       : 'androidx.test.ext:junit:1.2.1',
-      'runner'      : 'androidx.test:runner:1.5.2',
+      'runner'      : 'androidx.test:runner:1.6.2',
     ],
   ],
   'spock'   : 'org.spockframework:spock-junit4:2.4-M1-groovy-3.0',
