@@ -13,7 +13,7 @@ buildscript {
   dependencies {
     classpath deps.android.tools.build.gradle
     classpath deps.kotlin.gradle.plugin
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.52.0'
     classpath 'com.jaredsburrows:gradle-spoon-plugin:latest.integration'
   }
 }
