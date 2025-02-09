@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -84,17 +87,20 @@ subprojects {
   }
 
   tasks.withType(Test).configureEach {
-    useJUnitPlatform()
+      useJUnitPlatform()
+      testLogging {
+          exceptionFormat = TestExceptionFormat.FULL
+          showCauses = true
+          showExceptions = true
+          showStackTraces = true
 
-    testLogging {
-      exceptionFormat 'full'
-      showCauses true
-      showExceptions true
-      showStackTraces true
-      events 'failed', 'skipped'
-    }
+          // Check if running on CI and set events accordingly
+          events = System.getenv("CI") != null ? 
+              TestLogEvent.values() as Set : 
+              [TestLogEvent.FAILED, TestLogEvent.SKIPPED]
+      }
 
-    def maxWorkerCount = gradle.startParameter.maxWorkerCount
-    maxParallelForks = (maxWorkerCount < 2) ? 1 : maxWorkerCount / 2
+      def maxWorkerCount = gradle.startParameter.maxWorkerCount
+      maxParallelForks = (maxWorkerCount < 2) ? 1 : maxWorkerCount / 2
   }
 }
